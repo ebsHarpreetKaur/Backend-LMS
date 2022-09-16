@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');  //adding db
 
-studentSchema = new mongoose.Schema({
+employeeSchema = new mongoose.Schema({
     _id:mongoose.Schema.Types.ObjectId,
     name:String,
     email:String,
@@ -9,4 +9,4 @@ studentSchema = new mongoose.Schema({
 })
 
 
-module.exports = mongoose.model('Student', studentSchema); 
+module.exports = mongoose.model('Employee', employeeSchema); 

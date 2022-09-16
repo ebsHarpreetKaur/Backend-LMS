@@ -7,7 +7,7 @@ const bodyParser = require('body-parser');
 
 
 
-const studentRoute = require('./api/routes/student');
+const employeeRoute = require('./api/routes/employee');
 const userRoute = require('./api/routes/user');
 
 
@@ -27,10 +27,10 @@ mongoose.connection.on('connected',connected=>{
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
 
-app.use('/student', studentRoute);
+app.use('/employee', employeeRoute);
 app.use('/user',userRoute);
 
-app.use((req, res, next)=>{                        // Middleware(if user call it it will return response like res,req,next)
+app.use((req, res, next)=>{                        
     res.status(404).json({
         error:'Bad Request'
     });                                 
@@ -38,7 +38,7 @@ app.use((req, res, next)=>{                        // Middleware(if user call it
 });          
 
 
-// if we want to use this anywhere then we have to export it
+
 module.exports = app;
 
 

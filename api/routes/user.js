@@ -2,25 +2,25 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 const User = require('../model/user');
-// const bcrypt = require('bcrypt');
+const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 
 
 router.post('/signup',(req,res,next)=>{
-    // bcrypt.hash(req.body.password,10,(err, hash)=>{
-    //     if(err)
-    //     {
-    //         return res.status(500).json({
-    //             error:err
-    //         })
-    //     }
-    //     else
-    //     {
+    bcrypt.hash(req.body.password,10,(err, hash)=>{
+        if(err)
+        {
+            return res.status(500).json({
+                error:err
+            })
+        }
+        else
+        {
             const user = new User({
                 _id: new mongoose.Types.ObjectId,
                 username:req.body.username,
-                password:req.body.password,  //hash
+                password:hash,                //hash
                 phone:req.body.phone,
                 email:req.body.email,
                 userType:req.body.userType
@@ -38,11 +38,15 @@ router.post('/signup',(req,res,next)=>{
                 })
             })
             
+        }
+    })
+
 })
 
-//     })
 
-// })
+
+
+
 
 
 
@@ -53,7 +57,7 @@ router.post('/login',(req,res,next)=>{
         if(user.length < 1)
         {
             return res.status(401).json({
-                msg:'user not Exist'
+                msg:'user not exist'
             })
         }
         bcrypt.compare(req.body.password,user[0].password,(err,result)=>{
@@ -69,9 +73,9 @@ router.post('/login',(req,res,next)=>{
                     username:user[0].username,
                     userType:user[0].userType,
                     email:user[0].email,
-                    phone:user[0].phoene
+                    phone:user[0].phone
                 },
-                'this is dummy text',
+                'this is dummy text',                       // SECRET KEY
                 {
                     expiresIn:"24h"
                 }
@@ -96,8 +100,6 @@ router.post('/login',(req,res,next)=>{
     })
     
 })
-
-
 
 
 

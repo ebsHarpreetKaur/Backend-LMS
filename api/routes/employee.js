@@ -1,14 +1,19 @@
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
-const Student = require('../model/student');     //to craete collection in db
+const Employee = require('../model/employee');     //to craete collection in mongodb
+const checkAuth = require('../middleware/check-auth');
 
 
-router.get('/',(req,res,next)=>{
-    Student.find()
+
+
+
+// get all employees
+router.get('/',checkAuth,(req,res,next)=>{
+    Employee.find()
     .then(result=>{
         res.status(200).json({
-            studentData:result
+            employeeData:result
         });
     })
     .catch(err=>{
@@ -20,19 +25,23 @@ router.get('/',(req,res,next)=>{
 })
 
 
-router.post('/',(req,res,next)=>{
-    const student = new Student({
+
+
+
+// post employees
+router.post('/',checkAuth,(req,res,next)=>{
+    const employee = new Employee({
         _id:new mongoose.Types.ObjectId,
         name:req.body.name,              //body parser
         email:req.body.email,
         phone:req.body.phone,
         gender:req.body.gender
     })
-    student.save() 
+    employee.save() 
     .then(result=>{
         console.log(result);
         res.status(200).json({
-            newStudent:result
+            newEmployee:result
         })
     })
     .catch(err=>{
@@ -45,12 +54,13 @@ router.post('/',(req,res,next)=>{
 
 
 
-router.get('/:id',(req,res,next)=>{
+// get employees by id
+router.get('/:id',checkAuth,(req,res,next)=>{
     console.log(req.params.id);
-    Student.findById(req.params.id)
+    Employee.findById(req.params.id)
     .then(result=>{
         res.status(200).json({
-            student:result
+            employee:result
         })
     })
     .catch(err=>{
@@ -64,11 +74,13 @@ router.get('/:id',(req,res,next)=>{
 
 
 
-router.delete('/:id',(req,res,next)=>{
-    Student.remove({_id:req.params.id})
+
+// delete emeployees
+router.delete('/:id',checkAuth,(req,res,next)=>{
+    Employee.remove({_id:req.params.id})
     .then(result=>{
         res.status(200).json({
-            message:"Student Deleted",
+            message:"Employee Deleted",
             result:result
         })
     })
@@ -80,9 +92,12 @@ router.delete('/:id',(req,res,next)=>{
 })
 
 
-router.put('/:id',(req,res,next)=>{
+
+
+// update all data of an employee
+router.put('/:id',checkAuth,(req,res,next)=>{
     console.log(req.params.id);
-    Student.findOneAndUpdate({_id:req.params.id},{
+    Employee.findOneAndUpdate({_id:req.params.id},{
         $set:{
         name:req.body.name,              
         email:req.body.email,
@@ -92,7 +107,7 @@ router.put('/:id',(req,res,next)=>{
     })
     .then(result=>{
         res.status(200).json({
-            updated_student:result
+            updated_employee:result
         })
     })
     .catch(err=>{
@@ -107,4 +122,4 @@ router.put('/:id',(req,res,next)=>{
 
 
 
-module.exports  = router;  // why export(so that we can use it in outer files like app.js) 
+module.exports  = router;             
