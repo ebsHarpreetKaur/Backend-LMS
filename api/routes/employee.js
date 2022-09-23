@@ -9,7 +9,7 @@ const checkAuth = require('../middleware/check-auth');
 
 
 // get all employees
-router.get('/',checkAuth,(req,res,next)=>{
+router.get('/',(req,res,next)=>{
     Employee.find()
     .then(result=>{
         res.status(200).json({
@@ -29,7 +29,7 @@ router.get('/',checkAuth,(req,res,next)=>{
 
 
 // post employees
-router.post('/',checkAuth,(req,res,next)=>{
+router.post('/',(req,res,next)=>{
     const employee = new Employee({
         _id:new mongoose.Types.ObjectId,
         name:req.body.name,              //body parser
@@ -55,7 +55,7 @@ router.post('/',checkAuth,(req,res,next)=>{
 
 
 // get employees by id
-router.get('/:id',checkAuth,(req,res,next)=>{
+router.get('/:id',(req,res,next)=>{
     console.log(req.params.id);
     Employee.findById(req.params.id)
     .then(result=>{
@@ -76,7 +76,7 @@ router.get('/:id',checkAuth,(req,res,next)=>{
 
 
 // delete emeployees
-router.delete('/:id',checkAuth,(req,res,next)=>{
+router.delete('/:id',(req,res,next)=>{
     Employee.remove({_id:req.params.id})
     .then(result=>{
         res.status(200).json({
@@ -95,7 +95,7 @@ router.delete('/:id',checkAuth,(req,res,next)=>{
 
 
 // update all data of an employee
-router.put('/:id',checkAuth,(req,res,next)=>{
+router.put('/:id',(req,res,next)=>{
     console.log(req.params.id);
     Employee.findOneAndUpdate({_id:req.params.id},{
         $set:{
