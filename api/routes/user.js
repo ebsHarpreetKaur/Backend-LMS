@@ -20,7 +20,7 @@ router.post('/signup',(req,res,next)=>{
             const user = new User({
                 _id: new mongoose.Types.ObjectId,
                 username:req.body.username,
-                password:req.body.password,                
+                password:hash,                
                 phone:req.body.phone,
                 email:req.body.email,
                 userType:req.body.userType
@@ -78,6 +78,7 @@ router.post('/login',(req,res,next)=>{
                     userType:user[0].userType,
                     email:user[0].email,
                     phone:user[0].phone
+                    
                 },
                 'this is dummy text',                       // SECRET KEY
                 {
@@ -89,6 +90,7 @@ router.post('/login',(req,res,next)=>{
                     userType:user[0].userType,
                     email:user[0].email,
                     phone:user[0].phone,
+                    password:user[0].password,
                     token:token
                 })
                 
