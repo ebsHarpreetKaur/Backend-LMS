@@ -93,7 +93,7 @@ router.post('/login',(req,res,next)=>{
                     password:user[0].password,
                     token:token
                 })
-                
+            
 
             }
             console.log("token generated successfully")

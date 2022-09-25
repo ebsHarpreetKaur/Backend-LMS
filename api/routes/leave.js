@@ -1,19 +1,19 @@
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
-const Employee = require('../model/employee');     //to craete collection in mongodb
+const Leave = require('../model/leave');     //to create collection in mongodb
 const checkAuth = require('../middleware/check-auth');
 
 
 
 
 
-// get all employees
+// get all leaves
 router.get('/',checkAuth,(req,res,next)=>{
-    Employee.find()
+    Leave.find()
     .then(result=>{
         res.status(200).json({
-            employeeData:result
+            leaveData : result
         });
     })
     .catch(err=>{
@@ -28,20 +28,25 @@ router.get('/',checkAuth,(req,res,next)=>{
 
 
 
-// post employees
-router.post('/',checkAuth,(req,res,next)=>{
-    const employee = new Employee({
+// Apply Leave
+router.post('/',(req,res,next)=>{
+    const leave = new Leave({
         _id:new mongoose.Types.ObjectId,
-        name:req.body.name,              //body parser
-        email:req.body.email,
-        phone:req.body.phone,
-        gender:req.body.gender
+        EmployeeName : req.body.EmployeeName,              //body parser
+        SupervisorName : req.body.SupervisorName,
+        Department : req.body.Department,
+        LeaveType : req.body.LeaveType,
+        LeaveDate : req.body.LeaveDate,
+        ReturnDate : req.body.ReturnDate,
+        TotalHoursRequested : req.body.TotalHoursRequested,
+        TotalDaysRequested : req.body.TotalDaysRequested
+        
     })
-    employee.save() 
+    leave.save() 
     .then(result=>{
         console.log(result);
         res.status(200).json({
-            newEmployee:result
+            newLeave:result
         })
     })
     .catch(err=>{
@@ -54,7 +59,7 @@ router.post('/',checkAuth,(req,res,next)=>{
 
 
 
-// get employees by id
+// get Leave by id
 router.get('/:id',checkAuth,(req,res,next)=>{
     console.log(req.params.id);
     Employee.findById(req.params.id)
@@ -75,12 +80,12 @@ router.get('/:id',checkAuth,(req,res,next)=>{
 
 
 
-// delete emeployees
-router.delete('/:id',checkAuth,(req,res,next)=>{
-    Employee.remove({_id:req.params.id})
+// delete Leave
+router.delete('/:id', checkAuth, (req,res,next)=>{
+    Leave.remove({_id:req.params.id})
     .then(result=>{
         res.status(200).json({
-            message:"Employee Deleted",
+            message:"Leave Deleted",
             result:result
         })
     })
@@ -94,20 +99,24 @@ router.delete('/:id',checkAuth,(req,res,next)=>{
 
 
 
-// update all data of an employee
-router.put('/:id',checkAuth,(req,res,next)=>{
+// update leave
+router.put('/:id',(req,res,next)=>{
     console.log(req.params.id);
-    Employee.findOneAndUpdate({_id:req.params.id},{
+    Leave.findOneAndUpdate({_id:req.params.id},{
         $set:{
-        name:req.body.name,              
-        email:req.body.email,
-        phone:req.body.phone,
-        gender:req.body.gender
+        EmployeeName : req.body.EmployeeName,              //body parser
+        SupervisorName : req.body.SupervisorName,
+        Department : req.body.Department,
+        LeaveType : req.body.LeaveType,
+        LeaveDate : req.body.LeaveDate,
+        ReturnDate : req.body.ReturnDate,
+        TotalHoursRequested : req.body.TotalHoursRequested,
+        TotalDaysRequested : req.body.TotalDaysRequested
         }
     })
     .then(result=>{
         res.status(200).json({
-            updated_employee:result
+            updated_leave:result
         })
     })
     .catch(err=>{
