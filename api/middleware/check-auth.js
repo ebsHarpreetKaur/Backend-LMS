@@ -13,9 +13,12 @@ module.exports = (req,res,next)=>{
         }
         else
         {
+            console.log("you are not admin")
             return res.status(401).json({
                 msg:'Only Admin Can Access This Page.'
+                
             })
+        
         }
     }
     catch(error)
