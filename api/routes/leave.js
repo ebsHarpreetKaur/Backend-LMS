@@ -8,8 +8,9 @@ const checkAuth = require('../middleware/check-auth');
 
 
 
+
 // get all leaves
-router.get('/',checkAuth,(req,res,next)=>{
+router.get('/',(req,res,next)=>{
     Leave.find()
     .then(result=>{
         res.status(200).json({
@@ -60,12 +61,12 @@ router.post('/',(req,res,next)=>{
 
 
 // get Leave by id
-router.get('/:id',checkAuth,(req,res,next)=>{
+router.get('/:id',(req,res,next)=>{
     console.log(req.params.id);
-    Employee.findById(req.params.id)
+    Leave.findById(req.params.id)
     .then(result=>{
         res.status(200).json({
-            employee:result
+            leave:result
         })
     })
     .catch(err=>{
@@ -81,7 +82,7 @@ router.get('/:id',checkAuth,(req,res,next)=>{
 
 
 // delete Leave
-router.delete('/:id', checkAuth, (req,res,next)=>{
+router.delete('/:id', (req,res,next)=>{
     Leave.remove({_id:req.params.id})
     .then(result=>{
         res.status(200).json({
