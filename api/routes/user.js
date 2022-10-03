@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
-const User = require('../model/user');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer')
+const User = require('../model/user'); 
 
 
 router.post('/signup',(req,res,next)=>{
@@ -23,7 +23,7 @@ router.post('/signup',(req,res,next)=>{
                 password:hash,                
                 phone:req.body.phone,
                 email:req.body.email,
-                userType:req.body.userType
+                role:req.body.role
             })
         
             user.save()
@@ -59,12 +59,12 @@ router.post('/login',(req,res,next)=>{
         }
         console.log("going forward")
         bcrypt.compare(req.body.password,user[0].password,(err,result)=>{
-            console.log("Checking Password")
+            console.log("Checking user Password")
             if(!result)
             {
                 return res.status(401).json({
                   
-                    msg:'password matching fail'
+                    msg:'user password matching fail'
                    
                 })
                 
@@ -75,9 +75,10 @@ router.post('/login',(req,res,next)=>{
             {
                 const token = jwt.sign({
                     username:user[0].username,
-                    userType:user[0].userType,
+                    password:user[0].password,
+                    phone:user[0].phone,
                     email:user[0].email,
-                    phone:user[0].phone
+                    role:user[0].role
                     
                 },
                 'this is dummy text',                       // SECRET KEY
@@ -87,16 +88,16 @@ router.post('/login',(req,res,next)=>{
                 );
                 res.status(200).json({
                     username:user[0].username,
-                    userType:user[0].userType,
-                    email:user[0].email,
-                    phone:user[0].phone,
                     password:user[0].password,
+                    phone:user[0].phone,
+                    email:user[0].email,                   
+                    role:user[0].role,
                     token:token
                 })
             
 
             }
-            console.log("token generated successfully")
+            console.log("user token generated successfully")
         })
 
     })
@@ -108,6 +109,78 @@ router.post('/login',(req,res,next)=>{
     })
     
 })
+
+
+
+
+
+// get employees by id
+router.get('/:_id',(req,res,next)=>{
+    console.log(req.params._id);
+    Employee.findById(req.params._id)
+    .then(result=>{
+        res.status(200).json({
+            employee:result
+        })
+    })
+    .catch(err=>{
+        console.log(err);
+        res.status(500).json({
+            error:err
+        })
+    })
+
+})
+
+
+
+
+
+
+// delete emeployees
+router.delete('/:_id',(req,res,next)=>{
+    Employee.remove({_id:req.params._id})
+    .then(result=>{
+        res.status(200).json({
+            message:"Employee Deleted",
+            result:result
+        })
+    })
+    .catch(err=>{
+        res.status(500).json({
+            error:err
+        })
+    })
+})
+
+
+
+
+// update all data of an employee
+router.put('/:_id',(req,res,next)=>{
+    console.log(req.params._id);
+    Employee.findOneAndUpdate({_id:req.params._id},{
+        $set:{     
+        name:req.body.name,            
+        email:req.body.email,
+        phone:req.body.phone,
+        gender:req.body.gender,
+        role:req.body.role
+        }
+    })
+    .then(result=>{
+        res.status(200).json({
+            updated_employee:result
+        })
+    })
+    .catch(err=>{
+        console.log(err);
+        res.status(500).json({
+            error:err
+        })
+    })
+})
+
 
 
 

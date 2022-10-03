@@ -6,7 +6,13 @@ userSchema = new mongoose.Schema({
     password:String,
     phone:Number,
     email:String, 
-    userType:String
+    role : {
+        type : String,
+        uppercase : false,
+        required : true,
+        lowercase: true,
+        enum : ["admin", "employee", "hr"]
+    }
    
 })
 

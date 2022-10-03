@@ -1,17 +1,97 @@
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
-const Leave = require('../model/leave');     //to create collection in mongodb
+const Leave = require('../model/leave');  
 const checkAuth = require('../middleware/check-auth');
 
 
 
 
 
+// get api for employees leave on this week
+router.get('/TodayData',(req,res,next) => {
+    var query = {
+    
+        LeaveDate: {
+            $gte: new Date('2022-10-02').toISOString(),
+            // $lte: new Date('2022-10-01').toISOString()
+        },
+        ReturnDate: {
+            // $gte: new Date('2022-10-09').toISOString(),
+            $lte: new Date('2022-10-02').toISOString()
+        },
+    }
 
-// get all leaves
+    Leave.find(query, function (err, data) {
+        if (err) { return res.status(300).json("Error") }
+        else {
+            return res.status(200).json({ data: data })
+        }
+    })
+})
+
+
+
+
+
+
+// get api for employees leave on this week
+router.get('/WeekData',(req,res,next) => {
+    var query = {
+    
+        LeaveDate: {
+            $gte: new Date('2022-10-01').toISOString(),
+            // $lte: new Date('2022-10-07').toISOString()
+        },
+        ReturnDate: {
+            // $gte: new Date('2022-10-09').toISOString(),
+            $lte: new Date('2022-10-07').toISOString()
+        },
+    }
+
+    Leave.find(query, function (err, data) {
+        if (err) { return res.status(300).json("Error") }
+        else {
+            return res.status(200).json({ data: data })
+        }
+    })
+})
+
+
+
+
+
+
+// get api for employees leave on this week
+router.get('/MonthData',(req,res,next) => {
+    var query = {
+    
+        LeaveDate: {
+            $gte: new Date('2022-10-01').toISOString(),
+            // $lte: new Date('2022-10-07').toISOString()
+        },
+        ReturnDate: {
+            $gte: new Date('2022-10-29').toISOString(),
+            // $lte: new Date('2022-10-30').toISOString()
+        },
+    }
+
+    Leave.find(query, function (err, data) {
+        if (err) { return res.status(300).json("Error") }
+        else {
+            return res.status(200).json({ data: data })
+        }
+    })
+})
+
+
+
+
+
+
+// get all leaves 
 router.get('/',(req,res,next)=>{
-    Leave.find()
+    Leave.find().populate('emp_id')
     .then(result=>{
         res.status(200).json({
             leaveData : result
@@ -33,7 +113,8 @@ router.get('/',(req,res,next)=>{
 router.post('/',(req,res,next)=>{
     const leave = new Leave({
         _id:new mongoose.Types.ObjectId,
-        EmployeeName : req.body.EmployeeName,              //body parser
+        emp_id:req.body.emp_id,
+        EmployeeName:req.body.EmployeeName,
         SupervisorName : req.body.SupervisorName,
         Department : req.body.Department,
         LeaveType : req.body.LeaveType,
@@ -104,7 +185,8 @@ router.delete('/:id', (req,res,next)=>{
 router.put('/:id',(req,res,next)=>{
     console.log(req.params.id);
     Leave.findOneAndUpdate({_id:req.params.id},{
-        $set:{
+        $push:{
+        emp_id:req.body.emp_id,
         EmployeeName : req.body.EmployeeName,              //body parser
         SupervisorName : req.body.SupervisorName,
         Department : req.body.Department,
