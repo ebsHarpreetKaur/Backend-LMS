@@ -26,12 +26,13 @@ leaveSchema = new mongoose.Schema({
         enum : ["Priviliege", "Sick", "Holiday", "Casual"]
     },
 
-    LeaveDate : { type: Date, default: Date.now },
-    ReturnDate : { type: Date, default: Date.now },
+    LeaveDate : String,
+    ReturnDate : String,
+
     TotalHoursRequested : Number,
     TotalDaysRequested : Number,
 
-
+    
 
 })
 

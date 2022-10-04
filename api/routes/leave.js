@@ -13,14 +13,14 @@ router.get('/TodayData',(req,res,next) => {
     var query = {
     
         LeaveDate: {
-            $gte: new Date('2022-10-02').toISOString(),
+            $gte: ('2022-10-03')
             // $lte: new Date('2022-10-01').toISOString()
         },
         ReturnDate: {
-            // $gte: new Date('2022-10-09').toISOString(),
-            $lte: new Date('2022-10-02').toISOString()
+        //     // $gte: new Date('2022-10-09').toISOString(),
+            $lte: ('2022-10-04')
         },
-    }
+    } 
 
     Leave.find(query, function (err, data) {
         if (err) { return res.status(300).json("Error") }
@@ -40,12 +40,12 @@ router.get('/WeekData',(req,res,next) => {
     var query = {
     
         LeaveDate: {
-            $gte: new Date('2022-10-01').toISOString(),
+            $gte: ('2022-10-01')
             // $lte: new Date('2022-10-07').toISOString()
         },
         ReturnDate: {
             // $gte: new Date('2022-10-09').toISOString(),
-            $lte: new Date('2022-10-07').toISOString()
+            $lte: ('2022-10-07')
         },
     }
 
@@ -67,11 +67,11 @@ router.get('/MonthData',(req,res,next) => {
     var query = {
     
         LeaveDate: {
-            $gte: new Date('2022-10-01').toISOString(),
+            $gte: ('2022-10-01')
             // $lte: new Date('2022-10-07').toISOString()
         },
         ReturnDate: {
-            $gte: new Date('2022-10-29').toISOString(),
+            $gte: ('2022-10-29')
             // $lte: new Date('2022-10-30').toISOString()
         },
     }
