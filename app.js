@@ -11,7 +11,6 @@ const userRoute = require('./api/routes/user');
 const leaveRoute = require('./api/routes/leave');
 
 
-
 mongoose.connect('mongodb+srv://harpreet:123@cluster.2ksky9v.mongodb.net/?retryWrites=true&w=majority')
 
 

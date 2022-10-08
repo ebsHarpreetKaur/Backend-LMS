@@ -2,7 +2,8 @@ const mongoose = require('mongoose');  //adding db
 
 userSchema = new mongoose.Schema({
     _id:mongoose.Schema.Types.ObjectId,
-    username:String,
+
+    name:String,
     password:String,
     phone:Number,
     email:String, 
