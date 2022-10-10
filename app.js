@@ -16,38 +16,36 @@ const googleRoute = require('./api/routes/google');
 mongoose.connect('mongodb+srv://harpreet:123@cluster.2ksky9v.mongodb.net/?retryWrites=true&w=majority')
 
 
-mongoose.connection.on('error',err=>{
+mongoose.connection.on('error', err => {
     console.log('DB connection failed');
 });
 
-mongoose.connection.on('connected',connected=>{
+mongoose.connection.on('connected', connected => {
     console.log('Connected with database ');
 });
 
 
-app.use(bodyParser.urlencoded({extended:false}));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors());
 
 
 // API end points 
 app.use('/employee', employeeRoute);
-app.use('/user',userRoute);
-app.use('/leave',leaveRoute);
-app.use('/with',googleRoute);
+app.use('/user', userRoute);
+app.use('/leave', leaveRoute);
+app.use('/with', googleRoute);
 
 
 
 
-app.use((req, res, next)=>{                        
+app.use((req, res, next) => {
     res.status(404).json({
-        error:'Bad Request'
-    });                                 
+        error: 'Bad Request'
+    });
 
-});          
+});
 
 
 
 module.exports = app;
-
-
