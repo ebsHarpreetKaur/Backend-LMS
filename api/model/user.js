@@ -10,7 +10,6 @@ userSchema = new mongoose.Schema({
     role : {
         type : String,
         uppercase : false,
-        required : true,
         lowercase: true,
         enum : ["admin", "employee", "hr"]
     }
