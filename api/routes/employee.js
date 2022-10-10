@@ -162,7 +162,7 @@ router.get('/:_id',(req,res,next)=>{
 
 
 
-// delete emeployees
+// delete employees
 router.delete('/:_id',(req,res,next)=>{
     Employee.remove({_id:req.params._id})
     .then(result=>{
@@ -184,6 +184,7 @@ router.delete('/:_id',(req,res,next)=>{
 // update all data of an employee
 router.put('/:_id',(req,res,next)=>{
     console.log(req.params._id);
+    console.log(req.body.name,"name")
     Employee.findOneAndUpdate({_id:req.params._id},{
         $set:{     
         name:req.body.name,            
@@ -192,7 +193,10 @@ router.put('/:_id',(req,res,next)=>{
         gender:req.body.gender,
         role:req.body.role
         }
-    })
+        
+    }
+    
+    )
     .then(result=>{
         res.status(200).json({
             updated_employee:result
