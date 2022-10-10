@@ -9,7 +9,6 @@ const cors = require('cors');
 const employeeRoute = require('./api/routes/employee');
 const userRoute = require('./api/routes/user');
 const leaveRoute = require('./api/routes/leave');
-const googleRoute = require('./api/routes/google');
 
 
 
@@ -32,9 +31,15 @@ app.use(cors());
 
 // API end points 
 app.use('/employee', employeeRoute);
+<<<<<<< HEAD
 app.use('/user', userRoute);
 app.use('/leave', leaveRoute);
 app.use('/with', googleRoute);
+=======
+app.use('/user',userRoute);
+app.use('/leave',leaveRoute);
+
+>>>>>>> 10db4bef14b1e4b644df87234fc59c3a48b5f8aa
 
 
 
