@@ -14,6 +14,8 @@ const client = new OAuth2Client(
 
 
 
+
+
 router.post("/signup", (req, res, next) => {
   bcrypt.hash(req.body.password, 10, (err, hash) => {
     if (err) {
@@ -30,8 +32,7 @@ router.post("/signup", (req, res, next) => {
         role: req.body.role,
       });
 
-      user
-        .save()
+      user.save()
         .then((result) => {
           res.status(200).json({
             new_user: result,
@@ -45,6 +46,35 @@ router.post("/signup", (req, res, next) => {
     }
   });
 });
+
+
+
+// router.post("/googlelogin", (req, res, next) => {
+
+//   const user = new User({
+
+//     googleId: req.body.googleId,
+//     email: req.body.email,
+//     name: req.body.name
+//   });
+
+//   user.save()
+//     .then((result) => {
+//       res.status(200).json({
+//         new_user: result,
+//       });
+//     })
+//     .catch((err) => {
+//       res.status(500).json({
+//         error: err,
+//       });
+//     });
+
+
+// });
+
+
+
 
 
 
@@ -103,24 +133,28 @@ router.post("/login", (req, res, next) => {
 
 
 // Google Login API endpoint
-router.post("/googlelogin", (req, res) => {
+router.post('/googlelogin', (req, res) => {
   const { tokenId } = req.body;
+
   client.verifyIdToken({ idToken: tokenId, audience: "782778790753-11hlt4rsr491dbmdaej4udve468rldgr.apps.googleusercontent.com" }).then(response => {
-    const { name, email } = response.payload;
+
+    const { email_verified, name, email } = response.getPayload;
     console.log(response.payload);
-    if (email) {
+    if (email_verified) {
       User.findOne({ email }).exec((err, user) => {
         if (err) {
           return res.status(500).json({
-            error: "Something went wrong...",
-          });
+            error: "Something went wrong..."
+          })
         } else {
           if (user) {
             const token = jwt.sign(
               {
-
                 name: user[0].name,
+                password: user[0].password,
+                phone: user[0].phone,
                 email: user[0].email,
+                role: user[0].role,
               },
               "this is dummy text", // SECRET KEY
               {
@@ -128,44 +162,47 @@ router.post("/googlelogin", (req, res) => {
               }
             );
             res.status(200).json({
-
               name: user[0].name,
+              password: user[0].password,
+              phone: user[0].phone,
               email: user[0].email,
+              role: user[0].role,
               token: token,
             });
+
           } else {
-            let newUser = new User({ name, email });
-            newUser.save((err, data) => {
-              if (err) {
-                return res.status(500).json({
-                  error: "Check Your Credentials...",
-                });
-              }
-              const token = jwt.sign(
-                {
-
-                  name: data[0].name,
-                  email: data[0].email,
-                },
-                "this is dummy text", // SECRET KEY
-                {
-                  expiresIn: "24h",
-                }
-              );
-              res.status(200).json({
-
-                name: data[0].name,
-                email: data[0].email,
-                token: token,
-              });
+            const user = new User({
+              _id: new mongoose.Types.ObjectId(),
+              name: req.body.name,
+              password: hash,
+              phone: req.body.phone,
+              email: req.body.email,
+              role: req.body.role,
             });
+
+            user.save()
+              .then((result) => {
+                res.status(200).json({
+                  new_user: result,
+                });
+              })
+              .catch((err) => {
+                res.status(500).json({
+                  error: err,
+                });
+              });
+
           }
+
         }
-      });
+      })
     }
 
-  });
-});
+  })
+
+})
+
+
 
 router.post("/mail", (req, res) => {
   let transporter = nodemailer.createTransport({

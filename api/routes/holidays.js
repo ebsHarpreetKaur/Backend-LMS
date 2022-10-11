@@ -9,13 +9,13 @@ const checkAuth = require("../middleware/check-auth");
 
 // post holiday
 router.post('/', (req, res, next) => {
-  const holidaysForAll = new Holiday({
+  const holiday = new Holiday({
     _id: new mongoose.Types.ObjectId,
     festival: req.body.festival,
-    festivalData: req.body.festivalData,
+    festivalDate: req.body.festivalDate,
 
   })
-  holidaysForAll.save()
+  holiday.save()
     .then(result => {
       console.log(result);
       res.status(200).json({

@@ -103,8 +103,6 @@ router.get('/MonthData', (req, res, next) => {
         //     $lte: ('2022-10-30')
         // }
     }
-
-
     Leave.find(query, function (err, data) {
         if (err) { return res.status(300).json("Error") }
         else {
