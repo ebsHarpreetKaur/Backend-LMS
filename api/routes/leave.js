@@ -10,24 +10,27 @@ const checkAuth = require('../middleware/check-auth');
 
 // get api for employees leave on this week
 router.get('/TodayData', (req, res, next) => {
-    var query = {
 
-        LeaveDate: {
-            $gte: ('2022-10-03')
-            // $lte: new Date('2022-10-01').toISOString()
-        },
-        ReturnDate: {
-            //     // $gte: new Date('2022-10-09').toISOString(),
-            $lte: ('2022-10-04')
-        },
+    // if (req.Leave.ApprovalStatus == 'Approved') {
+        var query = {
+
+            LeaveDate: {
+                $gte: ('2022-10-09')
+                // $lte: new Date('2022-10-01').toISOString()
+            },
+            ReturnDate: {
+                //     // $gte: new Date('2022-10-09').toISOString(),
+                $lte: ('2022-10-09')
+            },
+        // }
     }
-
     Leave.find(query, function (err, data) {
         if (err) { return res.status(300).json("Error") }
         else {
             return res.status(200).json({ data: data })
         }
     })
+
 })
 
 
@@ -40,12 +43,12 @@ router.get('/WeekData', (req, res, next) => {
     var query = {
 
         LeaveDate: {
-            $gte: ('2022-10-01')
+            $gte: ('2022-10-09')
             // $lte: new Date('2022-10-07').toISOString()
         },
         ReturnDate: {
             // $gte: new Date('2022-10-09').toISOString(),
-            $lte: ('2022-10-07')
+            $lte: ('2022-10-17')
         },
     }
 
@@ -74,8 +77,8 @@ router.get('/WeekData', (req, res, next) => {
 //         }
 //         return dates
 //     }
-  
- 
+
+
 //   const dates = getDates($gte= ('2022-10-01'), $lte= ('2022-10-30'))
 //   dates.forEach(function (date) {
 //     console.log(date)
@@ -85,7 +88,7 @@ router.get('/WeekData', (req, res, next) => {
 
 
 // get api for employees leave on this month
-router.get('/MonthData',(req,res,next) => {
+router.get('/MonthData', (req, res, next) => {
 
     var query = {
 
@@ -93,14 +96,14 @@ router.get('/MonthData',(req,res,next) => {
             $gte: ('2022-10-01'),
             $lte: ('2022-12-30')
         },
-       
-        
+
+
         // ReturnDate: {
         //     $gte: ('2022-10-01'),
         //     $lte: ('2022-10-30')
         // }
     }
-    
+
 
     Leave.find(query, function (err, data) {
         if (err) { return res.status(300).json("Error") }
@@ -170,7 +173,7 @@ router.post('/', (req, res, next) => {
         LeaveDate: req.body.LeaveDate,
         ReturnDate: req.body.ReturnDate,
         TotalHoursRequested: req.body.TotalHoursRequested,
-        TotalDaysRequested: req.body.TotalDaysRequested
+        TotalDaysRequested: req.body.TotalDaysRequested,
 
     })
     leave.save()
@@ -231,19 +234,21 @@ router.delete('/:id', (req, res, next) => {
 
 
 // update leave
-router.put('/:id', (req, res, next) => {
-    console.log(req.params.id);
-    Leave.findOneAndUpdate({ _id: req.params.id }, {
-        $push: {
+router.put('/:_id', (req, res, next) => {
+    console.log(req.params._id);
+    Leave.findOneAndUpdate({ _id: req.params._id }, {
+        $set: {
             emp_id: req.body.emp_id,
             EmployeeName: req.body.EmployeeName,              //body parser
             SupervisorName: req.body.SupervisorName,
             Department: req.body.Department,
             LeaveType: req.body.LeaveType,
+            ApprovalStatus: req.body.ApprovalStatus,
             LeaveDate: req.body.LeaveDate,
             ReturnDate: req.body.ReturnDate,
             TotalHoursRequested: req.body.TotalHoursRequested,
-            TotalDaysRequested: req.body.TotalDaysRequested
+            TotalDaysRequested: req.body.TotalDaysRequested,
+
         }
     })
         .then(result => {
