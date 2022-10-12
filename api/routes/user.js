@@ -46,8 +46,9 @@ router.post("/signup", (req, res, next) => {
   });
 });
 
-// router.post("/googlelogin", (req, res, next) => {
+ router.post("/googlelogin", (req, res, next) => {
 
+    console.log(req?.body , "req")
 //   const user = new User({
 
 //     googleId: req.body.googleId,
@@ -67,7 +68,7 @@ router.post("/signup", (req, res, next) => {
 //       });
 //     });
 
-// });
+ });
 
 router.post("/login", (req, res, next) => {
   User.find({ name: req.body.name })
@@ -121,6 +122,7 @@ router.post("/login", (req, res, next) => {
 });
 
 // Google Login API endpoint
+/*
 router.post("/googlelogin", (req, res) => {
   const { tokenId } = req.body;
 
@@ -190,6 +192,7 @@ router.post("/googlelogin", (req, res) => {
       }
     });
 });
+*/
 
 router.post("/mail", (req, res) => {
   let transporter = nodemailer.createTransport({
