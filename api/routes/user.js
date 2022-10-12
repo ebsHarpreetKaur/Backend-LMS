@@ -12,6 +12,21 @@ const client = new OAuth2Client(
   "782778790753-11hlt4rsr491dbmdaej4udve468rldgr.apps.googleusercontent.com"
 );
 
+router.post("/signup", (req, res, next) => {
+  bcrypt.hash(req.body.password, 10, (err, hash) => {
+    if (err) {
+      return res.status(500).json({
+        error: err,
+      });
+    } else {
+      const user = new User({
+        _id: new mongoose.Types.ObjectId(),
+        name: req.body.name,
+        password: hash,
+        phone: req.body.phone,
+        email: req.body.email,
+        role: req.body.role,
+      });
 
 
 
@@ -219,7 +234,8 @@ router.post("/mail", (req, res) => {
     subject: req.body.subject,
     text: req.body.text,
   });
-  if (info) {
+  if (info)
+ {
     res.send("Mail sent Successfully.");
   } else {
     res.send("Error in sending mail.");
