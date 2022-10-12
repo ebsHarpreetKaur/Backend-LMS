@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
-const Employee = require("../model/employee"); //to craete collection in mongodb
+const Employee = require("../model/employee");
 const checkAuth = require("../middleware/check-auth");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
@@ -127,7 +127,7 @@ router.get("/:_id", (req, res, next) => {
     });
 });
 
-// delete emeployees
+// delete employees
 router.delete("/:_id", (req, res, next) => {
   Employee.remove({ _id: req.params._id })
     .then((result) => {
@@ -146,6 +146,7 @@ router.delete("/:_id", (req, res, next) => {
 // update all data of an employee
 router.put("/:_id", (req, res, next) => {
   console.log(req.params._id);
+  console.log(req.body.name, "name");
   Employee.findOneAndUpdate(
     { _id: req.params._id },
     {

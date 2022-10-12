@@ -4,35 +4,38 @@ const mongoose = require('mongoose');
 
 
 leaveSchema = new mongoose.Schema({
-    _id:mongoose.Schema.Types.ObjectId,
+    _id: mongoose.Schema.Types.ObjectId,
 
-    emp_id:[{
-        type:mongoose.Schema.Types.ObjectId, ref:'Employee'
+    emp_id: [{
+        type: mongoose.Schema.Types.ObjectId, ref: 'Employee'
     }],
-    EmployeeName:String,
-    SupervisorName : {
-        type : String,
-        required : [true, 'Please enter Supervisor name']
+    EmployeeName: String,
+    SupervisorName: {
+        type: String,
+        required: true
     },
 
-    Department : {
-        type : String,
-        required : [true, 'Please Enter Department'],
+    Department: {
+        type: String,
+        required: true
     },
 
-    LeaveType : {
-        type : String,
-        required : true,
-        enum : ["Priviliege", "Sick", "Holiday", "Casual"]
+    LeaveType: {
+        type: String,
+        required: true,
+        enum: ["Priviliege", "Sick", "Holiday", "Casual"]
+    },
+    LeaveDate: String,
+    ReturnDate: String,
+    TotalHoursRequested: Number,
+    TotalDaysRequested: Number,
+    ApprovalStatus: {
+        type: String,
+        enum: ['Pending', 'Approved', 'Rejected'],
+        default: 'Pending'
     },
 
-    LeaveDate : String,
-    ReturnDate : String,
 
-    TotalHoursRequested : Number,
-    TotalDaysRequested : Number,
-
-    
 
 })
 
