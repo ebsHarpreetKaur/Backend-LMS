@@ -14,6 +14,7 @@ const client = new OAuth2Client(
 
 
 
+
 router.post("/signup", (req, res, next) => {
   bcrypt.hash(req.body.password, 10, (err, hash) => {
     if (err) {
@@ -45,16 +46,10 @@ router.post("/signup", (req, res, next) => {
   });
 });
 
+ router.post("/googlelogin", (req, res, next) => {
 
-
-router.post("/googlelogin", (req, res) => {
-console.log(req,"res")
-  // const user = new User({
-
-  //   googleId: req.body.googleId,
-  //   email: req.body.email,
-  //   name: req.body.name
-  // });
+    console.log(req?.body , "req")
+//   const user = new User({
 
   // user.save()
   //   .then((result) => {
@@ -68,13 +63,7 @@ console.log(req,"res")
   //     });
   //   });
 
-
-});
-
-
-
-
-
+ });
 
 router.post("/login", (req, res, next) => {
   User.find({ name: req.body.name })
@@ -127,80 +116,78 @@ router.post("/login", (req, res, next) => {
     });
 });
 
-
-
-
 // Google Login API endpoint
-// router.post('/googlelogin', (req, res) => {
-//   const { tokenId } = req.body;
+/*
+router.post("/googlelogin", (req, res) => {
+  const { tokenId } = req.body;
 
-//   client.verifyIdToken({ idToken: tokenId, audience: "782778790753-11hlt4rsr491dbmdaej4udve468rldgr.apps.googleusercontent.com" }).then(response => {
+  client
+    .verifyIdToken({
+      idToken: tokenId,
+      audience:
+        "782778790753-11hlt4rsr491dbmdaej4udve468rldgr.apps.googleusercontent.com",
+    })
+    .then((response) => {
+      const { email_verified, name, email } = response.getPayload;
+      console.log(response.payload);
+      if (email_verified) {
+        User.findOne({ email }).exec((err, user) => {
+          if (err) {
+            return res.status(500).json({
+              error: "Something went wrong...",
+            });
+          } else {
+            if (user) {
+              const token = jwt.sign(
+                {
+                  name: user[0].name,
+                  password: user[0].password,
+                  phone: user[0].phone,
+                  email: user[0].email,
+                  role: user[0].role,
+                },
+                "this is dummy text", // SECRET KEY
+                {
+                  expiresIn: "24h",
+                }
+              );
+              res.status(200).json({
+                name: user[0].name,
+                password: user[0].password,
+                phone: user[0].phone,
+                email: user[0].email,
+                role: user[0].role,
+                token: token,
+              });
+            } else {
+              const user = new User({
+                _id: new mongoose.Types.ObjectId(),
+                name: req.body.name,
+                password: hash,
+                phone: req.body.phone,
+                email: req.body.email,
+                role: req.body.role,
+              });
 
-//     const { email_verified, name, email } = response.getPayload;
-//     console.log(response.payload);
-//     if (email_verified) {
-//       User.findOne({ email }).exec((err, user) => {
-//         if (err) {
-//           return res.status(500).json({
-//             error: "Something went wrong..."
-//           })
-//         } else {
-//           if (user) {
-//             const token = jwt.sign(
-//               {
-//                 name: user[0].name,
-//                 password: user[0].password,
-//                 phone: user[0].phone,
-//                 email: user[0].email,
-//                 role: user[0].role,
-//               },
-//               "this is dummy text", // SECRET KEY
-//               {
-//                 expiresIn: "24h",
-//               }
-//             );
-//             res.status(200).json({
-//               name: user[0].name,
-//               password: user[0].password,
-//               phone: user[0].phone,
-//               email: user[0].email,
-//               role: user[0].role,
-//               token: token,
-//             });
-
-//           } else {
-//             const user = new User({
-//               _id: new mongoose.Types.ObjectId(),
-//               name: req.body.name,
-//               password: hash,
-//               phone: req.body.phone,
-//               email: req.body.email,
-//               role: req.body.role,
-//             });
-
-//             user.save()
-//               .then((result) => {
-//                 res.status(200).json({
-//                   new_user: result,
-//                 });
-//               })
-//               .catch((err) => {
-//                 res.status(500).json({
-//                   error: err,
-//                 });
-//               });
-
-//           }
-
-//         }
-//       })
-//     }
-
-//   })
-
-// })
-
-
+              user
+                .save()
+                .then((result) => {
+                  res.status(200).json({
+                    new_user: result,
+                  });
+                })
+                .catch((err) => {
+                  res.status(500).json({
+                    error: err,
+                  });
+                });
+            }
+          }
+        });
+      }
+    });
+});
+*/
 
 router.post("/mail", (req, res) => {
   let transporter = nodemailer.createTransport({
@@ -217,8 +204,7 @@ router.post("/mail", (req, res) => {
     subject: req.body.subject,
     text: req.body.text,
   });
-  if (info)
- {
+  if (info) {
     res.send("Mail sent Successfully.");
   } else {
     res.send("Error in sending mail.");
