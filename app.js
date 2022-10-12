@@ -4,13 +4,12 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 
-const employeeRoute = require("./api/routes/employee");
-const userRoute = require("./api/routes/user");
-const leaveRoute = require("./api/routes/leave");
 
 mongoose.connect(
   "mongodb+srv://harpreet:123@cluster.2ksky9v.mongodb.net/?retryWrites=true&w=majority"
 );
+
+
 
 const employeeRoute = require('./api/routes/employee');
 const userRoute = require('./api/routes/user');
@@ -34,10 +33,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors());
 
-// API end points
-app.use("/employee", employeeRoute);
-app.use("/user", userRoute);
-app.use("/leave", leaveRoute);
+
 
 // API end points 
 app.use('/employee', employeeRoute);
