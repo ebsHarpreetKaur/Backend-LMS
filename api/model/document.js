@@ -9,8 +9,6 @@ documentSchema = new mongoose.Schema({
     documentType: String,
     file: Buffer,
 
-
-
 }, { timestamps: true })
 
 

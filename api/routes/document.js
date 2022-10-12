@@ -11,7 +11,6 @@ const checkAuth = require('../middleware/check-auth');
 
 // Add Document
 router.post('/add', (req, res, next) => {
-
     const document = new Document({
         _id: new mongoose.Types.ObjectId,
         emp_id: req.body.emp_id,
@@ -32,7 +31,6 @@ router.post('/add', (req, res, next) => {
                 error: err
             })
         })
-
 });
 
 

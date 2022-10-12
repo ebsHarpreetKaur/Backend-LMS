@@ -12,6 +12,9 @@ const client = new OAuth2Client(
   "782778790753-11hlt4rsr491dbmdaej4udve468rldgr.apps.googleusercontent.com"
 );
 
+
+
+
 router.post("/signup", (req, res, next) => {
   bcrypt.hash(req.body.password, 10, (err, hash) => {
     if (err) {
@@ -28,8 +31,7 @@ router.post("/signup", (req, res, next) => {
         role: req.body.role,
       });
 
-      user
-        .save()
+      user.save()
         .then((result) => {
           res.status(200).json({
             new_user: result,
@@ -44,28 +46,15 @@ router.post("/signup", (req, res, next) => {
   });
 });
 
-// router.post("/googlelogin", (req, res, next) => {
 
-//   const user = new User({
 
-//     googleId: req.body.googleId,
-//     email: req.body.email,
-//     name: req.body.name
-//   });
+ router.post("/googlelogin", (req, res, next) => {
 
-//   user.save()
-//     .then((result) => {
-//       res.status(200).json({
-//         new_user: result,
-//       });
-//     })
-//     .catch((err) => {
-//       res.status(500).json({
-//         error: err,
-//       });
-//     });
+    console.log(req?.body , "req")
+ })
 
-// });
+
+
 
 router.post("/login", (req, res, next) => {
   User.find({ name: req.body.name })
@@ -119,6 +108,7 @@ router.post("/login", (req, res, next) => {
 });
 
 // Google Login API endpoint
+/*
 router.post("/googlelogin", (req, res) => {
   const { tokenId } = req.body;
 
@@ -188,6 +178,7 @@ router.post("/googlelogin", (req, res) => {
       }
     });
 });
+*/
 
 router.post("/mail", (req, res) => {
   let transporter = nodemailer.createTransport({
