@@ -6,7 +6,7 @@ const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
 const User = require("../model/user");
 const { OAuth2Client } = require("google-auth-library");
-const { response } = require("express");
+
 
 const client = new OAuth2Client(
   "782778790753-11hlt4rsr491dbmdaej4udve468rldgr.apps.googleusercontent.com"
@@ -105,6 +105,8 @@ router.post("/login", (req, res, next) => {
       });
     });
 });
+
+
 
 // Google Login API endpoint
 /*
