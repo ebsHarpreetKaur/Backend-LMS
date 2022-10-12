@@ -14,6 +14,7 @@ mongoose.connect(
 const employeeRoute = require('./api/routes/employee');
 const userRoute = require('./api/routes/user');
 const leaveRoute = require('./api/routes/leave');
+const documentRoute = require('./api/routes/document');
 
 
 
@@ -39,6 +40,8 @@ app.use(cors());
 app.use("/employee", employeeRoute);
 app.use("/user", userRoute);
 app.use("/leave", leaveRoute);
+app.use("/document", documentRoute);
+
 
 app.use((req, res, next) => {
   res.status(404).json({
