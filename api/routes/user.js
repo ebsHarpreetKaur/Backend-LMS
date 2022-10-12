@@ -8,6 +8,7 @@ const User = require("../model/user");
 const { OAuth2Client } = require("google-auth-library");
 
 
+
 const client = new OAuth2Client(
   "782778790753-11hlt4rsr491dbmdaej4udve468rldgr.apps.googleusercontent.com"
 );
@@ -48,10 +49,31 @@ router.post("/signup", (req, res, next) => {
 
 
 
- router.post("/googlelogin", (req, res, next) => {
+//  router.post("/googlelogin", (req, res, next) => {
 
-    console.log(req?.body , "req")
- })
+//   console.log(req?.body , "req")
+
+//   const user = new User({
+//     _id: new mongoose.Types.ObjectId,
+//     name: req.body.name,
+//     email:req.body.email,
+//     googleId: req.body.googleId,
+//   })
+//   user.save()
+//       .then(result => {
+//           console.log(result);
+//           res.status(200).json({
+//               newUser: result
+//           })
+//       })
+//       .catch(err => {
+//           console.log(err);
+//           res.status(500).json({
+//               error: err
+//           })
+//       })
+    
+//  })
 
 
 
@@ -109,20 +131,16 @@ router.post("/login", (req, res, next) => {
 
 
 // Google Login API endpoint
-/*
+
 router.post("/googlelogin", (req, res) => {
   const { tokenId } = req.body;
 
-  client
-    .verifyIdToken({
-      idToken: tokenId,
-      audience:
-        "782778790753-11hlt4rsr491dbmdaej4udve468rldgr.apps.googleusercontent.com",
+  client.verifyIdToken({idToken: tokenId,audience:"782778790753-11hlt4rsr491dbmdaej4udve468rldgr.apps.googleusercontent.com",
     })
     .then((response) => {
-      const { email_verified, name, email } = response.getPayload;
+      const {  name, email } = response.getPayload;
       console.log(response.payload);
-      if (email_verified) {
+      if (email) {
         User.findOne({ email }).exec((err, user) => {
           if (err) {
             return res.status(500).json({
@@ -179,7 +197,7 @@ router.post("/googlelogin", (req, res) => {
       }
     });
 });
-*/
+
 
 router.post("/mail", (req, res) => {
   let transporter = nodemailer.createTransport({
