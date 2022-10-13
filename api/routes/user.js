@@ -144,9 +144,7 @@ router.post("/googlelogin", (req, res) => {
   const googleId = req.body?.profileObj?.googleId
   const imageUrl = req.body?.profileObj?.imageUrl
 
-  if (email)
-
- {
+  if (email) {
     User.findOne({ email }).exec((err, user) => {
       if (err) {
         return res.status(500).json({
@@ -200,12 +198,12 @@ router.post("/googlelogin", (req, res) => {
     //Insert user
     const user = new User({
       _id: new mongoose.Types.ObjectId(),
-      name:name,
-      email:email,
-      givenName:givenName,
-      familyName:familyName,
-      imageUrl:imageUrl,
-      googleId:googleId,
+      name: name,
+      email: email,
+      givenName: givenName,
+      familyName: familyName,
+      imageUrl: imageUrl,
+      googleId: googleId,
     });
 
     user.save()
@@ -300,9 +298,7 @@ router.post("/mail", (req, res) => {
     subject: req.body.subject,
     text: req.body.text,
   });
-  if (info)
-
- {
+  if (info) {
     res.send("Mail sent Successfully.");
   } else {
     res.send("Error in sending mail.");
