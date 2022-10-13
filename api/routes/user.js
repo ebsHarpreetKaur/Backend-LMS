@@ -133,8 +133,8 @@ router.post("/login", (req, res, next) => {
 
 
 router.post("/googlelogin", (req, res) => {
-  // const { profileObj } = req.body;
-  let response = { "error": "Something is wrong", "code": "400" }
+  const { profileObj } = req.body;
+  // let response = { "error": "Something is wrong", "code": "400" }
 
   console.log(req.body?.profileObj)
   const email = req.body?.profileObj?.email
@@ -144,13 +144,83 @@ router.post("/googlelogin", (req, res) => {
   const googleId = req.body?.profileObj?.googleId
   const imageUrl = req.body?.profileObj?.imageUrl
 
-  if (email) {
-    response = { "success": "User Already Exist", "code": 200 }
-  } {
+  if (email)
+ {
+    User.findOne({ email }).exec((err, user) => {
+      if (err) {
+        return res.status(500).json({
+          error: "Something went wrong...",
+        });
+      } else {
+        if (user) {
+          const token = jwt.sign(
+            {
+              name: user[0].profileObj?.name,
+              email: user[0].profileObj?.email,
+
+            },
+            "this is dummy text", // SECRET KEY
+            {
+              expiresIn: "24h",
+            }
+          );
+          res.status(200).json({
+            name: user[0].profileObj?.name,
+            email: user[0].profileObj?.email,
+            token: token,
+          });
+        } else {
+          const user = new User({
+            _id: new mongoose.Types.ObjectId(),
+            name: req.body?.profileObj?.name,
+            email: req.body?.profileObj?.email,
+            googleId: req.body?.profileObj?.googleId,
+            imageUrl: req.body?.profileObj?.imageUrl,
+
+          });
+
+          user
+            .save()
+            .then((result) => {
+              res.status(200).json({
+                new_user: result,
+              });
+            })
+            .catch((err) => {
+              res.status(500).json({
+                error: err,
+              });
+            });
+        }
+      }
+    });
+    // response = { "success": "User Already Exist", "code": 200 }
+  } else {
     //Insert user
+    const user = new User({
+      _id: new mongoose.Types.ObjectId(),
+      name:name,
+      email:email,
+      givenName:givenName,
+      familyName:familyName,
+      imageUrl:imageUrl,
+      googleId:googleId,
+    });
+
+    user.save()
+      .then((result) => {
+        res.status(200).json({
+          new_user: result,
+        });
+      })
+      .catch((err) => {
+        res.status(500).json({
+          error: err,
+        });
+      });
     response = { "success": "New user added", "code": 200 }
   }
-  res.send(JSON.stringify(response));
+
 
 
   // client.verifyIdToken({
@@ -158,7 +228,8 @@ router.post("/googlelogin", (req, res) => {
   // }).then((response) => {
   //   const { name, email } = response.getPayload;
   //   console.log(response.payload);
-  //   if (email) {
+  //   if (email)
+
   //     User.findOne({ email }).exec((err, user) => {
   //       if (err) {
   //         return res.status(500).json({
@@ -207,6 +278,8 @@ router.post("/googlelogin", (req, res) => {
   //     });
   //   }
   // });
+
+
 });
 
 
@@ -225,7 +298,8 @@ router.post("/mail", (req, res) => {
     subject: req.body.subject,
     text: req.body.text,
   });
-  if (info) {
+  if (info)
+ {
     res.send("Mail sent Successfully.");
   } else {
     res.send("Error in sending mail.");
