@@ -3,20 +3,26 @@ const router = express.Router();
 const mongoose = require('mongoose');
 const Document = require('../model/document');
 const checkAuth = require('../middleware/check-auth');
-
-
-
-
-
+// const multer=require('multer')
+// const uploads=multer({dest:'uploads/'})
 
 // Add Document
-router.post('/add', (req, res, next) => {
+
+// app.post('/api/image',uploads.single('image'),(req,res)=>{
+//      console.log(req.file)
+//      if(!req.file){res.send({code:500,msg:"err"})}
+//      else{res.send({code:200,msg:"upload success"})}
+// })
+
+
+router.post('/add',(req, res, next) => {
+    // console.log(req.file)
     const document = new Document({
         _id: new mongoose.Types.ObjectId,
         emp_id: req.body.emp_id,
         documentName: req.body.documentName,
         documentType: req.body.documentType,
-        file: req.body.file,
+        file: req.file,
     })
     document.save()
         .then(result => {
