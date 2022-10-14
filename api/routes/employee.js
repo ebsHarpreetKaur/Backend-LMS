@@ -110,6 +110,8 @@ router.post("/login", (req, res, next) => {
     });
 });
 
+
+
 // get employees by id
 router.get("/:_id", (req, res, next) => {
   console.log(req.params._id);
@@ -126,6 +128,10 @@ router.get("/:_id", (req, res, next) => {
       });
     });
 });
+
+
+
+
 
 // delete employees
 router.delete("/:_id", (req, res, next) => {

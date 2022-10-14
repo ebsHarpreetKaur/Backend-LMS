@@ -12,16 +12,16 @@ const checkAuth = require('../middleware/check-auth');
 router.get('/TodayData', (req, res, next) => {
 
     // if (req.Leave.ApprovalStatus == 'Approved') {
-        var query = {
+    var query = {
 
-            LeaveDate: {
-                $gte: ('2022-10-09')
-                // $lte: new Date('2022-10-01').toISOString()
-            },
-            ReturnDate: {
-                //     // $gte: new Date('2022-10-09').toISOString(),
-                $lte: ('2022-10-09')
-            },
+        LeaveDate: {
+            $gte: ('2022-10-09')
+            // $lte: new Date('2022-10-01').toISOString()
+        },
+        ReturnDate: {
+            //     // $gte: new Date('2022-10-09').toISOString(),
+            $lte: ('2022-10-09')
+        },
         // }
     }
     Leave.find(query, function (err, data) {
@@ -135,6 +135,26 @@ router.get('/MonthData', (req, res, next) => {
 //     })
 
 // })
+
+
+
+
+// // get particular employee leave 
+// router.get('/emp_id', (req, res, next) => {
+//     Leave.find({ emp_id: req.params.emp_id })
+//         .then(result => {
+//             res.status(200).json({
+//                 leaveData: result
+//             });
+//         })
+//         .catch(err => {
+//             console.log(err)
+//             res.status(500).json({
+//                 error: err
+//             })
+//         });
+// })
+
 
 
 

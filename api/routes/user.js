@@ -194,31 +194,7 @@ router.post("/googlelogin", (req, res) => {
       }
     });
     // response = { "success": "User Already Exist", "code": 200 }
-  } else {
-    //Insert user
-    const user = new User({
-      _id: new mongoose.Types.ObjectId(),
-      name: name,
-      email: email,
-      givenName: givenName,
-      familyName: familyName,
-      imageUrl: imageUrl,
-      googleId: googleId,
-    });
-
-    user.save()
-      .then((result) => {
-        res.status(200).json({
-          new_user: result,
-        });
-      })
-      .catch((err) => {
-        res.status(500).json({
-          error: err,
-        });
-      });
-    response = { "success": "New user added", "code": 200 }
-  }
+  } 
 
 
 

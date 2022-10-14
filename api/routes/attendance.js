@@ -7,7 +7,7 @@ const checkAuth = require('../middleware/check-auth');
 
 
 // attendance CheckIn/CheckOut
-router.post('/', (req, res, next) => {
+router.post('/:_id', (req, res, next) => {
     const attendance = new Attendance({
         _id: new mongoose.Types.ObjectId,
         emp_id: req.body.emp_id,
