@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 const Leave = require('../model/leave');
+const Employee = require('../model/employee');
 const checkAuth = require('../middleware/check-auth');
 
 
@@ -139,21 +140,62 @@ router.get('/MonthData', (req, res, next) => {
 
 
 
-// // get particular employee leave 
-// router.get('/emp_id', (req, res, next) => {
-//     Leave.find({ emp_id: req.params.emp_id })
-//         .then(result => {
-//             res.status(200).json({
-//                 leaveData: result
-//             });
-//         })
-//         .catch(err => {
-//             console.log(err)
-//             res.status(500).json({
-//                 error: err
-//             })
-//         });
-// })
+// get particular employee Sick leave 
+router.get('/sick/:emp_id', (req, res, next) => {
+
+    Leave.find({ emp_id: req.params.emp_id, LeaveType: "Sick" })
+        .then(data => {
+            var message = "";
+            if (data === undefined || data.length == 0) message = "No employee found!";
+            else message = 'Employee Leave data successfully retrieved';
+            res.status(200).send(data)
+            console.log(data.length)
+        }).catch(err => {
+            res.status(400).send('Some error occured')
+        })
+})
+
+
+
+
+
+
+// get particular employee Priviliege leave 
+router.get('/priviliege/:emp_id', (req, res, next) => {
+
+    Leave.find({ emp_id: req.params.emp_id, LeaveType: "Priviliege" })
+        .then(data => {
+            var message = "";
+            if (data === undefined || data.length == 0) message = "No employee found!";
+            else message = 'Employee Leave data successfully retrieved';
+            res.status(200).send(data)
+            console.log("Total Sick Leave", data.length)
+
+        }).catch(err => {
+            res.status(400).send('Some error occured')
+        })
+})
+
+
+
+
+
+
+// get particular employee Casual leave 
+router.get('/casual/:emp_id', (req, res, next) => {
+
+    Leave.find({ emp_id: req.params.emp_id, LeaveType: "Casual" })
+        .then(data => {
+            var message = "";
+            if (data === undefined || data.length == 0) message = "No employee found!";
+            else message = 'Employee Leave data successfully retrieved';
+            res.status(200).send(data)
+
+        }).catch(err => {
+            res.status(400).send('Some error occured')
+        })
+})
+
 
 
 
