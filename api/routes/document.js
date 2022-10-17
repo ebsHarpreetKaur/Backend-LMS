@@ -7,37 +7,71 @@ const checkAuth = require('../middleware/check-auth');
 // const uploads=multer({dest:'uploads/'})
 
 // Add Document
+router.post('/add',uploads.single('documentfile'),(req,res)=>{
+// router.post('/add',(req,res,next)=>{
+    console.log(req,"jhgkjdfh")
+    console.log(req.files,"jfdghdfkjhkj")''
+    console.log(req.file,"j12345")
+     console.log(req.file)
+     if(!req.file){res.send({code:500,msg:"err"})}
+     else{res.send({code:200,msg:"upload success"})}
+    try {
+        if (!req.files) {
+            res.send({
+                status: "failed",
+                message: "No file uploaded",
+            });
+        } else {
+            let file = req.files.file;
 
-// app.post('/api/image',uploads.single('image'),(req,res)=>{
-//      console.log(req.file)
-//      if(!req.file){res.send({code:500,msg:"err"})}
-//      else{res.send({code:200,msg:"upload success"})}
-// })
+            console.log(req.files);
+
+            file.mv("./uploads/" + file.name);
+
+            res.send({
+                status: "success",
+                message: "File is uploaded",
+                data: {
+                    name: file.name,
+                    mimetype: file.mimetype,
+                    size: file.size,
+                },
+            });
+        }
+    } catch (err) {
+        res.status(500).send(err);
+    }
+})
 
 
-router.post('/add',(req, res, next) => {
-    // console.log(req.file)
-    const document = new Document({
-        _id: new mongoose.Types.ObjectId,
-        emp_id: req.body.emp_id,
-        documentName: req.body.documentName,
-        documentType: req.body.documentType,
-        file: req.file,
-    })
-    document.save()
-        .then(result => {
-            console.log(result);
-            res.status(200).json({
-                newDocument: result
-            })
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).json({
-                error: err
-            })
-        })
-});
+
+
+
+// router.post('/add',(req, res, next) => {
+//     console.log(req.file,"request file")
+//     console.log(req,"Request")
+//     const document = new Document({
+//         _id: new mongoose.Types.ObjectId,
+//         emp_id: req.body.emp_id,
+//         documentName: req.body.documentName,
+//         documentType: req.body.documentType,
+//         file: req.file,
+//     })
+   
+//     document.save()
+//         .then(result => {
+//             console.log(result);
+//             res.status(200).json({
+//                 newDocument: result
+//             })
+//         })
+//         .catch(err => {
+//             console.log(err);
+//             res.status(500).json({
+//                 error: err
+//             })
+//         })
+// });
 
 
 
