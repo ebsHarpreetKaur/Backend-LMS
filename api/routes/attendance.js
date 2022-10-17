@@ -7,7 +7,7 @@ const checkAuth = require('../middleware/check-auth');
 
 
 // attendance CheckIn/CheckOut
-router.post('/:_id', (req, res, next) => {
+router.post('/:emp_id', (req, res, next) => {
     const attendance = new Attendance({
         _id: new mongoose.Types.ObjectId,
         emp_id: req.body.emp_id,
@@ -38,7 +38,7 @@ router.post('/:_id', (req, res, next) => {
 
 
 // Attendance Record Particular Employee
-router.get('/emp_id', (req, res, next) => {
+router.get('/:emp_id', (req, res, next) => {
     Attendance.find().populate('emp_id')
         .then(result => {
             res.status(200).json({
