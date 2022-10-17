@@ -6,15 +6,17 @@ const checkAuth = require('../middleware/check-auth');
 // const multer=require('multer')
 // const uploads=multer({dest:'uploads/'})
 
+
+
 // Add Document
-router.post('/add',uploads.single('documentfile'),(req,res)=>{
-// router.post('/add',(req,res,next)=>{
-    console.log(req,"jhgkjdfh")
-    console.log(req.files,"jfdghdfkjhkj")''
-    console.log(req.file,"j12345")
-     console.log(req.file)
-     if(!req.file){res.send({code:500,msg:"err"})}
-     else{res.send({code:200,msg:"upload success"})}
+router.post('/add', uploads.single('documentfile'), (req, res) => {
+    // router.post('/add',(req,res,next)=>{
+    console.log(req, "jhgkjdfh")
+    console.log(req.files, "jfdghdfkjhkj")
+    console.log(req.file, "j12345")
+    console.log(req.file)
+    if (!req.file) { res.send({ code: 500, msg: "err" }) }
+    else { res.send({ code: 200, msg: "upload success" }) }
     try {
         if (!req.files) {
             res.send({
@@ -57,7 +59,7 @@ router.post('/add',uploads.single('documentfile'),(req,res)=>{
 //         documentType: req.body.documentType,
 //         file: req.file,
 //     })
-   
+
 //     document.save()
 //         .then(result => {
 //             console.log(result);
@@ -124,7 +126,7 @@ router.put('/:_id', (req, res, next) => {
     console.log(req.body.documentName, "documentName")
     Document.findOneAndUpdate({ _id: req.params._id }, {
         $set: {
-         
+
             documentName: req.body.documentName,
             documentType: req.body.documentType,
             file: req.body.file,
