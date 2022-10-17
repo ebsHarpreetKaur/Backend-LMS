@@ -9,9 +9,9 @@ const { OAuth2Client } = require("google-auth-library");
 
 
 
-const client = new OAuth2Client(
-  "782778790753-11hlt4rsr491dbmdaej4udve468rldgr.apps.googleusercontent.com"
-);
+// const client = new OAuth2Client(
+//   "782778790753-11hlt4rsr491dbmdaej4udve468rldgr.apps.googleusercontent.com"
+// );
 
 
 
@@ -48,33 +48,42 @@ router.post("/signup", (req, res, next) => {
 });
 
 
+// get user by id
+router.get("/:_id", (req, res, next) => {
+  console.log(req.params._id);
+  User.findById(req.params._id)
+    .then((result) => {
+      res.status(200).json({
+        userData: result,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({
+        error: err,
+      });
+    });
+});
 
-//  router.post("/googlelogin", (req, res, next) => {
 
-//   console.log(req?.body , "req")
 
-//   const user = new User({
-//     _id: new mongoose.Types.ObjectId,
-//     name: req.body.name,
-//     email:req.body.email,
-//     googleId: req.body.googleId,
-//   })
-//   user.save()
-//       .then(result => {
-//           console.log(result);
-//           res.status(200).json({
-//               newUser: result
-//           })
-//       })
-//       .catch(err => {
-//           console.log(err);
-//           res.status(500).json({
-//               error: err
-//           })
-//       })
 
-//  })
 
+// get all users
+router.get("/", (req, res, next) => {
+  User.find()
+    .then((result) => {
+      res.status(200).json({
+        userData: result,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({
+        error: err,
+      });
+    });
+});
 
 
 router.post("/login", (req, res, next) => {
@@ -194,69 +203,10 @@ router.post("/googlelogin", (req, res) => {
       }
     });
     // response = { "success": "User Already Exist", "code": 200 }
-  } 
-
-
-
-  // client.verifyIdToken({
-  //   idToken: tokenId, audience: "782778790753-11hlt4rsr491dbmdaej4udve468rldgr.apps.googleusercontent.com",
-  // }).then((response) => {
-  //   const { name, email } = response.getPayload;
-  //   console.log(response.payload);
-  //   if (email)
-
-
-  //     User.findOne({ email }).exec((err, user) => {
-  //       if (err) {
-  //         return res.status(500).json({
-  //           error: "Something went wrong...",
-  //         });
-  //       } else {
-  //         if (user) {
-  //           const token = jwt.sign(
-  //             {
-  //               name: user[0].name,
-  //               email: user[0].email,
-
-  //             },
-  //             "this is dummy text", // SECRET KEY
-  //             {
-  //               expiresIn: "24h",
-  //             }
-  //           );
-  //           res.status(200).json({
-  //             name: user[0].name,
-  //             email: user[0].email,
-  //             token: token,
-  //           });
-  //         } else {
-  //           const user = new User({
-  //             _id: new mongoose.Types.ObjectId(),
-  //             name: req.body.name,
-  //             email: req.body.email,
-
-  //           });
-
-  //           user
-  //             .save()
-  //             .then((result) => {
-  //               res.status(200).json({
-  //                 new_user: result,
-  //               });
-  //             })
-  //             .catch((err) => {
-  //               res.status(500).json({
-  //                 error: err,
-  //               });
-  //             });
-  //         }
-  //       }
-  //     });
-  //   }
-  // });
-
-
+  }
 });
+
+
 
 
 router.post("/mail", (req, res) => {

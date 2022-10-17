@@ -11,7 +11,7 @@ attendanceSchema = new mongoose.Schema({
     Break: Date,
     Resume: Date
 
-})
+},{ timestamps: true })
 
 
 module.exports = mongoose.model('Attendance', attendanceSchema); 
