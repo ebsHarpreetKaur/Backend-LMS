@@ -8,24 +8,24 @@ const upload = require('../middleware/upload')
 // const uploads=multer({dest:'uploads/'})
 
 // Add Document
-router.post('/add',(req,res)=>{
+// router.post('/add',(req,res)=>{
 // router.post('/add',(req,res,next)=>{
-    console.log(req,"jhgkjdfh")
-    console.log(req.files,"jfdghdfkjhkj")
-    console.log(req.file,"j12345")
-     console.log(req.file)
-     if(!req.file){res.send({code:500,msg:"err"})}
-     else{res.send({code:200,msg:"upload success"})}
-    try {
-        if (!req.files) {
-            res.send({
-                status: "failed",
-                message: "No file uploaded",
-            });
-        } else {
-            let file = req.files.file;
+    // console.log(req,"jhgkjdfh")
+    // console.log(req.files,"jfdghdfkjhkj")
+    // console.log(req.file,"j12345")
+    //  console.log(req.file)
+    //  if(!req.file){res.send({code:500,msg:"err"})}
+    //  else{res.send({code:200,msg:"upload success"})}
+    // try {
+    //     if (!req.files) {
+    //         res.send({
+    //             status: "failed",
+    //             message: "No file uploaded",
+    //         });
+    //     } else {
+    //         let file = req.files.file;
 
-            console.log(file.name, "File name to upload");
+    //         console.log(file.name, "File name to upload");
 
 //             file.mv("./uploads/" + file.name);
 
@@ -47,18 +47,18 @@ router.post('/add',(req,res)=>{
 
 
 
-router.post('/add',upload.single('image'),(req, res, next) => {
+router.post('/add',upload.single('documentfile'),(req, res, next) => {
     console.log(req.file,"request file")
     console.log(req,"Request")
     const document = new Document({
         _id: new mongoose.Types.ObjectId,
         emp_id: req.body.emp_id,
-        documentName: req.body.documentName,
-        documentType: req.body.documentType,
+        documentName: req.body.documentname,
+        documentType: req.body.documenttype,
       
     }) 
     if (req.file){
-        document.image = req.file.path 
+        document.documentfile = req.file.path 
     }
    
     document.save()
@@ -150,6 +150,6 @@ router.put('/:_id', (req, res, next) => {
 })
 
 
+        
 
-
-module.exports = router;    
+module.exports = router;  
