@@ -7,10 +7,10 @@ const checkAuth = require('../middleware/check-auth');
 // const uploads=multer({dest:'uploads/'})
 
 // Add Document
-router.post('/add',uploads.single('documentfile'),(req,res)=>{
+router.post('/add',(req,res)=>{
 // router.post('/add',(req,res,next)=>{
     console.log(req,"jhgkjdfh")
-    console.log(req.files,"jfdghdfkjhkj")''
+    console.log(req.files,"jfdghdfkjhkj")
     console.log(req.file,"j12345")
      console.log(req.file)
      if(!req.file){res.send({code:500,msg:"err"})}
