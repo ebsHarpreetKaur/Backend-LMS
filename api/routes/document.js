@@ -24,7 +24,7 @@ router.post('/add',uploads.single('documentfile'),(req,res)=>{
         } else {
             let file = req.files.file;
 
-            console.log(req.files);
+            console.log(file.name, "File name to upload");
 
             file.mv("./uploads/" + file.name);
 
