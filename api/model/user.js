@@ -5,9 +5,10 @@ userSchema = new mongoose.Schema({
     googleId: String,
     name: String,
     password: String,
-    phone: Number,
+    contact: Number,
     email: String,
-    imageUrl:String,
+    gender: String,
+    imageUrl: String,
     role: {
         type: String,
         uppercase: false,
