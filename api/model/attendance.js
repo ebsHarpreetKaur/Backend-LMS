@@ -5,11 +5,11 @@ attendanceSchema = new mongoose.Schema({
     emp_id: [{
         type: mongoose.Schema.Types.ObjectId, ref: 'Employee'
     }],
-    Date: Date,
-    CheckIn: Date,
-    CheckOut: Date,
-    Break: Date,
-    Resume: Date
+    Date: String,
+    CheckIn: String,
+    CheckOut: String,
+    Break: String,
+    Resume: String
 
 },{ timestamps: true })
 

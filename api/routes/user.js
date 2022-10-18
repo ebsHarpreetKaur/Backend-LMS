@@ -27,8 +27,9 @@ router.post("/signup", (req, res, next) => {
         _id: new mongoose.Types.ObjectId(),
         name: req.body.name,
         password: hash,
-        phone: req.body.phone,
+        contact: req.body.contact,
         email: req.body.email,
+        gender: req.body.gender,
         role: req.body.role,
       });
 
@@ -48,7 +49,34 @@ router.post("/signup", (req, res, next) => {
 });
 
 
-
+// update all data of an user
+router.put("/:_id", (req, res, next) => {
+  console.log(req.params._id);
+  console.log(req.body.name, "name");
+  User.findOneAndUpdate(
+    { _id: req.params._id },
+    {
+      $set: {
+        name: req.body.name,
+        email: req.body.email,
+        contact: req.body.contact,
+        gender: req.body.gender,
+        role: req.body.role,
+      },
+    }
+  )
+    .then((result) => {
+      res.status(200).json({
+        updated_employee: result,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({
+        error: err,
+      });
+    });
+});
 
 
 // get user by id
@@ -57,7 +85,7 @@ router.get("/:_id", (req, res, next) => {
   User.findById(req.params._id)
     .then((result) => {
       res.status(200).json({
-        userData: result,
+        myData: result,
       });
     })
     .catch((err) => {
@@ -89,6 +117,9 @@ router.get("/", (req, res, next) => {
 });
 
 
+
+
+
 router.post("/login", (req, res, next) => {
   User.find({ name: req.body.name })
     .exec()
@@ -115,6 +146,7 @@ router.post("/login", (req, res, next) => {
               password: user[0].password,
               phone: user[0].phone,
               email: user[0].email,
+              gender: req.body.gender,
               role: user[0].role,
             },
             "this is dummy text", // SECRET KEY
@@ -128,6 +160,7 @@ router.post("/login", (req, res, next) => {
             password: user[0].password,
             phone: user[0].phone,
             email: user[0].email,
+            gender: req.body.gender,
             role: user[0].role,
             token: token,
           });
@@ -210,6 +243,25 @@ router.post("/googlelogin", (req, res) => {
     // response = { "success": "User Already Exist", "code": 200 }
   }
 });
+
+
+
+// delete user
+router.delete("/:_id", (req, res, next) => {
+  User.remove({ _id: req.params._id })
+    .then((result) => {
+      res.status(200).json({
+        message: "User/Employee Deleted",
+        result: result,
+      });
+    })
+    .catch((err) => {
+      res.status(500).json({
+        error: err,
+      });
+    });
+});
+
 
 
 
