@@ -7,14 +7,9 @@ const nodemailer = require("nodemailer");
 const User = require("../model/user");
 const { OAuth2Client } = require("google-auth-library");
 
-
-
 // const client = new OAuth2Client(
 //   "782778790753-11hlt4rsr491dbmdaej4udve468rldgr.apps.googleusercontent.com"
 // );
-
-
-
 
 router.post("/signup", (req, res, next) => {
   bcrypt.hash(req.body.password, 10, (err, hash) => {
@@ -32,7 +27,8 @@ router.post("/signup", (req, res, next) => {
         role: req.body.role,
       });
 
-      user.save()
+      user
+        .save()
         .then((result) => {
           res.status(200).json({
             new_user: result,
@@ -46,10 +42,6 @@ router.post("/signup", (req, res, next) => {
     }
   });
 });
-
-
-
-
 
 // get user by id
 router.get("/:_id", (req, res, next) => {
@@ -68,10 +60,6 @@ router.get("/:_id", (req, res, next) => {
     });
 });
 
-
-
-
-
 // get all users
 router.get("/", (req, res, next) => {
   User.find()
@@ -87,7 +75,6 @@ router.get("/", (req, res, next) => {
       });
     });
 });
-
 
 router.post("/login", (req, res, next) => {
   User.find({ name: req.body.name })
@@ -142,21 +129,17 @@ router.post("/login", (req, res, next) => {
     });
 });
 
-
-
-
-
 router.post("/googlelogin", (req, res) => {
   const { profileObj } = req.body;
   // let response = { "error": "Something is wrong", "code": "400" }
 
-  console.log(req.body?.profileObj)
-  const email = req.body?.profileObj?.email
-  const name = req.body?.profileObj?.name
-  const givenName = req.body?.profileObj?.givenName
-  const familyName = req.body?.profileObj?.familyName
-  const googleId = req.body?.profileObj?.googleId
-  const imageUrl = req.body?.profileObj?.imageUrl
+  console.log(req.body?.profileObj);
+  const email = req.body?.profileObj?.email;
+  const name = req.body?.profileObj?.name;
+  const givenName = req.body?.profileObj?.givenName;
+  const familyName = req.body?.profileObj?.familyName;
+  const googleId = req.body?.profileObj?.googleId;
+  const imageUrl = req.body?.profileObj?.imageUrl;
 
   if (email) {
     User.findOne({ email }).exec((err, user) => {
@@ -170,7 +153,6 @@ router.post("/googlelogin", (req, res) => {
             {
               name: user[0].profileObj?.name,
               email: user[0].profileObj?.email,
-
             },
             "this is dummy text", // SECRET KEY
             {
@@ -189,7 +171,6 @@ router.post("/googlelogin", (req, res) => {
             email: req.body?.profileObj?.email,
             googleId: req.body?.profileObj?.googleId,
             imageUrl: req.body?.profileObj?.imageUrl,
-
           });
 
           user
@@ -210,9 +191,6 @@ router.post("/googlelogin", (req, res) => {
     // response = { "success": "User Already Exist", "code": 200 }
   }
 });
-
-
-
 
 router.post("/mail", (req, res) => {
   let transporter = nodemailer.createTransport({
