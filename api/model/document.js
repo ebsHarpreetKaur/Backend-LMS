@@ -7,7 +7,7 @@ documentSchema = new mongoose.Schema({
     }],
     documentName: String,
     documentType: String,
-    file: String,
+  image: String,
 
 }, { timestamps: true })
 

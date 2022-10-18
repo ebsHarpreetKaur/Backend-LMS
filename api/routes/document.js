@@ -50,59 +50,44 @@ const upload = require('../middleware/upload')
 
 
 
+            router.post('/add',upload.single('image'),(req, res, next) => {
+                console.log(req.file,"request file")
+                console.log(req.body,"request file")
+                // console.log(req.body.documentType,"request file")
+                // console.log(req.body.emp_id,"request file")
+                console.log(req,"Request")
+                const document = new Document({
+                    _id: new mongoose.Types.ObjectId,
+                    emp_id: req.body.emp_id,
+                    documentName: req.body.documentName,
+                    documentType: req.body.documentType,
 
-// router.post('/add', upload.single('image'), (req, res, next) => {
-//     console.log(req.file, "request file")
-//     console.log(req, "Request")
-//     const document = new Document({
-//         _id: new mongoose.Types.ObjectId,
-//         emp_id: req.body.emp_id,
-//         documentName: req.body.documentName,
-//         documentType: req.body.documentType,
+                })
+                if(req.file){
+                    document.image = req.file.path
+                    }
 
-//     })
-//     if (req.file) {
-//         document.image = req.file.path
-//     }
-// })
-
-        // })
-        //         .catch(err => {
-        //             console.log(err);
-        //             res.status(500).json({
-        //                 error: err
-        //             })
-        //         })
-        // });
-
-
-
-
-            // router.post('/add',(req, res, next) => {
-            //     console.log(req.file,"request file")
-            //     console.log(req,"Request")
-            //     const document = new Document({
-            //         _id: new mongoose.Types.ObjectId,
-            //         emp_id: req.body.emp_id,
-            //         documentName: req.body.documentName,
-            //         documentType: req.body.documentType,
-            //         file: req.file,
-            //     })
-
-            //     document.save()
-            //         .then(result => {
-            //             console.log(result);
-            //             res.status(200).json({
-            //                 newDocument: result
-            //             })
-            //         })
-            //         .catch(err => {
-            //             console.log(err);
-            //             res.status(500).json({
-            //                 error: err
-            //             })
-            //         })
-            // });
+                document.save()
+                // .then(response=>{
+                //     res.json({
+                //       message:  "document file added successfully"
+                //     })
+                // })
+                    .then(result => {
+                        console.log(result,"RRESULT");
+                        res.status(200).json({
+                            newDocument: result
+  
+                        })
+                        
+                    })
+                    .catch(err => {
+                        console.log(err);
+                        res.status(500).json({
+                            error: err
+                        })
+                    })
+            });
 
 
 
