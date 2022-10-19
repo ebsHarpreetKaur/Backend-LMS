@@ -2,13 +2,15 @@ const mongoose = require('mongoose');
 
 documentSchema = new mongoose.Schema({
   _id: mongoose.Schema.Types.ObjectId,
- 
-  documentName: {
+  emp_id: {
+    type: mongoose.Schema.Types.ObjectId, ref: 'Employee'
+  },
+  documentname: {
     type: String,
     required: true,
     unique: true
   },
-  documentType: {
+  documenttype: {
     type: String,
     required: true,
     unique: true
