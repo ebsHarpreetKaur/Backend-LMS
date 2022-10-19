@@ -1,9 +1,10 @@
 const express = require("express");
 const app = express();
+// import fileupload from "express-fileupload";
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-
+const fileupload=require("express-fileupload")
 
 mongoose.connect(
   "mongodb+srv://harpreet:123@cluster.2ksky9v.mongodb.net/?retryWrites=true&w=majority"
@@ -43,7 +44,11 @@ app.use("/user", userRoute);
 app.use("/leave", leaveRoute);
 app.use("/document", documentRoute);
 app.use("/attendance", attendanceRoute);
-
+app.use(
+  fileupload({
+      createParentPath: true,
+  }),
+);
 
 app.use((req, res, next) => {
   res.status(404).json({

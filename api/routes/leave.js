@@ -16,12 +16,12 @@ router.get('/TodayData', (req, res, next) => {
     var query = {
 
         LeaveDate: {
-            $gte: ('2022-10-09')
+            $gte: ('2022-10-16')
             // $lte: new Date('2022-10-01').toISOString()
         },
         ReturnDate: {
             //     // $gte: new Date('2022-10-09').toISOString(),
-            $lte: ('2022-10-09')
+            $lte: ('2022-10-16')
         },
         // }
     }
@@ -44,12 +44,12 @@ router.get('/WeekData', (req, res, next) => {
     var query = {
 
         LeaveDate: {
-            $gte: ('2022-10-09')
+            $gte: ('2022-10-18')
             // $lte: new Date('2022-10-07').toISOString()
         },
         ReturnDate: {
             // $gte: new Date('2022-10-09').toISOString(),
-            $lte: ('2022-10-17')
+            $lte: ('2022-10-25')
         },
     }
 
@@ -300,7 +300,7 @@ router.put('/:_id', (req, res, next) => {
     console.log(req.params._id);
     Leave.findOneAndUpdate({ _id: req.params._id }, {
         $set: {
-            emp_id: req.body.emp_id,
+            _id: req.body._id,
             EmployeeName: req.body.EmployeeName,              //body parser
             SupervisorName: req.body.SupervisorName,
             Department: req.body.Department,
