@@ -4,7 +4,7 @@ const app = express();
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const fileupload=require("express-fileupload")
+const fileupload = require("express-fileupload")
 
 mongoose.connect(
   "mongodb+srv://harpreet:123@cluster.2ksky9v.mongodb.net/?retryWrites=true&w=majority"
@@ -17,6 +17,9 @@ const userRoute = require('./api/routes/user');
 const leaveRoute = require('./api/routes/leave');
 const documentRoute = require('./api/routes/document');
 const attendanceRoute = require('./api/routes/attendance');
+const holidayRoute = require('./api/routes/holidays');
+
+
 
 
 
@@ -25,7 +28,7 @@ mongoose.connect('mongodb+srv://harpreet:123@cluster.2ksky9v.mongodb.net/?retryW
 
 
 mongoose.connection.on('error', err => {
-    console.log('DB connection failed');
+  console.log('DB connection failed');
 });
 
 mongoose.connection.on("connected", (connected) => {
@@ -44,11 +47,16 @@ app.use("/user", userRoute);
 app.use("/leave", leaveRoute);
 app.use("/document", documentRoute);
 app.use("/attendance", attendanceRoute);
-app.use(
-  fileupload({
-      createParentPath: true,
-  }),
-);
+app.use("/holiday", holidayRoute);
+
+// app.use(
+//   fileupload({
+//       createParentPath: true,
+//   }),
+// );
+
+app.use(fileupload());
+
 
 app.use((req, res, next) => {
   res.status(404).json({

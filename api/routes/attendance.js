@@ -11,7 +11,6 @@ router.post('/:emp_id', (req, res, next) => {
     const attendance = new Attendance({
         _id: new mongoose.Types.ObjectId,
         emp_id: req.body.emp_id,
-        Date: req.body.Date,
         CheckIn: req.body.CheckIn,
         CheckOut: req.body.CheckOut,
         Break: req.body.Break,
@@ -38,20 +37,22 @@ router.post('/:emp_id', (req, res, next) => {
 
 
 // Attendance Record Particular Employee
-router.get('/:emp_id', (req, res, next) => {
-    Attendance.find().populate('emp_id')
-        .then(result => {
-            res.status(200).json({
-                attendanceRecord: result
-            });
-        })
-        .catch(err => {
-            console.log(err)
-            res.status(500).json({
-                error: err
-            })
+router.get("/:emp_id", (req, res, next) => {
+    console.log(req.params.emp_id);
+    Attendance.findById(req.params.emp_id)
+      .then((result) => {
+        res.status(200).json({
+            attendanceData: result,
         });
-})
+      })
+      .catch((err) => {
+        console.log(err);
+        res.status(500).json({
+          error: err,
+        });
+      });
+  });
+  
 
 
 
