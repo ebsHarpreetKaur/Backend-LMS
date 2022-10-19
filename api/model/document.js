@@ -2,12 +2,25 @@ const mongoose = require('mongoose');
 
 documentSchema = new mongoose.Schema({
   _id: mongoose.Schema.Types.ObjectId,
-  emp_id: [{
+  emp_id: {
     type: mongoose.Schema.Types.ObjectId, ref: 'Employee'
-  }],
-  documentName: String,
-  documentType: String,
-  image: String,
+  },
+  documentName: {
+    type: String,
+    required: true,
+    unique: true
+  },
+  documentType: {
+    type: String,
+    required: true,
+    unique: true
+
+  },
+  image: {
+    type: String,
+    required: true
+  }
+
 
 }, { timestamps: true })
 

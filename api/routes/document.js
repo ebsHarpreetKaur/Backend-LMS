@@ -3,20 +3,52 @@ const router = express.Router();
 const mongoose = require('mongoose');
 const Document = require('../model/document');
 const checkAuth = require('../middleware/check-auth');
-// var fileupload = require('express-fileupload');
+const multer = require('multer')
+
+
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, './api/uploads/')
+    },
+    filename: function (req, file, cb) {
+        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
+        cb(null, uniqueSuffix + file.originalname)
+    }
+})
+
+const fileFilter = (req, file, cb) => {
+    if (file.mimetype === 'image/png' || file.mimetype === 'image/jpeg' || file.mimetype === 'image/jpg') {
+        cb(null, true);
+    } else {
+        cb(null, false);
+    }
+
+}
+
+const upload = multer({
+    storage: storage,
+    limits: {
+        fileSize: 1024 * 1024 * 5      // 5 MB
+    },
+    fileFilter: fileFilter
+})
 
 
 
 
 
 // upload Document 
-router.post('/upload', (req, res, next) => {
+router.post('/add', upload.single('image'), function (req, res, next) {
+    console.log("Hello Image Here", req.file);
     const document = new Document({
+
         _id: new mongoose.Types.ObjectId,
+        emp_id: req.body.emp_id,
         documentName: req.body.documentName,
         documentType: req.body.documentType,
-        image: req.body.image,
-     
+        image: req.file.path,
+
+
 
     })
     document.save()
@@ -39,120 +71,22 @@ router.post('/upload', (req, res, next) => {
 
 
 
-// const upload = require('../middleware/upload')
-// const multer=require('multer')
-// const uploads=multer({dest:'uploads/'})
-
-
-
-// Add Document
-// router.post('/add',(req,res)=>{
-// router.post('/add',async(req,res,next)=>{
-//     console.log(req,"jhgkjdfh")
-//     console.log(req.files,"jfdghdfkjhkj")
-//     console.log(req.file,"j12345")
-//      console.log(req.file)
-//           const document = new Document({
-//                     _id: new mongoose.Types.ObjectId,
-//                     emp_id: req.body.emp_id,
-//                     documentName: req.body.documentName,
-//                     documentType: req.body.documentType,
-
-//                 })
-//     try {
-//         if (!req.files) {
-//             res.send({
-//                 status: "failed",
-//                 message: "No file uploaded",
-//             });
-//         } else {
-//             let file = req.files.file;
-
-//             console.log(file.name, "File name to upload");
-
-//                         file.mv("./uploads/" + file.name);
-
-//                         res.send({
-//                             status: "success",
-//                             message: "File is uploaded",
-//                             data: {
-//                                 name: file.name,
-//                                 mimetype: file.mimetype,
-//                                 size: file.size,
-//                             },
-//                         });
-//                     }
-//                 } catch (err) {
-//                     res.status(500).send(err);
-//                 }
-//             })
-
-
-
-
-
-// router.post('/add',upload.single('image'),(req, res, next) => {
-//     console.log(req.file,"request file")
-//     console.log(req.body,"request file")
-//     console.log(req.body.documentType,"request file")
-//     console.log(req.body.emp_id,"request file")
-//     console.log(req,"Request")
-//     const document = new Document({
-//         _id: new mongoose.Types.ObjectId,
-//         emp_id: req.body.emp_id,
-//         documentName: req.body.documentName,
-//         documentType: req.body.documentType,
-
-//     })
-//     if(req.file){
-//         document.image = req.file.path
-//         }
-
-//     document.save()
-//     // .then(response=>{
-//     //     res.json({
-//     //       message:  "document file added successfully"
-//     //     })
-//     // })
-//         .then(result => {
-//             console.log(result,"RRESULT");
-//             res.status(200).json({
-//                 newDocument: result
-
-//             })
-
-//         })
-//         .catch(err => {
-//             console.log(err);
-//             res.status(500).json({
-//                 error: err
-//             })
-//         })
-// });
-
-
-
-
-
-
-
-// get Document by id
-router.get('/:_id', (req, res, next) => {
-    console.log(req.params._id);
-    Document.findById(req.params._id)
-        .then(result => {
+// Document Record of Particular Employee
+router.get("/:emp_id", (req, res, next) => {
+    console.log(req.params.emp_id);
+    Document.find({ emp_id: req.params.emp_id })
+        .then((result) => {
             res.status(200).json({
-                document: result
-            })
+                documentData: result,
+            });
         })
-        .catch(err => {
+        .catch((err) => {
             console.log(err);
             res.status(500).json({
-                error: err
-            })
-        })
-
-})
+                error: err,
+            });
+        });
+});
 
 
 

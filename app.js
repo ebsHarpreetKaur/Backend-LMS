@@ -4,7 +4,7 @@ const app = express();
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const fileupload = require("express-fileupload")
+
 
 mongoose.connect(
   "mongodb+srv://harpreet:123@cluster.2ksky9v.mongodb.net/?retryWrites=true&w=majority"
@@ -55,7 +55,7 @@ app.use("/holiday", holidayRoute);
 //   }),
 // );
 
-app.use(fileupload());
+
 
 
 app.use((req, res, next) => {
