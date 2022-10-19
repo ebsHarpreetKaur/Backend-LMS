@@ -5,7 +5,7 @@ attendanceSchema = new mongoose.Schema({
     emp_id: [{
         type: mongoose.Schema.Types.ObjectId, ref: 'Employee'
     }],
-    Date: String,
+   
     CheckIn: String,
     CheckOut: String,
     Break: String,

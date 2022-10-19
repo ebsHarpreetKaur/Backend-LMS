@@ -39,20 +39,21 @@ router.post('/:emp_id', (req, res, next) => {
 // Attendance Record Particular Employee
 router.get("/:emp_id", (req, res, next) => {
     console.log(req.params.emp_id);
-    Attendance.findById(req.params.emp_id)
-      .then((result) => {
-        res.status(200).json({
-            attendanceData: result,
+    Attendance.find({ emp_id: req.params.emp_id })
+        .then((result) => {
+            res.status(200).json({
+                attendanceData: result,
+            });
+        })
+        .catch((err) => {
+            console.log(err);
+            res.status(500).json({
+                error: err,
+            });
         });
-      })
-      .catch((err) => {
-        console.log(err);
-        res.status(500).json({
-          error: err,
-        });
-      });
-  });
-  
+});
+
+
 
 
 
