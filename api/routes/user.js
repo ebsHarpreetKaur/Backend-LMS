@@ -141,7 +141,7 @@ router.post("/login", (req, res, next) => {
         if (result) {
           const token = jwt.sign(
             {
-              _id: new mongoose.Types.ObjectId(),
+              _id: user[0]._id,
               name: user[0].name,
               password: user[0].password,
               phone: user[0].phone,
@@ -155,7 +155,7 @@ router.post("/login", (req, res, next) => {
             }
           );
           res.status(200).json({
-            _id: new mongoose.Types.ObjectId(),
+            _id: user[0]._id,
             name: user[0].name,
             password: user[0].password,
             phone: user[0].phone,
