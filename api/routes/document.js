@@ -17,9 +17,13 @@ const storage = multer.diskStorage({
 })
 
 const fileFilter = (req, file, cb) => {
-    if (file.mimetype === 'image/png' || file.mimetype === 'image/jpeg' || file.mimetype === 'image/jpg') {
+    if (file.mimetype === 'image/png' || file.mimetype === 'image/jpeg' ||  file.mimetype === 'image/jpg') {
         cb(null, true);
-    } else {
+    } 
+    // else if (file.mimetype === 'file/pdf') {
+    //     cb(null, true)
+    // } 
+    else {
         cb(null, false);
     }
 
@@ -27,9 +31,9 @@ const fileFilter = (req, file, cb) => {
 
 const upload = multer({
     storage: storage,
-    limits: {
-        fileSize: 1024 * 1024 * 5      // 5 MB
-    },
+    // limits: {
+    //     fileSize: 1024 * 1024 * 5      // 5 MB
+    // },
     fileFilter: fileFilter
 })
 
@@ -39,7 +43,11 @@ const upload = multer({
 
 // upload Document 
 router.post('/add', upload.single('image'), function (req, res, next) {
+    console.log("Hello required",req)
     console.log("Hello Image Here", req.file);
+    // console.log(req.body.emp_id)
+    // console.log(req.body)
+    // console.log(req.body)
     const document = new Document({
 
         _id: new mongoose.Types.ObjectId,
@@ -63,10 +71,6 @@ router.post('/add', upload.single('image'), function (req, res, next) {
             })
         })
 });
-
-
-
-
 
 
 // Document Record of Particular Employee

@@ -7,18 +7,18 @@ documentSchema = new mongoose.Schema({
   },
   documentname: {
     type: String,
-    required: true,
-    unique: true
+    // required: true,
+    // unique: true
   },
   documenttype: {
     type: String,
-    required: true,
-    unique: true
+    // required: true,
+    // unique: true
 
   },
   image: {
     type: String,
-    required: true
+    // required: true
   }
 
 
