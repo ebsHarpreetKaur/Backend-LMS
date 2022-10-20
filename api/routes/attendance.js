@@ -75,4 +75,36 @@ router.get('/', (req, res, next) => {
 })
 
 
+
+
+// update employee attendance
+router.put("/:emp_id", (req, res, next) => {
+    console.log(req.params.emp_id);
+    console.log("name", req.body.name);
+    Attendance.findOneAndUpdate(
+        { emp_id: req.params.emp_id },
+        {
+            $set: {
+                CheckIn: req.body.CheckIn,
+                CheckOut: req.body.CheckOut,
+                Break: req.body.Break,
+                Resume: req.body.Resume,
+
+            },
+        }
+    )
+        .then((result) => {
+            res.status(200).json({
+                updatedAttendance: result
+            });
+        })
+        .catch((err) => {
+            console.log(err);
+            res.status(500).json({
+                error: err
+            });
+        });
+});
+
+
 module.exports = router;  
