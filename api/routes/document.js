@@ -38,16 +38,15 @@ const upload = multer({
 
 
 // upload Document 
-router.post('/add/:emp_id', upload.single('image'), function (req, res, next) {
+router.post('/add', upload.single('image'), function (req, res, next) {
     console.log("Hello Image Here", req.file);
     const document = new Document({
 
         _id: new mongoose.Types.ObjectId,
-        documentName: req.body.documentName,
-        documentType: req.body.documentType,
+        emp_id: req.body.emp_id,
+        documentname: req.body.documentname,
+        documenttype: req.body.documenttype,
         image: req.file.path,
-
-
 
     })
     document.save()
