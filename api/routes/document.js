@@ -32,7 +32,7 @@ const fileFilter = (req, file, cb) => {
 const upload = multer({
     storage: storage,
     // limits: {
-    //     fileSize: 1024 * 1024 * 5      // 5 MB
+    //     fileSize: 1024  1024  5      // 5 MB
     // },
     fileFilter: fileFilter
 })
@@ -45,6 +45,9 @@ const upload = multer({
 router.post('/add/:emp_id', upload.single('image'), function (req, res, next) {
     // console.log("Hello request",req)
     console.log("Hello Image Here", req.file);
+    console.log("documentname", req.body.documentname);
+    console.log("documenttype", req.body.documenttype);
+    console.log("body",req.body)
     const document = new Document({
 
         _id: new mongoose.Types.ObjectId,
@@ -68,7 +71,6 @@ router.post('/add/:emp_id', upload.single('image'), function (req, res, next) {
             })
         })
 });
-
 
 
 // Document Record of Particular Employee
