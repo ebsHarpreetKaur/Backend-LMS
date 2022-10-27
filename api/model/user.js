@@ -14,6 +14,7 @@ userSchema = new mongoose.Schema({
         uppercase: false,
         lowercase: true,
         enum: ["admin", "employee", "hr"]
+
     }
 
 })

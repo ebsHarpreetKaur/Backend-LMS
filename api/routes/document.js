@@ -68,6 +68,9 @@ router.post('/add/:emp_id', upload.single('image'), function (req, res, next) {
             })
         })
 });
+
+
+
 // Document Record of Particular Employee
 router.get("/:emp_id", (req, res, next) => {
     console.log(req.params.emp_id);
