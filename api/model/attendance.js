@@ -9,13 +9,16 @@ attendanceSchema = new mongoose.Schema(
         ref: "Employee",
       },
     ],
-
     CheckIn: String,
     CheckOut: String,
-    Break: String,
+    Breaks: 
+      {
+        type: Array,
+        ref: "Break"
+      },
+    
     Resume: String,
   },
-  { timestamps: true }
 );
 
 module.exports = mongoose.model("Attendance", attendanceSchema);
