@@ -8,20 +8,19 @@ const checkAuth = require("../middleware/check-auth");
 attendanceSchema = new mongoose.Schema(
   {
     _id: mongoose.Schema.Types.ObjectId,
-    name: [
-      {
-        type: String,
-        ref: "User",
-      },
-    ],
+    name:
+    {
+      type: String,
+      ref: "User",
+    },
+
     CheckIn: String,
     CheckOut: String,
-    Breaks: 
-      {
-        type: Array,
-        ref: "Break"
-      },
-    
+    Breaks:
+    {
+      type: Array,
+      ref: "Break"
+    },
     Resume: String,
   },
 );
