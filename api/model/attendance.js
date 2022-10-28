@@ -3,10 +3,10 @@ const mongoose = require("mongoose");
 attendanceSchema = new mongoose.Schema(
   {
     _id: mongoose.Schema.Types.ObjectId,
-    emp_id: [
+    name: [
       {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Employee",
+        type: String,
+        ref: "User",
       },
     ],
     CheckIn: String,
