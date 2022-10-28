@@ -99,7 +99,7 @@ router.get("/Month", (req, res, next) => {
   var query = {
     CheckIn: {
       $lte: new Date("2022-10-07"),
-      $gte: new Date("2022-10-09"),
+      $gte: new Date("2022-11-09"),
     },
   };
   console.log(query);
