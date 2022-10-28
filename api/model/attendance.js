@@ -1,4 +1,9 @@
+const express = require("express");
+const router = express.Router();
 const mongoose = require("mongoose");
+const Attendance = require("../model/attendance");
+const checkAuth = require("../middleware/check-auth");
+
 
 attendanceSchema = new mongoose.Schema(
   {

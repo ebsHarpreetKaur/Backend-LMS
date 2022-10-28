@@ -3,7 +3,7 @@ const router = express.Router();
 const mongoose = require("mongoose");
 const Attendance = require("../model/attendance");
 const checkAuth = require("../middleware/check-auth");
-const { query } = require("express");
+// const { query } = require("express");
 
 
 
