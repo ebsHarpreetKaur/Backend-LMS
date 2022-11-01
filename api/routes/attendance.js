@@ -60,16 +60,17 @@ router.get("/Daterange", (req, res, next) => {
   // let currentDate = `${year}-${month}-${day}`;
   // console.log(currentDate);
 
-  var query = {
-    // startDate: "startDate",
-    // endDate: "endDate",
-    $gte: req.body.startDate,
-    $lte: req.body.endDate,
+  // startDate: "startDate",
+  // $gte: new Date('2022-10-01').toISOString(),
+  // $lte: new Date('2022-10-30').toISOString()
+  // $gte: "startDate",
+  // $lte: "endDate",
 
-    // $gte: new Date('2022-10-01').toISOString(),
-    // $lte: new Date('2022-10-30').toISOString()
-    // $gte: "startDate",
-    // $lte: "endDate",
+  var query = {
+    CheckIn: {
+      $gte: req.body.startDate,
+      $lte: req.body.endDate,
+    },
   };
 
   Attendance.find(query, function (err, data) {
