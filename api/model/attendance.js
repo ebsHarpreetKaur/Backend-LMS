@@ -17,7 +17,6 @@ attendanceSchema = new mongoose.Schema({
     type: Array,
     ref: "Break",
   },
-
   Resume: String,
 });
 
