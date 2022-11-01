@@ -13,10 +13,7 @@ attendanceSchema = new mongoose.Schema({
 
   CheckIn: String,
   CheckOut: String,
-  Breaks: {
-    type: Array,
-    ref: "Break",
-  },
+  Breaks: Array,
 
   Resume: String,
 });
