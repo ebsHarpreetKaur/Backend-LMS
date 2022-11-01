@@ -143,5 +143,21 @@ router.put("/:emp_id", (req, res, next) => {
       });
     });
 });
+// employee name filter
+router.get("/employee", (req, res, next) => {
+  console.log(req.body.name);
+  Attendance.find({ name: req.body.name })
+    .then((result) => {
+      res.status(200).json({
+        attendanceData: result,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({
+        error: err,
+      });
+    });
+});
 
 module.exports = router;
