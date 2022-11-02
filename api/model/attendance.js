@@ -10,11 +10,12 @@ attendanceSchema = new mongoose.Schema({
     type: String,
     ref: "User",
   },
-
+  emp_id: [{
+    type: mongoose.Schema.Types.ObjectId, ref: 'Employee'
+  }],
   CheckIn: String,
   CheckOut: String,
   Breaks: Array,
-
   Resume: String,
 });
 

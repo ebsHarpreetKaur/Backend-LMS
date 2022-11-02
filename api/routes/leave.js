@@ -9,22 +9,29 @@ const checkAuth = require('../middleware/check-auth');
 
 
 
-// get api for employees leave on this week
+// get api for employees leave Today
 router.get('/TodayData', (req, res, next) => {
+    // date format "2022-10-02" with zero
+    var MyDate = new Date();
+    var MyDateString;
+    MyDate.setDate(MyDate.getDate());
+    MyDateString = MyDate.getFullYear() + '-' + ('0' + (MyDate.getMonth()+1)).slice(-2) + '-'
+    + ('0' + MyDate.getDate()).slice(-2)
 
     // if (req.Leave.ApprovalStatus == 'Approved') {
     var query = {
 
         LeaveDate: {
-            $gte: ('2022-10-16')
+            $gte: MyDateString
             // $lte: new Date('2022-10-01').toISOString()
         },
-        ReturnDate: {
-            //     // $gte: new Date('2022-10-09').toISOString(),
-            $lte: ('2022-10-16')
-        },
+        // ReturnDate: {
+        //     //     // $gte: new Date('2022-10-09').toISOString(),
+        //     $lte: currentDate
+        // },
         // }
     }
+    console.log(query)
     Leave.find(query, function (err, data) {
         if (err) { return res.status(300).json("Error") }
         else {
@@ -33,23 +40,18 @@ router.get('/TodayData', (req, res, next) => {
     })
 
 })
-
-
-
-
-
 
 // get api for employees leave on this week
 router.get('/WeekData', (req, res, next) => {
     var query = {
 
         LeaveDate: {
-            $gte: ('2022-10-18')
+            $gte: ('2022-11-01')
             // $lte: new Date('2022-10-07').toISOString()
         },
         ReturnDate: {
             // $gte: new Date('2022-10-09').toISOString(),
-            $lte: ('2022-10-25')
+            $lte: ('2022-11-07')
         },
     }
 
@@ -60,7 +62,6 @@ router.get('/WeekData', (req, res, next) => {
         }
     })
 })
-
 
 // router.get('/MonthData',(req,res,next) => {
 
@@ -89,29 +90,35 @@ router.get('/WeekData', (req, res, next) => {
 
 
 // get api for employees leave on this month
-router.get('/MonthData', (req, res, next) => {
+router.get("/monthdata", (req, res, next) => {
+
 
     var query = {
-
         LeaveDate: {
-            $gte: ('2022-10-01'),
-            $lte: ('2022-12-30')
+            $gte: ('2022-11-01'),
+            $lte: ('2022-11-30')
         },
-
-
         // ReturnDate: {
-        //     $gte: ('2022-10-01'),
-        //     $lte: ('2022-10-30')
-        // }
-    }
-    Leave.find(query, function (err, data) {
-        if (err) { return res.status(300).json("Error") }
-        else {
-            return res.status(200).json({ data: data })
-        }
-    })
-})
+        //     // $gte: new Date('2022-10-09').toISOString(),
+        //     $lte: ('2022-10-25')
+        // },
 
+    };
+    console.log(query)
+
+    Leave.find(query)
+        .then((result) => {
+            res.status(200).json({
+                MonthLeaveData: result,
+            });
+        })
+        .catch((err) => {
+            console.log(err);
+            res.status(500).json({
+                error: err,
+            });
+        });
+});
 
 
 // router.get('/MonthData', (req, res, next) => {

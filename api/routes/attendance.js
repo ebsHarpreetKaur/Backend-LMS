@@ -11,6 +11,7 @@ const checkAuth = require("../middleware/check-auth");
 router.post("/:emp_id", (req, res, next) => {
     const attendance = new Attendance({
         _id: new mongoose.Types.ObjectId(),
+        emp_id: req.body.emp_id,
         name: req.body.name,
         CheckIn: req.body.CheckIn,
         CheckOut: req.body.CheckOut,
@@ -70,7 +71,7 @@ router.get("/Daterange", (req, res, next) => {
 
 
 
-// Filter per employee
+// Get by employee id
 router.get("/employee/:emp_id", (req, res, next) => {
     console.log(req.params.emp_id);
     Attendance.find({ emp_id: req.params.emp_id })
@@ -92,7 +93,7 @@ router.get("/employee/:emp_id", (req, res, next) => {
 
 // Get By ID
 router.get("/record", (req, res, next) => {
-    console.log(req.params._id);
+    // console.log(req.params._id);
     const date = new Date();
     let day = date.getDate();
     let month = date.getMonth() + 1;
@@ -151,6 +152,7 @@ router.put("/:_id", (req, res, next) => {
         { _id: req.params._id },
         {
             $set: {
+
                 CheckIn: req.body.CheckIn,
                 CheckOut: req.body.CheckOut,
                 Breaks: req.body.Breaks,

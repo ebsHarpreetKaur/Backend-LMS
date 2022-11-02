@@ -35,26 +35,39 @@ router.post('/', (req, res, next) => {
 
 
 // get all holidays
-router.get('/pending', (req, res, next) => {
+router.get("/", (req, res, next) => {
 
-  
+  const date = new Date();
+  let day = date.getDate();
+  let month = date.getMonth() + 1;
+  let year = date.getFullYear();
+  let currentDate = `${year}-${month}-${day}`;
+  console.log(currentDate);
+
   var query = {
-
     festivalDate: {
-          $gte: ('2022-10-19')
-          // $lte: new Date('2022-10-01').toISOString()
-      },
- 
-    
-  }
-  Holiday.find(query, function (err, data) {
-      if (err) { return res.status(300).json("Error") }
-      else {
-          return res.status(200).json({ HolidaysPending: data })
-      }
-  })
 
-})
+          $gte: currentDate,
+
+      }
+
+  };
+  console.log(query)
+
+  Holiday.find(query)
+      .then((result) => {
+          res.status(200).json({
+              HolidaysPending: result,
+          });
+      })
+      .catch((err) => {
+          console.log(err);
+          res.status(500).json({
+              error: err,
+          });
+      });
+});
+
 
 
 
