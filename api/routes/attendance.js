@@ -46,8 +46,13 @@ router.get("/Daterange", (req, res, next) => {
       $lte: req.body.endDate,
       // $gte: new Date().toISOString(),
       // $lte: new Date().toISOString()
+
       // $gte: currentDate,
       // $lte: currentDate
+    },
+    CheckOut: {
+      $gte: req.body.startDate,
+      $lte: req.body.endDate,
     },
   };
   Attendance.find(query, function (err, data) {
