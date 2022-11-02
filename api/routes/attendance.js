@@ -5,8 +5,6 @@ const Attendance = require("../model/attendance");
 const checkAuth = require("../middleware/check-auth");
 // const { query } = require("express");
 
-
-
 // attendance CheckIn/CheckOut
 router.post("/:emp_id", (req, res, next) => {
     const attendance = new Attendance({
@@ -18,54 +16,40 @@ router.post("/:emp_id", (req, res, next) => {
         Breaks: req.body.Breaks,
 
     });
-    attendance
-        .save()
-        .then((result) => {
-            console.log(result);
-            res.status(200).json({
-                attendanceRecord: result,
-            });
-        })
-        .catch((err) => {
-            console.log(err);
-            res.status(500).json({
-                error: err,
-            });
-        });
 });
-
-
-
 
 // Filter by date range
 router.get("/Daterange", (req, res, next) => {
-    // const date = new Date();
-    // let day = date.getDate();
-    // let month = date.getMonth() + 1;
-    // let year = date.getFullYear();
-    // let currentDate = `${year}-${month}-${day}`;
-    // console.log(currentDate);
+  // const date = new Date();
+  // let day = date.getDate();
+  // let month = date.getMonth() + 1;
+  // let year = date.getFullYear();
+  // let currentDate = `${year}-${month}-${day}`;
+  // console.log(currentDate);
 
-    var query = {
-        CheckIn: {
+  var query = {
+    CheckIn: {
+      $gte: req.body.startDate,
+      $lte: req.body.endDate,
+      // $gte: new Date().toISOString(),
+      // $lte: new Date().toISOString()
 
-            $gte: req.body.startDate,
-            $lte: req.body.endDate,
-            // $gte: new Date().toISOString(),
-            // $lte: new Date().toISOString()
-            // $gte: currentDate,
-            // $lte: currentDate
-        }
-
-    };
-    Attendance.find(query, function (err, data) {
-        if (err) {
-            return res.status(300).json("Error");
-        } else {
-            return res.status(200).json({ data: data });
-        }
-    });
-    console.log(query)
+      // $gte: currentDate,
+      // $lte: currentDate
+    },
+    CheckOut: {
+      $gte: req.body.startDate,
+      $lte: req.body.endDate,
+    },
+  };
+  Attendance.find(query, function (err, data) {
+    if (err) {
+      return res.status(300).json("Error");
+    } else {
+      return res.status(200).json({ data: data });
+    }
+  });
+  console.log(query);
 });
 
 
@@ -88,9 +72,6 @@ router.get("/employee/:emp_id", (req, res, next) => {
         });
 });
 
-
-
-
 // Get By ID
 router.get("/record", (req, res, next) => {
     // console.log(req.params._id);
@@ -101,49 +82,59 @@ router.get("/record", (req, res, next) => {
     let currentDate = `${year}-${month}-${day}`;
     console.log(currentDate);
 
-    var query = {
-        CheckIn: {
+  var query = {
+    CheckIn: {
+      $gte: currentDate,
+    },
+  };
+  console.log("new Date ", query);
 
-            $gte: currentDate,
-
-        }
-
-    };
-    console.log("new Date ", query)
-
-    Attendance.find(query)
-        .then((result) => {
-            res.status(200).json({
-                attendanceDataByID: result,
-            });
-        })
-        .catch((err) => {
-            console.log(err);
-            res.status(500).json({
-                error: err,
-            });
-        });
+  Attendance.find(query)
+    .then((result) => {
+      res.status(200).json({
+        attendanceDataByID: result,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({
+        error: err,
+      });
+    });
 });
 
+// name filter
+router.get("/employeeName", (req, res, next) => {
+  console.log(req.body.name);
+  Attendance.find({ name: req.body.name })
+    .then((result) => {
+      res.status(200).json({
+        attendanceDataByEmpID: result,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({
+        error: err,
+      });
+    });
+});
 
 // Employee Attendance Report
 router.get("/", (req, res, next) => {
-    Attendance.find()
-        .then((result) => {
-            res.status(200).json({
-                attendanceRecord: result
-            });
-        })
-        .catch((err) => {
-            console.log(err);
-            res.status(500).json({
-                error: err,
-            });
-        });
-
+  Attendance.find()
+    .then((result) => {
+      res.status(200).json({
+        attendanceRecord: result,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({
+        error: err,
+      });
+    });
 });
-
-
 
 // update employee attendance
 router.put("/:_id", (req, res, next) => {
@@ -172,9 +163,5 @@ router.put("/:_id", (req, res, next) => {
             });
         });
 });
-
-
-
-
 
 module.exports = router;

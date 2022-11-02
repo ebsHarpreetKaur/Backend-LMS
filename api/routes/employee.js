@@ -7,8 +7,6 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
 
-
-
 // get all employees
 router.get("/", (req, res, next) => {
   Employee.find()
@@ -24,8 +22,6 @@ router.get("/", (req, res, next) => {
       });
     });
 });
-
-
 
 // // post employees
 // router.post("/signup", (req, res, next) => {
@@ -60,8 +56,6 @@ router.get("/", (req, res, next) => {
 //     }
 //   });
 // });
-
-
 
 // // employee login
 // router.post("/login", (req, res, next) => {
@@ -115,8 +109,6 @@ router.get("/", (req, res, next) => {
 //     });
 // });
 
-
-
 // get employees by id
 router.get("/:_id", (req, res, next) => {
   console.log(req.params._id);
@@ -134,10 +126,6 @@ router.get("/:_id", (req, res, next) => {
     });
 });
 
-
-
-
-
 // delete employees
 router.delete("/:_id", (req, res, next) => {
   Employee.remove({ _id: req.params._id })
@@ -153,8 +141,6 @@ router.delete("/:_id", (req, res, next) => {
       });
     });
 });
-
-
 
 // update all data of an employee
 router.put("/:_id", (req, res, next) => {
