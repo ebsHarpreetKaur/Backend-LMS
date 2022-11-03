@@ -32,7 +32,7 @@ router.post("/:emp_id", (req, res, next) => {
 });
 
 // Filter by date range
-router.get("/Daterange", (req, res, next) => {
+router.get("/daterange", (req, res, next) => {
   // const date = new Date();
   // let day = date.getDate();
   // let month = date.getMonth() + 1;
