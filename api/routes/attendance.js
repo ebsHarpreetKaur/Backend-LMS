@@ -41,7 +41,7 @@ router.get("/Daterange", (req, res, next) => {
   // console.log(currentDate);
 
   var query = {
-    CheckIn: {
+    TodayDate: {
       $gte: req.body.startDate,
       $lte: req.body.endDate,
       // $gte: new Date().toISOString(),
@@ -50,10 +50,7 @@ router.get("/Daterange", (req, res, next) => {
       // $gte: currentDate,
       // $lte: currentDate
     },
-    CheckOut: {
-      $gte: req.body.startDate,
-      $lte: req.body.endDate,
-    },
+
   };
   Attendance.find(query, function (err, data) {
     if (err) {
@@ -87,7 +84,7 @@ router.get("/employee/:emp_id", (req, res, next) => {
 
 // Get By ID
 router.get("/record/:emp_id", (req, res, next) => {
-  // console.log(req.params._id);
+  console.log(req.params._id);
   var MyDate = new Date();
   var MyDateString;
   MyDate.setDate(MyDate.getDate());
@@ -95,14 +92,14 @@ router.get("/record/:emp_id", (req, res, next) => {
     + ('0' + MyDate.getDate()).slice(-2)
 
   var query = {
-    emp_id : req.params.emp_id,
-    CheckIn: {
+    emp_id: req.params.emp_id,
+    TodayDate: {
       $gte: MyDateString,
     },
   };
   console.log("new Date ", query);
 
-  Attendance.find(query )
+  Attendance.find(query)
     .then((result) => {
       res.status(200).json({
         attendanceDataByID: result,
