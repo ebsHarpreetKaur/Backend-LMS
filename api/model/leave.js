@@ -7,7 +7,7 @@ leaveSchema = new mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
 
     emp_id: [{
-        type: mongoose.Schema.Types.ObjectId, ref: 'Employee'
+        type: mongoose.Schema.Types.ObjectId, ref: 'User'
     }],
     EmployeeName: String,
     SupervisorName: {
@@ -23,11 +23,11 @@ leaveSchema = new mongoose.Schema({
     LeaveType: {
         type: String,
         required: true,
-        enum: ["Priviliege", "Sick", "Holiday", "Casual"]
+        enum: ["Priviliege", "Sick", "Holiday", "Casual", "ShortLeave"]
     },
     LeaveDate: String,
     ReturnDate: String,
-    TotalHoursRequested: Number,
+    TotalHoursRequested: String,
     TotalDaysRequested: Number,
     ApprovalStatus: {
         type: String,
