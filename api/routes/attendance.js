@@ -7,15 +7,28 @@ const checkAuth = require("../middleware/check-auth");
 
 // attendance CheckIn/CheckOut
 router.post("/:emp_id", (req, res, next) => {
-    const attendance = new Attendance({
-        _id: new mongoose.Types.ObjectId(),
-        emp_id: req.body.emp_id,
-        name: req.body.name,
-        CheckIn: req.body.CheckIn,
-        CheckOut: req.body.CheckOut,
-        Breaks: req.body.Breaks,
-
-    });
+  const attendance = new Attendance({
+    _id: new mongoose.Types.ObjectId(),
+    emp_id: req.body.emp_id,
+    name: req.body.name,
+    CheckIn: req.body.CheckIn,
+    CheckOut: req.body.CheckOut,
+    Breaks: req.body.Breaks,
+    TodayDate: req.body.TodayDate
+  });
+  attendance.save()
+    .then(result => {
+      console.log(result);
+      res.status(200).json({
+        newAttendance: result
+      })
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({
+        error: err
+      })
+    })
 });
 
 // Filter by date range
@@ -57,39 +70,39 @@ router.get("/Daterange", (req, res, next) => {
 
 // Get by employee id
 router.get("/employee/:emp_id", (req, res, next) => {
-    console.log(req.params.emp_id);
-    Attendance.find({ emp_id: req.params.emp_id })
-        .then((result) => {
-            res.status(200).json({
-                attendanceDataByEmpID: result,
-            });
-        })
-        .catch((err) => {
-            console.log(err);
-            res.status(500).json({
-                error: err,
-            });
-        });
+  console.log(req.params.emp_id);
+  Attendance.find({ emp_id: req.params.emp_id })
+    .then((result) => {
+      res.status(200).json({
+        attendanceDataByEmpID: result,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({
+        error: err,
+      });
+    });
 });
 
 // Get By ID
-router.get("/record", (req, res, next) => {
-    // console.log(req.params._id);
-    const date = new Date();
-    let day = date.getDate();
-    let month = date.getMonth() + 1;
-    let year = date.getFullYear();
-    let currentDate = `${year}-${month}-${day}`;
-    console.log(currentDate);
+router.get("/record/:emp_id", (req, res, next) => {
+  // console.log(req.params._id);
+  var MyDate = new Date();
+  var MyDateString;
+  MyDate.setDate(MyDate.getDate());
+  MyDateString = MyDate.getFullYear() + '-' + ('0' + (MyDate.getMonth() + 1)).slice(-2) + '-'
+    + ('0' + MyDate.getDate()).slice(-2)
 
   var query = {
+    emp_id : req.params.emp_id,
     CheckIn: {
-      $gte: currentDate,
+      $gte: MyDateString,
     },
   };
   console.log("new Date ", query);
 
-  Attendance.find(query)
+  Attendance.find(query )
     .then((result) => {
       res.status(200).json({
         attendanceDataByID: result,
@@ -138,30 +151,30 @@ router.get("/", (req, res, next) => {
 
 // update employee attendance
 router.put("/:_id", (req, res, next) => {
-    console.log(req.params._id);
-    Attendance.findOneAndUpdate(
-        { _id: req.params._id },
-        {
-            $set: {
+  console.log(req.params._id);
+  Attendance.findOneAndUpdate(
+    { _id: req.params._id },
+    {
+      $set: {
 
-                CheckIn: req.body.CheckIn,
-                CheckOut: req.body.CheckOut,
-                Breaks: req.body.Breaks,
+        CheckIn: req.body.CheckIn,
+        CheckOut: req.body.CheckOut,
+        Breaks: req.body.Breaks,
 
-            },
-        }
-    )
-        .then((result) => {
-            res.status(200).json({
-                updatedAttendance: result,
-            });
-        })
-        .catch((err) => {
-            console.log(err);
-            res.status(500).json({
-                error: err,
-            });
-        });
+      },
+    }
+  )
+    .then((result) => {
+      res.status(200).json({
+        updatedAttendance: result,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({
+        error: err,
+      });
+    });
 });
 
 module.exports = router;
