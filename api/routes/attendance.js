@@ -132,6 +132,21 @@ router.get("/employeeName", (req, res, next) => {
 
 // Employee Attendance Report
 router.get("/", (req, res, next) => {
+  var query = {
+    CheckIn: {
+      $gte: req.body.startDate,
+      $lte: req.body.endDate,
+      // $gte: new Date().toISOString(),
+      // $lte: new Date().toISOString()
+
+      // $gte: currentDate,
+      // $lte: currentDate
+    },
+    CheckOut: {
+      $gte: req.body.startDate,
+      $lte: req.body.endDate,
+    },
+  };
   Attendance.find()
     .then((result) => {
       res.status(200).json({
