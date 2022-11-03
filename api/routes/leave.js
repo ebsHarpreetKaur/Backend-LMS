@@ -259,12 +259,28 @@ router.post('/', (req, res, next) => {
 });
 
 
+// get Leave by employee id
+router.get('/:emp_id', (req, res, next) => {
+    console.log(req.params.emp_id);
+    Leave.find({emp_id :req.params.emp_id})
+        .then(result => {
+            res.status(200).json({
+                leaveEmpByID: result
+            })
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({
+                error: err
+            })
+        })
 
+})
 
 
 // get Leave by id
-router.get('/:id', (req, res, next) => {
-    console.log(req.params.id);
+router.get('/:_id', (req, res, next) => {
+    console.log(req.params._id);
     Leave.findById(req.params.id)
         .then(result => {
             res.status(200).json({
