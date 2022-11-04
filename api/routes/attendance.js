@@ -132,17 +132,12 @@ router.get("/record/:emp_id", (req, res, next) => {
 // });
 
 // Employee Attendance Report
-router.get("/", (req, res, next) => {
-  var query = {
-    TodayDate: {
-      $gte: req.body.startDate,
-      $lte: req.body.endDate,
-    },
-  };
-  console.log(query);
-
-  if ((req.body.startDate, req.body.endDate)) {
-    Attendance.find(query)
+router.post("/", (req, res, next) => {
+  startDate = req.body.startDate;
+  endDate = req.body.endDate;
+  console.log("startDate", startDate, "endDate", endDate);
+  if (req.body.startDate + req.body.endDate) {
+    Attendance.find({ TodayDate: { $gte: startDate, $lte: endDate } })
       .then((result) => {
         res.status(200).json({
           AttendanceDataByDateRange: result,
