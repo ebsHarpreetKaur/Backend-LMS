@@ -130,6 +130,23 @@ router.get("/record/:emp_id", (req, res, next) => {
 //       });
 //     });
 // });
+router.get("/employeeName", (req, res, next) => {
+  console.log(req.body.name,"req.body.name");
+  console.log(req.body,"req.body")
+  Attendance.find({ name: req.body.name })
+    .then((result) => {
+      res.status(200).json({
+        attendanceDataByEmpID: result,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({
+        error: err,
+      });
+    });
+});
+
 
 // Employee Attendance Report
 router.post("/", (req, res, next) => {
