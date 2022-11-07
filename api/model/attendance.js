@@ -10,13 +10,17 @@ attendanceSchema = new mongoose.Schema({
     type: String,
     ref: "User",
   },
-  emp_id: [{
-    type: mongoose.Schema.Types.ObjectId, ref: 'User'
-  }],
+  emp_id: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
+  ],
   CheckIn: String,
   TodayDate: String,
   CheckOut: String,
-  Breaks: Array
+  Breaks: Array,
+
 });
 
 module.exports = mongoose.model("Attendance", attendanceSchema);

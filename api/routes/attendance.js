@@ -14,21 +14,22 @@ router.post("/:emp_id", (req, res, next) => {
     CheckIn: req.body.CheckIn,
     CheckOut: req.body.CheckOut,
     Breaks: req.body.Breaks,
-    TodayDate: req.body.TodayDate
+    TodayDate: req.body.TodayDate,
   });
-  attendance.save()
-    .then(result => {
+  attendance
+    .save()
+    .then((result) => {
       console.log(result);
       res.status(200).json({
-        newAttendance: result
-      })
+        newAttendance: result,
+      });
     })
-    .catch(err => {
+    .catch((err) => {
       console.log(err);
       res.status(500).json({
-        error: err
-      })
-    })
+        error: err,
+      });
+    });
 });
 
 
@@ -55,8 +56,12 @@ router.get("/record/:emp_id", (req, res, next) => {
   var MyDate = new Date();
   var MyDateString;
   MyDate.setDate(MyDate.getDate());
-  MyDateString = MyDate.getFullYear() + '-' + ('0' + (MyDate.getMonth() + 1)).slice(-2) + '-'
-    + ('0' + MyDate.getDate()).slice(-2)
+  MyDateString =
+    MyDate.getFullYear() +
+    "-" +
+    ("0" + (MyDate.getMonth() + 1)).slice(-2) +
+    "-" +
+    ("0" + MyDate.getDate()).slice(-2);
 
   var query = {
     emp_id: req.params.emp_id,
@@ -98,7 +103,6 @@ router.post("/", (req, res, next) => {
           error: err,
         });
       });
-
   } else if (req.body.name) {
     console.log(req.body.name);
     Attendance.find({ name: req.body.name })
@@ -127,7 +131,6 @@ router.post("/", (req, res, next) => {
         });
       });
   }
-
 });
 
 // update employee attendance
@@ -137,11 +140,9 @@ router.put("/:_id", (req, res, next) => {
     { _id: req.params._id },
     {
       $set: {
-
         CheckIn: req.body.CheckIn,
         CheckOut: req.body.CheckOut,
         Breaks: req.body.Breaks,
-
       },
     }
   )

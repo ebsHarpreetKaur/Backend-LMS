@@ -240,7 +240,6 @@ router.delete("/:_id", (req, res, next) => {
     });
 });
 
-
 // Send Mail
 router.post("/mail", (req, res) => {
   let transporter = nodemailer.createTransport({
