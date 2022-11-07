@@ -171,7 +171,7 @@ router.post("/", (req, res, next) => {
     Attendance.find({ name: req.body.name })
       .then((result) => {
         res.status(200).json({
-          attendanceDataByName: result,
+          attendanceDataByItsName: result,
         });
       })
       .catch((err) => {
@@ -180,7 +180,8 @@ router.post("/", (req, res, next) => {
           error: err,
         });
       });
-  } else {
+  } 
+  else {
     Attendance.find()
       .then((result) => {
         res.status(200).json({
