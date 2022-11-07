@@ -14,6 +14,7 @@ router.post("/:emp_id", (req, res, next) => {
     CheckIn: req.body.CheckIn,
     CheckOut: req.body.CheckOut,
     Breaks: req.body.Breaks,
+    Resume: req.body.Resume,
     TodayDate: req.body.TodayDate,
   });
   attendance
@@ -143,6 +144,8 @@ router.put("/:_id", (req, res, next) => {
         CheckIn: req.body.CheckIn,
         CheckOut: req.body.CheckOut,
         Breaks: req.body.Breaks,
+        Resume: req.body.Resume,
+
       },
     }
   )
