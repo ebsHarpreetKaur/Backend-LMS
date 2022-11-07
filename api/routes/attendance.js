@@ -14,6 +14,7 @@ router.post("/:emp_id", (req, res, next) => {
     CheckIn: req.body.CheckIn,
     CheckOut: req.body.CheckOut,
     Breaks: req.body.Breaks,
+    Resume: req.body.Resume,
     TodayDate: req.body.TodayDate,
   });
   attendance
@@ -32,35 +33,6 @@ router.post("/:emp_id", (req, res, next) => {
     });
 });
 
-// // Filter by date range
-// router.get("/daterange", (req, res, next) => {
-//   // const date = new Date();
-//   // let day = date.getDate();
-//   // let month = date.getMonth() + 1;
-//   // let year = date.getFullYear();
-//   // let currentDate = `${year}-${month}-${day}`;
-//   // console.log(currentDate);
-
-//   var query = {
-
-//       $gte: req.body.startDate,
-//       $lte: req.body.endDate,
-//       // $gte: new Date().toISOString(),
-//       // $lte: new Date().toISOString()
-
-//       // $gte: currentDate,
-//       // $lte: currentDate
-
-//   };
-//   Attendance.find(query, function (err, data) {
-//     if (err) {
-//       return res.status(300).json("Error");
-//     } else {
-//       return res.status(200).json({ data: data });
-//     }
-//   });
-//   console.log(query);
-// });
 
 // Get by employee id
 router.get("/employee/:emp_id", (req, res, next) => {
@@ -114,47 +86,14 @@ router.get("/record/:emp_id", (req, res, next) => {
     });
 });
 
-// name filter
-// router.get("/employeeName", (req, res, next) => {
-//   console.log(req.body.name);
-//   Attendance.find({ name: req.body.name })
-//     .then((result) => {
-//       res.status(200).json({
-//         attendanceDataByEmpID: result,
-//       });
-//     })
-//     .catch((err) => {
-//       console.log(err);
-//       res.status(500).json({
-//         error: err,
-//       });
-//     });
-// });
-router.get("/employeeName", (req, res, next) => {
-  // console.log(req.body.name,"req.body.name");
-  console.log(req.body, "req.body");
-  Attendance.find({ name: req.body.name })
-    .then((result) => {
-      res.status(200).json({
-        attendanceDataByEmpID: result,
-      });
-      console.log(req.body.name, "req.body.name");
-    })
-    .catch((err) => {
-      console.log(err);
-      res.status(500).json({
-        error: err,
-      });
-    });
-});
 
 // Employee Attendance Report
 router.post("/", (req, res, next) => {
-  startDate = req.body.startDate;
-  endDate = req.body.endDate;
-  console.log("startDate", startDate, "endDate", endDate);
-  if (req.body.startDate + req.body.endDate) {
-    Attendance.find({ TodayDate: { $gte: startDate, $lte: endDate } })
+  Start = req.body.Start
+  End = req.body.End
+  if (req.body.TodayDate) {
+    console.log("TodayDate", req.body.TodayDate)
+    Attendance.find({ TodayDate: {$gte: req.body.Start, $lte: req.body.End} })
       .then((result) => {
         res.status(200).json({
           AttendanceDataByDateRange: result,
@@ -207,6 +146,8 @@ router.put("/:_id", (req, res, next) => {
         CheckIn: req.body.CheckIn,
         CheckOut: req.body.CheckOut,
         Breaks: req.body.Breaks,
+        Resume: req.body.Resume,
+
       },
     }
   )
