@@ -89,10 +89,11 @@ router.get("/record/:emp_id", (req, res, next) => {
 
 // Employee Attendance Report
 router.post("/", (req, res, next) => {
-
+  Start = req.body.Start
+  End = req.body.End
   if (req.body.TodayDate) {
     console.log("TodayDate", req.body.TodayDate)
-    Attendance.find({ TodayDate: req.body.TodayDate })
+    Attendance.find({ TodayDate: {$gte: req.body.Start, $lte: req.body.End} })
       .then((result) => {
         res.status(200).json({
           AttendanceDataByDateRange: result,
