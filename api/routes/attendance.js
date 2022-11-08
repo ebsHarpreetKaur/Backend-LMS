@@ -33,7 +33,6 @@ router.post("/:emp_id", (req, res, next) => {
     });
 });
 
-
 // Get by employee id
 router.get("/employee/:emp_id", (req, res, next) => {
   console.log(req.params.emp_id);
@@ -86,14 +85,21 @@ router.get("/record/:emp_id", (req, res, next) => {
     });
 });
 
-
 // Employee Attendance Report
 router.post("/", (req, res, next) => {
-  Start = req.body.Start
-  End = req.body.End
+  const { TodayDate } = req.body;
+  console.log("Check data here ", req.body?.TodayDate);
+  Start = req.body?.TodayDate?.Start;
+  End = req.body?.TodayDate?.End;
+
+  // Start = req.body.TodayDate[0]
+  // End = req.body.TodayDate[1]
+  console.log("Start", Start);
+  console.log("End", End);
+
   if (req.body.TodayDate) {
-    console.log("TodayDate", req.body.TodayDate)
-    Attendance.find({ TodayDate: {$gte: req.body.Start, $lte: req.body.End} })
+    // console.log("TodayDate", req.body.TodayDate)
+    Attendance.find({ TodayDate: { $gte: Start, $lte: End } })
       .then((result) => {
         res.status(200).json({
           AttendanceDataByDateRange: result,
@@ -146,7 +152,6 @@ router.put("/:_id", (req, res, next) => {
         CheckOut: req.body.CheckOut,
         Breaks: req.body.Breaks,
         Resume: req.body.Resume,
-
       },
     }
   )
