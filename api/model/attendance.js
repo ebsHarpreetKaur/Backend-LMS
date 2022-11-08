@@ -19,8 +19,7 @@ attendanceSchema = new mongoose.Schema({
   CheckIn: String,
   TodayDate: String,
   CheckOut: String,
-  Breaks: Array,
-  Resume: Array,
+  Breaks: Array
 
 
 });
