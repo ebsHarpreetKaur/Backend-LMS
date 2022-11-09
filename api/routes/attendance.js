@@ -7,31 +7,55 @@ const checkAuth = require("../middleware/check-auth");
 
 // attendance CheckIn/CheckOut
 router.post("/:emp_id", (req, res, next) => {
-  const attendance = new Attendance({
-    _id: new mongoose.Types.ObjectId(),
-    emp_id: req.body.emp_id,
-    name: req.body.name,
-    CheckIn: req.body.CheckIn,
-    CheckOut: req.body.CheckOut,
-    Breaks: req.body.Breaks,
-    Resume: req.body.Resume,
-    TodayDate: req.body.TodayDate,
-  });
-  attendance
-    .save()
+
+  var MyDate = new Date();
+  var MyDateString;
+  MyDate.setDate(MyDate.getDate());
+  MyDateString =
+    MyDate.getFullYear() + "-" +
+    ("0" + (MyDate.getMonth() + 1)).slice(-2) +
+    "-" +
+    ("0" + MyDate.getDate()).slice(-2);
+
+  Attendance.find({ emp_id: req.params.emp_id, TodayDate: MyDateString, CheckOut: req.body.CheckOut })
     .then((result) => {
-      console.log(result);
-      res.status(200).json({
-        newAttendance: result,
-      });
+      if (result.length >= 1) {
+        console.log("todayDate result during attendance POST", result);
+        res.status(404).json({
+          msg: "You have already checked-in"
+        });
+      } else {
+        const attendance = new Attendance({
+          _id: new mongoose.Types.ObjectId(),
+          emp_id: req.body.emp_id,
+          name: req.body.name,
+          CheckIn: req.body.CheckIn,
+          CheckOut: req.body.CheckOut,
+          Breaks: req.body.Breaks,
+          Resume: req.body.Resume,
+          TodayDate: req.body.TodayDate,
+        });
+        attendance
+          .save()
+          .then((result) => {
+            console.log(result);
+            res.status(200).json({
+              newAttendance: result,
+            });
+          })
+          .catch((err) => {
+            console.log(err);
+            res.status(500).json({
+              error: err,
+            });
+          });
+      }
+
     })
-    .catch((err) => {
-      console.log(err);
-      res.status(500).json({
-        error: err,
-      });
-    });
-});
+
+})
+
+
 
 // Get by employee id
 router.get("/employee/:emp_id", (req, res, next) => {
@@ -143,6 +167,7 @@ router.post("/", (req, res, next) => {
 
 // update employee attendance
 router.put("/:_id", (req, res, next) => {
+
   console.log(req.params._id);
   Attendance.findOneAndUpdate(
     { _id: req.params._id },
@@ -151,7 +176,6 @@ router.put("/:_id", (req, res, next) => {
         CheckIn: req.body.CheckIn,
         CheckOut: req.body.CheckOut,
         Breaks: req.body.Breaks,
-        Resume: req.body.Resume,
       },
     }
   )

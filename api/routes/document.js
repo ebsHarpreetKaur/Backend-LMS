@@ -17,9 +17,9 @@ const storage = multer.diskStorage({
 })
 
 const fileFilter = (req, file, cb) => {
-    if (file.mimetype === 'image/png' || file.mimetype === 'image/jpeg' ||  file.mimetype === 'image/jpg') {
+    if (file.mimetype === 'image/png' || file.mimetype === 'image/jpeg' || file.mimetype === 'image/jpg') {
         cb(null, true);
-    } 
+    }
     // else if (file.mimetype === 'file/pdf') {
     //     cb(null, true)
     // } 
@@ -47,7 +47,7 @@ router.post('/add/:emp_id', upload.single('image'), function (req, res, next) {
     console.log("Hello Image Here", req.file);
     console.log("documentname", req.body.documentname);
     console.log("documenttype", req.body.documenttype);
-    console.log("body",req.body)
+    console.log("body", req.body)
     const document = new Document({
 
         _id: new mongoose.Types.ObjectId,
@@ -91,7 +91,20 @@ router.get("/:emp_id", (req, res, next) => {
 });
 
 
-
+router.get("/", (req, res, next) => {
+    Document.find()
+        .then((result) => {
+            res.status(200).json({
+                documentData: result,
+            });
+        })
+        .catch((err) => {
+            console.log(err);
+            res.status(500).json({
+                error: err,
+            });
+        });
+});
 
 
 // delete Document

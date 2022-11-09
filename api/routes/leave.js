@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 const Leave = require('../model/leave');
-const Employee = require('../model/employee');
 const checkAuth = require('../middleware/check-auth');
 
 
@@ -15,8 +14,8 @@ router.get('/TodayData', (req, res, next) => {
     var MyDate = new Date();
     var MyDateString;
     MyDate.setDate(MyDate.getDate());
-    MyDateString = MyDate.getFullYear() + '-' + ('0' + (MyDate.getMonth()+1)).slice(-2) + '-'
-    + ('0' + MyDate.getDate()).slice(-2)
+    MyDateString = MyDate.getFullYear() + '-' + ('0' + (MyDate.getMonth() + 1)).slice(-2) + '-'
+        + ('0' + MyDate.getDate()).slice(-2)
 
     // if (req.Leave.ApprovalStatus == 'Approved') {
     var query = {
@@ -210,7 +209,7 @@ router.get('/casual/:emp_id', (req, res, next) => {
 
 // get all leaves 
 router.get('/', (req, res, next) => {
-    Leave.find().populate('emp_id')
+    Leave.find()
         .then(result => {
             res.status(200).json({
                 leaveData: result
@@ -262,7 +261,7 @@ router.post('/', (req, res, next) => {
 // get Leave by employee id
 router.get('/:emp_id', (req, res, next) => {
     console.log(req.params.emp_id);
-    Leave.find({emp_id :req.params.emp_id})
+    Leave.find({ emp_id: req.params.emp_id })
         .then(result => {
             res.status(200).json({
                 leaveEmpByID: result
