@@ -225,7 +225,7 @@ router.post("/googlelogin", (req, res) => {
 });
 
 // delete user
-router.delete("/:_id", (req, res, next) => {
+router.delete("/empdel/:_id", (req, res, next) => {
   User.remove({ _id: req.params._id })
     .then((result) => {
       res.status(200).json({

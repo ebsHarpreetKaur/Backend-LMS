@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
 const Leave = require("../model/leave");
-const Employee = require("../model/employee");
 const checkAuth = require("../middleware/check-auth");
 
 // get api for employees leave Today
