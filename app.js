@@ -4,19 +4,10 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 
-mongoose.connect(
-  "mongodb+srv://harpreet:123@cluster.2ksky9v.mongodb.net/?retryWrites=true&w=majority"
-);
 
-const userRoute = require("./api/routes/user");
-const leaveRoute = require("./api/routes/leave");
-const documentRoute = require("./api/routes/document");
-const attendanceRoute = require("./api/routes/attendance");
-const holidayRoute = require("./api/routes/holidays");
-
-mongoose.connect(
-  "mongodb+srv://harpreet:123@cluster.2ksky9v.mongodb.net/?retryWrites=true&w=majority"
-);
+// mongoose.connect(
+//   "mongodb+srv://harpreet:123@cluster.2ksky9v.mongodb.net/?retryWrites=true&w=majority"
+// );
 
 
 const userRoute = require('./api/routes/user');
