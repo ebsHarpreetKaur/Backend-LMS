@@ -32,7 +32,6 @@ router.post("/:emp_id", (req, res, next) => {
           CheckIn: req.body.CheckIn,
           CheckOut: req.body.CheckOut,
           Breaks: req.body.Breaks,
-          Resume: req.body.Resume,
           TodayDate: req.body.TodayDate,
         });
         attendance
@@ -195,20 +194,15 @@ router.put("/:_id", (req, res, next) => {
     ("0" + MyDate.getDate()).slice(-2);
 
   if (req.body.CheckOut) {
-    Attendance.findOne({ _id: req.params._id, CheckOut: req.body.CheckOut, TodayDate: MyDateString }).exec((err, employeeCheckout) => {
-      if (err) {
-        return res.status(500).json({
-          error: "Something went wrong...",
-        });
-      } else {
-        if (employeeCheckout) {
-          res.status(200).json({
-            msg: "You have already Checked-Out"
+    Attendance.find({ _id: req.params._id, TodayDate: MyDateString })
+      .then((result) => {
+        if (result.length >= 1) {
+          console.log("CheckOut result during attendance PUT", result);
+          res.status(404).json({
+            msg: "You have already checked-Out"
           });
-          console.log("Checkout Result during PUT", employeeCheckout)
-
         } else {
-          console.log("employee ID for CheckOUT", req.params._id);
+          console.log("employee ID for CheckOut", req.params._id);
           Attendance.findOneAndUpdate(
             { _id: req.params._id },
             {
@@ -231,8 +225,8 @@ router.put("/:_id", (req, res, next) => {
               });
             });
         }
-      }
-    });
+
+      })
 
   } else {
     console.log(req.params._id);
