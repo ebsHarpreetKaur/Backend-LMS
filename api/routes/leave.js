@@ -184,16 +184,16 @@ router.get("/casual/:emp_id", (req, res, next) => {
 // get particular employee Sick leave 
 router.get('/sick/:emp_id', (req, res, next) => {
 
-    Leave.find({ emp_id: req.params.emp_id, LeaveType: "Sick" })
-        .then(data => {
-            var message = "";
-            if (data === undefined || data.length == 0) message = "No employee found!";
-            else message = 'Employee Leave data successfully retrieved';
-            res.status(200).send(data)
-            console.log(data.length)
-        }).catch(err => {
-            res.status(400).send('Some error occured')
-        })
+  Leave.find({ emp_id: req.params.emp_id, LeaveType: "Sick" })
+    .then(data => {
+      var message = "";
+      if (data === undefined || data.length == 0) message = "No employee found!";
+      else message = 'Employee Leave data successfully retrieved';
+      res.status(200).send(data)
+      console.log(data.length)
+    }).catch(err => {
+      res.status(400).send('Some error occured')
+    })
 })
 
 
@@ -204,17 +204,17 @@ router.get('/sick/:emp_id', (req, res, next) => {
 // get particular employee Priviliege leave 
 router.get('/priviliege/:emp_id', (req, res, next) => {
 
-    Leave.find({ emp_id: req.params.emp_id, LeaveType: "Priviliege" })
-        .then(data => {
-            var message = "";
-            if (data === undefined || data.length == 0) message = "No employee found!";
-            else message = 'Employee Leave data successfully retrieved';
-            res.status(200).send(data)
-            console.log("Total Sick Leave", data.length)
+  Leave.find({ emp_id: req.params.emp_id, LeaveType: "Priviliege" })
+    .then(data => {
+      var message = "";
+      if (data === undefined || data.length == 0) message = "No employee found!";
+      else message = 'Employee Leave data successfully retrieved';
+      res.status(200).send(data)
+      console.log("Total Sick Leave", data.length)
 
-        }).catch(err => {
-            res.status(400).send('Some error occured')
-        })
+    }).catch(err => {
+      res.status(400).send('Some error occured')
+    })
 })
 
 
@@ -225,16 +225,16 @@ router.get('/priviliege/:emp_id', (req, res, next) => {
 // get particular employee Casual leave 
 router.get('/casual/:emp_id', (req, res, next) => {
 
-    Leave.find({ emp_id: req.params.emp_id, LeaveType: "Casual" })
-        .then(data => {
-            var message = "";
-            if (data === undefined || data.length == 0) message = "No employee found!";
-            else message = 'Employee Leave data successfully retrieved';
-            res.status(200).send(data)
+  Leave.find({ emp_id: req.params.emp_id, LeaveType: "Casual" })
+    .then(data => {
+      var message = "";
+      if (data === undefined || data.length == 0) message = "No employee found!";
+      else message = 'Employee Leave data successfully retrieved';
+      res.status(200).send(data)
 
-        }).catch(err => {
-            res.status(400).send('Some error occured')
-        })
+    }).catch(err => {
+      res.status(400).send('Some error occured')
+    })
 })
 
 
@@ -244,18 +244,18 @@ router.get('/casual/:emp_id', (req, res, next) => {
 
 // get all leaves 
 router.get('/', (req, res, next) => {
-    Leave.find()
-        .then(result => {
-            res.status(200).json({
-                leaveData: result
-            });
-        })
-        .catch(err => {
-            console.log(err)
-            res.status(500).json({
-                error: err
-            })
-        });
+  Leave.find()
+    .then(result => {
+      res.status(200).json({
+        leaveData: result
+      });
+    })
+    .catch(err => {
+      console.log(err)
+      res.status(500).json({
+        error: err
+      })
+    });
 })
 
 
@@ -378,38 +378,38 @@ router.put("/:_id", (req, res, next) => {
 
 // get Leave by employee id
 router.get('/:emp_id', (req, res, next) => {
-    console.log(req.params.emp_id);
-    Leave.find({ emp_id: req.params.emp_id })
-        .then(result => {
-            res.status(200).json({
-                leaveEmpByID: result
-            })
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).json({
-                error: err
-            })
-        })
+  console.log(req.params.emp_id);
+  Leave.find({ emp_id: req.params.emp_id })
+    .then(result => {
+      res.status(200).json({
+        leaveEmpByID: result
+      })
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({
+        error: err
+      })
+    })
 
 })
 
 
 // get Leave by id
-router.get('/:_id', (req, res, next) => {
-    console.log(req.params._id);
-    Leave.findById(req.params.id)
-        .then(result => {
-            res.status(200).json({
-                leave: result
-            })
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).json({
-                error: err
-            })
-        })
+router.get('/empLeave/:_id', (req, res, next) => {
+  console.log(req.params._id);
+  Leave.find(req.params._id)
+    .then(result => {
+      res.status(200).json({
+        leave: result
+      })
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({
+        error: err
+      })
+    })
 
 })
 
@@ -418,18 +418,18 @@ router.get('/:_id', (req, res, next) => {
 
 // delete Leave
 router.delete('/:id', (req, res, next) => {
-    Leave.remove({ _id: req.params.id })
-        .then(result => {
-            res.status(200).json({
-                message: "Leave Deleted",
-                result: result
-            })
-        })
-        .catch(err => {
-            res.status(500).json({
-                error: err
-            })
-        })
+  Leave.remove({ _id: req.params.id })
+    .then(result => {
+      res.status(200).json({
+        message: "Leave Deleted",
+        result: result
+      })
+    })
+    .catch(err => {
+      res.status(500).json({
+        error: err
+      })
+    })
 })
 
 
@@ -437,33 +437,33 @@ router.delete('/:id', (req, res, next) => {
 
 // update leave
 router.put('/:_id', (req, res, next) => {
-    console.log(req.params._id);
-    Leave.findOneAndUpdate({ _id: req.params._id }, {
-        $set: {
-            _id: req.body._id,
-            EmployeeName: req.body.EmployeeName,              //body parser
-            SupervisorName: req.body.SupervisorName,
-            Department: req.body.Department,
-            LeaveType: req.body.LeaveType,
-            ApprovalStatus: req.body.ApprovalStatus,
-            LeaveDate: req.body.LeaveDate,
-            ReturnDate: req.body.ReturnDate,
-            TotalHoursRequested: req.body.TotalHoursRequested,
-            TotalDaysRequested: req.body.TotalDaysRequested,
+  console.log(req.params._id);
+  Leave.findOneAndUpdate({ _id: req.params._id }, {
+    $set: {
+      _id: req.body._id,
+      EmployeeName: req.body.EmployeeName,              //body parser
+      SupervisorName: req.body.SupervisorName,
+      Department: req.body.Department,
+      LeaveType: req.body.LeaveType,
+      ApprovalStatus: req.body.ApprovalStatus,
+      LeaveDate: req.body.LeaveDate,
+      ReturnDate: req.body.ReturnDate,
+      TotalHoursRequested: req.body.TotalHoursRequested,
+      TotalDaysRequested: req.body.TotalDaysRequested,
 
-        }
+    }
+  })
+    .then(result => {
+      res.status(200).json({
+        updated_leave: result
+      })
     })
-        .then(result => {
-            res.status(200).json({
-                updated_leave: result
-            })
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).json({
-                error: err
-            })
-        })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({
+        error: err
+      })
+    })
 })
 
 

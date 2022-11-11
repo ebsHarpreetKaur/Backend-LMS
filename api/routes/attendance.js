@@ -181,8 +181,11 @@ router.post("/", (req, res, next) => {
   }
 });
 
+
+
 // update employee attendance
 router.put("/:_id", (req, res, next) => {
+  console.log(req.params._id);
   var MyDate = new Date();
   var MyDateString;
   MyDate.setDate(MyDate.getDate());
@@ -194,12 +197,13 @@ router.put("/:_id", (req, res, next) => {
     ("0" + MyDate.getDate()).slice(-2);
 
   if (req.body.CheckOut) {
-    Attendance.find({ _id: req.params._id, TodayDate: MyDateString })
+    Attendance.find({ _id: req.params._id, CheckOut: "" })
       .then((result) => {
         if (result.length >= 1) {
           console.log("CheckOut result during attendance PUT", result);
           res.status(404).json({
-            msg: "You have already checked-Out"
+            msg: "You have already checked-Out",
+            result: result
           });
         } else {
           console.log("employee ID for CheckOut", req.params._id);
