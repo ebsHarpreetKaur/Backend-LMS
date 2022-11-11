@@ -10,20 +10,12 @@ const cors = require("cors");
 // );
 
 
-const userRoute = require('./api/routes/user');
-const leaveRoute = require('./api/routes/leave');
-const documentRoute = require('./api/routes/document');
-const attendanceRoute = require('./api/routes/attendance');
-const holidayRoute = require('./api/routes/holidays');
-
-
-
-
-
-
+// const userRoute = require('./api/routes/user');
+// const leaveRoute = require('./api/routes/leave');
+// const documentRoute = require('./api/routes/document');
+// const attendanceRoute = require('./api/routes/attendance');
+// const holidayRoute = require('./api/routes/holidays');
 mongoose.connect('mongodb+srv://harpreet:123@cluster.2ksky9v.mongodb.net/?retryWrites=true&w=majority')
-
-
 mongoose.connection.on('error', err => {
   console.log('DB connection failed');
 });
