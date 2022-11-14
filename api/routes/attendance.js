@@ -91,7 +91,7 @@ router.get("/employee/:emp_id", (req, res, next) => {
 
 
 // Get Cuurent Date Attendance 
-router.get("/record/:emp_id", (req, res, next) => {
+router.get("/record/:_id", (req, res, next) => {
   console.log(req.params._id);
   var MyDate = new Date();
   var MyDateString;
@@ -104,7 +104,7 @@ router.get("/record/:emp_id", (req, res, next) => {
     ("0" + MyDate.getDate()).slice(-2);
 
   var query = {
-    emp_id: req.params.emp_id,
+    _id: req.params._id,
     TodayDate: {
       $gte: MyDateString,
     },
@@ -184,7 +184,7 @@ router.post("/", (req, res, next) => {
 
 
 // update employee attendance
-router.put("/:_id", (req, res, next) => {
+router.put("/addon/:_id", (req, res, next) => {
 
   console.log(req.params._id);
   Attendance.findOneAndUpdate(

@@ -39,11 +39,11 @@ const options = {
     },
     servers: [
       {
-        url:"http://localhost:1999/"
+        url: "http://localhost:1999"
       }
     ]
   },
-  apis: ['./app.js']
+  apis: ['app.js']
 }
 const swaggerSpec = swaggerJSDoc(options)
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec))
