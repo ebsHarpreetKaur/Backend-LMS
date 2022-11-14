@@ -5,7 +5,6 @@ const Document = require('../model/document');
 const checkAuth = require('../middleware/check-auth');
 const multer = require('multer')
 
-
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, './api/uploads/')
@@ -65,19 +64,19 @@ router.post('/add/:emp_id', upload.single('image'), function (req, res, next) {
     console.log("documenttype", req.body.documenttype);
     console.log("body", req.body)
     const document = new Document({
-
+    
         _id: new mongoose.Types.ObjectId,
         emp_id: req.body.emp_id,
         documentname: req.body.documentname,
         documenttype: req.body.documenttype,
         image: req.file.path
-
     })
     document.save()
         .then(result => {
             console.log(result);
             res.status(200).json({
                 documentRecord: result
+                
             })
         })
         .catch(err => {
