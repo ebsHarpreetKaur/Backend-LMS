@@ -34,7 +34,16 @@ router.post('/', (req, res, next) => {
 
 
 
-// get all holidays
+/**
+ * @swagger
+ * /:
+ *  get:
+ *      summary: get all holidays of the year from mongodb
+ *      description: get all holidays of the year from mongodb
+ *      responses: 
+ *          200:
+ *              description: test get method
+ */
 router.get("/", (req, res, next) => {
 
   const date = new Date();
