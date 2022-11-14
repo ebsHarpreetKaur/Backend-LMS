@@ -34,7 +34,16 @@ router.post('/', (req, res, next) => {
 
 
 
-// get all holidays
+/**
+ * @swagger
+ * /:
+ *  get:
+ *      summary: get all holidays of the year from mongodb
+ *      description: get all holidays of the year from mongodb
+ *      responses: 
+ *          200:
+ *              description: test get method
+ */
 router.get("/", (req, res, next) => {
 
   const date = new Date();
@@ -47,25 +56,25 @@ router.get("/", (req, res, next) => {
   var query = {
     festivalDate: {
 
-          $gte: currentDate,
+      $gte: currentDate,
 
-      }
+    }
 
   };
   console.log(query)
 
   Holiday.find(query)
-      .then((result) => {
-          res.status(200).json({
-              HolidaysPending: result,
-          });
-      })
-      .catch((err) => {
-          console.log(err);
-          res.status(500).json({
-              error: err,
-          });
+    .then((result) => {
+      res.status(200).json({
+        HolidaysPending: result,
       });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({
+        error: err,
+      });
+    });
 });
 
 

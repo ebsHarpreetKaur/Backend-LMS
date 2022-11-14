@@ -3,6 +3,8 @@ const app = express();
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const swaggerJSDoc = require('swagger-jsdoc');
+const swaggerUi = require('swagger-ui-express');
 
 
 mongoose.connect(
@@ -27,6 +29,29 @@ mongoose.connection.on("connected", (connected) => {
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors());
+
+
+// Swagger Setup
+const options = {
+  definition: {
+    openapi: '3.0.0',
+    info: {
+      title: 'Leave Management System',
+      version: '1.0.0'
+    },
+    servers: [
+      {
+        url: "http://localhost:1999"
+      }
+    ]
+  },
+  apis: ['app.js']
+}
+const swaggerSpec = swaggerJSDoc(options)
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec))
+// Swagger Setup
+
+
 
 // API end points
 app.use("/user", userRoute);

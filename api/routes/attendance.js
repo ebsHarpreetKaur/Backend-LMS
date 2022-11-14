@@ -91,7 +91,7 @@ router.get("/employee/:emp_id", (req, res, next) => {
 
 
 // Get Cuurent Date Attendance 
-router.get("/record/:emp_id", (req, res, next) => {
+router.get("/record/:_id", (req, res, next) => {
   console.log(req.params._id);
   var MyDate = new Date();
   var MyDateString;
@@ -104,7 +104,7 @@ router.get("/record/:emp_id", (req, res, next) => {
     ("0" + MyDate.getDate()).slice(-2);
 
   var query = {
-    emp_id: req.params.emp_id,
+    _id: req.params._id,
     TodayDate: {
       $gte: MyDateString,
     },
@@ -184,78 +184,31 @@ router.post("/", (req, res, next) => {
 
 
 // update employee attendance
-router.put("/:_id", (req, res, next) => {
+router.put("/addon/:_id", (req, res, next) => {
+
   console.log(req.params._id);
-  var MyDate = new Date();
-  var MyDateString;
-  MyDate.setDate(MyDate.getDate());
-  MyDateString =
-    MyDate.getFullYear() +
-    "-" +
-    ("0" + (MyDate.getMonth() + 1)).slice(-2) +
-    "-" +
-    ("0" + MyDate.getDate()).slice(-2);
-
-  if (req.body.CheckOut) {
-    Attendance.find({ _id: req.params._id, CheckOut: "" })
-      .then((result) => {
-        if (result.length >= 1) {
-          console.log("CheckOut result during attendance PUT", result);
-          res.status(404).json({
-            msg: "You have already checked-Out",
-            result: result
-          });
-        } else {
-          console.log("employee ID for CheckOut", req.params._id);
-          Attendance.findOneAndUpdate(
-            { _id: req.params._id },
-            {
-              $set: {
-                CheckIn: req.body.CheckIn,
-                CheckOut: req.body.CheckOut,
-                Breaks: req.body.Breaks,
-              },
-            }
-          )
-            .then((result) => {
-              res.status(200).json({
-                updatedAttendance: result,
-              });
-            })
-            .catch((err) => {
-              console.log(err);
-              res.status(500).json({
-                error: err,
-              });
-            });
-        }
-
-      })
-
-  } else {
-    console.log(req.params._id);
-    Attendance.findOneAndUpdate(
-      { _id: req.params._id },
-      {
-        $set: {
-          CheckIn: req.body.CheckIn,
-          CheckOut: req.body.CheckOut,
-          Breaks: req.body.Breaks,
-        },
-      }
-    )
-      .then((result) => {
-        res.status(200).json({
-          updatedAttendance: result,
-        });
-      })
-      .catch((err) => {
-        console.log(err);
-        res.status(500).json({
-          error: err,
-        });
+  Attendance.findOneAndUpdate(
+    { _id: req.params._id },
+    {
+      $set: {
+        CheckIn: req.body.CheckIn,
+        CheckOut: req.body.CheckOut,
+        Breaks: req.body.Breaks,
+      },
+    }
+  )
+    .then((result) => {
+      res.status(200).json({
+        updatedAttendance: result,
       });
-  }
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({
+        error: err,
+      });
+    });
+
 });
 
 module.exports = router;

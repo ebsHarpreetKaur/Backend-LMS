@@ -31,7 +31,7 @@ leaveSchema = new mongoose.Schema({
     TotalDaysRequested: Number,
     ApprovalStatus: {
         type: String,
-        enum: ['Pending', 'Approved', 'Rejected'],
+        enum: ['Pending', 'Approved', 'Denied'],
         default: 'Pending'
     },
 
