@@ -26,6 +26,16 @@ router.post("/signup", (req, res, next) => {
         email: req.body.email,
         gender: req.body.gender,
         role: req.body.role,
+        joiningDate:req.body.joiningDate,
+        fatherName:req.body.fatherName,
+        motherName:req.body.motherName,
+        bloodGroup:req.body.bloodGroup,
+        contactNumber:req.body.contactNumber,
+        permanentAddress:req.body.permanentAddress,
+        adharNumber:req.body.adharNumber,
+        panNumber:req.body.panNumber,
+        salary:req.body.salary,
+        appraisal:req.body.appraisal
       });
 
       user
@@ -57,6 +67,16 @@ router.put("/:_id", (req, res, next) => {
         contact: req.body.contact,
         gender: req.body.gender,
         role: req.body.role,
+        joiningDate:req.body.joiningDate,
+        fatherName:req.body.fatherName,
+        motherName:req.body.motherName,
+        bloodGroup:req.body.bloodGroup,
+        contactNumber:req.body.contactNumber,
+        permanentAddress:req.body.permanentAddress,
+        adharNumber:req.body.adharNumber,
+        panNumber:req.body.panNumber,
+        salary:req.body.salary,
+        appraisal:req.body.appraisal
       },
     }
   )
