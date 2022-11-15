@@ -310,21 +310,21 @@ router.get("/:emp_id", (req, res, next) => {
 });
 
 // get Leave by id
-router.get("/:_id", (req, res, next) => {
-  console.log(req.params._id);
-  Leave.findById(req.params.id)
-    .then((result) => {
-      res.status(200).json({
-        leave: result,
-      });
-    })
-    .catch((err) => {
-      console.log(err);
-      res.status(500).json({
-        error: err,
-      });
-    });
-});
+// router.get("/:_id", (req, res, next) => {
+//   console.log(req.params._id);
+//   Leave.findById(req.params.id)
+//     .then((result) => {
+//       res.status(200).json({
+//         leave: result,
+//       });
+//     })
+//     .catch((err) => {
+//       console.log(err);
+//       res.status(500).json({
+//         error: err,
+//       });
+//     });
+// });
 
 // delete Leave
 router.delete("/:id", (req, res, next) => {
@@ -398,7 +398,7 @@ router.get('/:emp_id', (req, res, next) => {
 // get Leave by id
 router.get('/empLeave/:_id', (req, res, next) => {
   console.log(req.params._id);
-  Leave.find(req.params._id)
+  Leave.find({ _id: req.params._id })
     .then(result => {
       res.status(200).json({
         leave: result
