@@ -74,8 +74,17 @@ router.get("/", (req, res, next) => {
 
 // Get all Attendance of employee
 router.get("/employee/:emp_id", (req, res, next) => {
+  var MyDate = new Date();
+  var MyDateString;
+  MyDate.setDate(MyDate.getDate());
+  MyDateString =
+    MyDate.getFullYear() + "-" +
+    ("0" + (MyDate.getMonth() + 1)).slice(-2) +
+    "-" +
+    ("0" + MyDate.getDate()).slice(-2);
+
   console.log(req.params.emp_id);
-  Attendance.find({ emp_id: req.params.emp_id })
+  Attendance.find({ emp_id: req.params.emp_id, TodayDate: MyDateString })
     .then((result) => {
       res.status(200).json({
         attendanceDataByEmpID: result,
