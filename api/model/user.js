@@ -15,6 +15,19 @@ userSchema = new mongoose.Schema({
     lowercase: true,
     enum: ["admin", "employee", "hr"],
   },
+  joiningDate:String,
+  fatherName:String,
+  motherName:String,
+  bloodGroup:String,
+  contactNumber:String,
+  permanentAddress:String,
+  adharNumber:String,
+  panNumber:String,
+  salary:String,
+  appraisal:String,
+  
+  
+  
 });
 
 module.exports = mongoose.model("user", userSchema);

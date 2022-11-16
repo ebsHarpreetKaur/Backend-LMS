@@ -26,6 +26,16 @@ router.post("/signup", (req, res, next) => {
         email: req.body.email,
         gender: req.body.gender,
         role: req.body.role,
+        // joiningDate:req.body.joiningDate,
+        // fatherName:req.body.fatherName,
+        // motherName:req.body.motherName,
+        // bloodGroup:req.body.bloodGroup,
+        // contactNumber:req.body.contactNumber,
+        // permanentAddress:req.body.permanentAddress,
+        // adharNumber:req.body.adharNumber,
+        // panNumber:req.body.panNumber,
+        // salary:req.body.salary,
+        // appraisal:req.body.appraisal
       });
 
       user
@@ -47,7 +57,7 @@ router.post("/signup", (req, res, next) => {
 // update all data of an user
 router.put("/:_id", (req, res, next) => {
   console.log(req.params._id);
-  console.log(req.body.name, "name");
+  // console.log(req.body.name, "name");
   User.findOneAndUpdate(
     { _id: req.params._id },
     {
@@ -57,6 +67,16 @@ router.put("/:_id", (req, res, next) => {
         contact: req.body.contact,
         gender: req.body.gender,
         role: req.body.role,
+        joiningDate:req.body.joiningDate,
+        fatherName:req.body.fatherName,
+        motherName:req.body.motherName,
+        bloodGroup:req.body.bloodGroup,
+        contactNumber:req.body.contactNumber,
+        permanentAddress:req.body.permanentAddress,
+        adharNumber:req.body.adharNumber,
+        panNumber:req.body.panNumber,
+        salary:req.body.salary,
+        appraisal:req.body.appraisal
       },
     }
   )
