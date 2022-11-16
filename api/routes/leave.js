@@ -41,15 +41,41 @@ router.get("/TodayData", (req, res, next) => {
 
 // get api for employees leave on this week
 router.get("/WeekData", (req, res, next) => {
+  // current date with 0
+  var MyDate = new Date();
+  var MyDateString;
+  MyDate.setDate(MyDate.getDate());
+  MyDateString =
+    MyDate.getFullYear() +
+    "-" +
+    ("0" + (MyDate.getMonth() + 1)).slice(-2) +
+    "-" +
+    ("0" + MyDate.getDate()).slice(-2);
+  // current date with 0
+
+  // get week data with - 7 from current date
+  var mydate = new Date();
+  var mydateString;
+  mydate.setDate(mydate.getDate() - 7);
+  mydateString = mydate.getFullYear() +
+    "-" +
+    ("0" + (mydate.getMonth() + 1)).slice(-2) +
+    "-" +
+    ("0" + mydate.getDate()).slice(-2);
+  console.log("mydate string", mydateString)
+  // get week data with - 7 from current date
+
+
+
   var query = {
     LeaveDate: {
-      $gte: "2022-11-01",
-      // $lte: new Date('2022-10-07').toISOString()
+      $gte: mydateString,
+      $lte: MyDateString
     },
-    ReturnDate: {
-      // $gte: new Date('2022-10-09').toISOString(),
-      $lte: "2022-11-07",
-    },
+    // ReturnDate: {
+    //   // $gte: new Date('2022-10-09').toISOString(),
+    //   $lte: "2022-11-07",
+    // },
   };
 
   Leave.find(query, function (err, data) {
@@ -61,35 +87,36 @@ router.get("/WeekData", (req, res, next) => {
   });
 });
 
-// router.get('/MonthData',(req,res,next) => {
 
-//     function getDates (LeaveDate, ReturnDate) {
-//         const dates = []
-//         let currentDate = LeaveDate
-//         const addDays = function (days) {
-//         const date = (this.valueOf())
-//         date.setDate(date.getDate() + days)
-//         return date
-//         }
-//         while (currentDate <= ReturnDate) {
-//         dates.push(currentDate)
-//         currentDate = addDays.call(currentDate, 1)
-//         }
-//         return dates
-//     }
-
-//   const dates = getDates($gte= ('2022-10-01'), $lte= ('2022-10-30'))
-//   dates.forEach(function (date) {
-//     console.log(date)
-//   })
-// })
 
 // get api for employees leave on this month
 router.get("/monthdata", (req, res, next) => {
+  var MyDate = new Date();
+  var MyDateString;
+  MyDate.setDate(MyDate.getDate());
+  MyDateString =
+    MyDate.getFullYear() +
+    "-" +
+    ("0" + (MyDate.getMonth() + 1)).slice(-2) +
+    "-" +
+    ("0" + MyDate.getDate()).slice(-2);
+
+
+  // get First date of the Month
+  var firstdate = new Date();
+  var firstdateString;
+  firstdateString = firstdate.getFullYear() +
+    "-" +
+    ("0" + (firstdate.getMonth() + 1)).slice(-2) +
+    "-" +
+    ("0" + "1");
+  console.log("first Date of month", firstdateString)
+
+
   var query = {
     LeaveDate: {
-      $gte: "2022-11-01",
-      $lte: "2022-11-30",
+      $gte: firstdateString,
+      $lte: MyDateString,
     },
     // ReturnDate: {
     //     // $gte: new Date('2022-10-09').toISOString(),
@@ -292,22 +319,6 @@ router.post("/", (req, res, next) => {
     });
 });
 
-// get Leave by employee id
-router.get("/:emp_id", (req, res, next) => {
-  console.log(req.params.emp_id);
-  Leave.find({ emp_id: req.params.emp_id })
-    .then((result) => {
-      res.status(200).json({
-        leaveEmpByID: result,
-      });
-    })
-    .catch((err) => {
-      console.log(err);
-      res.status(500).json({
-        error: err,
-      });
-    });
-});
 
 // get Leave by id
 // router.get("/:_id", (req, res, next) => {
@@ -379,18 +390,75 @@ router.put("/:_id", (req, res, next) => {
 // get Leave by employee id
 router.get('/:emp_id', (req, res, next) => {
   console.log(req.params.emp_id);
+  // Leave.find({ emp_id: req.params.emp_id })
+  //   .then(result => {
+  //     res.status(200).json({
+  //       leaveEmpByID: result
+  //     })
+  //   })
+  //   .catch(err => {
+  //     console.log(err);
+  //     res.status(500).json({
+  //       error: err
+  //     })
+  //   })
+
   Leave.find({ emp_id: req.params.emp_id })
-    .then(result => {
-      res.status(200).json({
-        leaveEmpByID: result
-      })
+    .then(data => {
+
+      let i = 0;
+      var daysOfYear = [];
+
+      while (i < data.length) {
+
+        console.log("data.length", data.length);
+        // console.log("LeaveDate While Iterating", employeeLeaves[i]?.LeaveDate);
+        // console.log("ReturnDate While Iterating", employeeLeaves[i]?.ReturnDate);
+
+        var empReturnDate = new Date(data[i]?.ReturnDate);
+        var empLeaveDate = new Date(data[i]?.LeaveDate);
+        // console.log("ReturnDate", empReturnDate)
+        // console.log("LeaveDate", empLeaveDate)
+
+
+        for (var d = new Date(empLeaveDate); d <= empReturnDate; d.setDate(d.getDate() + 1)) {
+          daysOfYear.push(d);
+
+          i++;
+        }
+      }
+
+      if (data.length > 0) daysOfYear = daysOfYear;
+      else daysOfYear = null;
+      res.status(200).send(data)
+
+    }).catch(err => {
+      res.status(400).send('Some error occured')
     })
-    .catch(err => {
-      console.log(err);
-      res.status(500).json({
-        error: err
-      })
-    })
+
+  // let i = 0;
+  // var daysOfYear = [];
+
+  // while (i < leaveEmpByID.length) {
+  //   // console.log("employeeLeaves", employeeLeaves)
+  //   // console.log("employeeLeaves.length", employeeLeaves.length);
+  //   // console.log("LeaveDate While Iterating", employeeLeaves[i]?.LeaveDate);
+  //   // console.log("ReturnDate While Iterating", employeeLeaves[i]?.ReturnDate);
+
+  //   var empReturnDate = new Date(leaveEmpByID[i]?.ReturnDate);
+  //   var empLeaveDate = new Date(leaveEmpByID[i]?.LeaveDate);
+  //   // console.log("ReturnDate", empReturnDate)
+  //   // console.log("LeaveDate", empLeaveDate)
+
+
+  //   for (var d = new Date(empLeaveDate); d <= empReturnDate; d.setDate(d.getDate() + 1)) {
+  //     daysOfYear.push(d);
+
+  //     i++;
+  //   }
+  // }
+  // console.log("daysOfYear", data.length)
+
 
 })
 
