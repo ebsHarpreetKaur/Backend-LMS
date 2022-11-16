@@ -57,7 +57,7 @@ router.post("/signup", (req, res, next) => {
 // update all data of an user
 router.put("/:_id", (req, res, next) => {
   console.log(req.params._id);
-  console.log(req.body.name, "name");
+  // console.log(req.body.name, "name");
   User.findOneAndUpdate(
     { _id: req.params._id },
     {
