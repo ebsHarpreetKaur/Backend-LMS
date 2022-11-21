@@ -7,22 +7,22 @@ const checkAuth = require("../middleware/check-auth");
 
 // attendance CheckIn/CheckOut
 router.post("/:emp_id", (req, res, next) => {
-
   var MyDate = new Date();
   var MyDateString;
   MyDate.setDate(MyDate.getDate());
   MyDateString =
-    MyDate.getFullYear() + "-" +
+    MyDate.getFullYear() +
+    "-" +
     ("0" + (MyDate.getMonth() + 1)).slice(-2) +
     "-" +
     ("0" + MyDate.getDate()).slice(-2);
 
-  Attendance.find({ emp_id: req.params.emp_id, TodayDate: MyDateString })
-    .then((result) => {
+  Attendance.find({ emp_id: req.params.emp_id, TodayDate: MyDateString }).then(
+    (result) => {
       if (result.length >= 1) {
         console.log("todayDate result during attendance POST", result);
         res.status(404).json({
-          msg: "You have already checked-in"
+          msg: "You have already checked-in",
         });
       } else {
         const attendance = new Attendance({
@@ -49,11 +49,9 @@ router.post("/:emp_id", (req, res, next) => {
             });
           });
       }
-
-    })
-
-})
-
+    }
+  );
+});
 
 router.get("/", (req, res, next) => {
   Attendance.find()
@@ -70,15 +68,14 @@ router.get("/", (req, res, next) => {
     });
 });
 
-
-
 // Get all Attendance of employee
 router.get("/employee/:emp_id", (req, res, next) => {
   var MyDate = new Date();
   var MyDateString;
   MyDate.setDate(MyDate.getDate());
   MyDateString =
-    MyDate.getFullYear() + "-" +
+    MyDate.getFullYear() +
+    "-" +
     ("0" + (MyDate.getMonth() + 1)).slice(-2) +
     "-" +
     ("0" + MyDate.getDate()).slice(-2);
@@ -98,8 +95,7 @@ router.get("/employee/:emp_id", (req, res, next) => {
     });
 });
 
-
-// Get Cuurent Date Attendance 
+// Get Cuurent Date Attendance
 router.get("/record/:_id", (req, res, next) => {
   console.log(req.params._id);
   var MyDate = new Date();
@@ -190,11 +186,8 @@ router.post("/", (req, res, next) => {
   }
 });
 
-
-
 // update employee attendance
 router.put("/addon/:_id", (req, res, next) => {
-
   console.log(req.params._id);
   Attendance.findOneAndUpdate(
     { _id: req.params._id },
@@ -203,6 +196,8 @@ router.put("/addon/:_id", (req, res, next) => {
         CheckIn: req.body.CheckIn,
         CheckOut: req.body.CheckOut,
         Breaks: req.body.Breaks,
+        eod: req.body.eod,
+        timespend: req.body.timespend,
       },
     }
   )
@@ -217,7 +212,6 @@ router.put("/addon/:_id", (req, res, next) => {
         error: err,
       });
     });
-
 });
 
 module.exports = router;
