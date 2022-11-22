@@ -196,8 +196,7 @@ router.put("/addon/:_id", (req, res, next) => {
         CheckIn: req.body.CheckIn,
         CheckOut: req.body.CheckOut,
         Breaks: req.body.Breaks,
-        eod: req.body.eod,
-        timespend: req.body.timespend,
+        eodoftheday: req.body.eodoftheday,
       },
     }
   )
