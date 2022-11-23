@@ -390,76 +390,19 @@ router.put("/:_id", (req, res, next) => {
 // get Leave by employee id
 router.get('/:emp_id', (req, res, next) => {
   console.log(req.params.emp_id);
-  // Leave.find({ emp_id: req.params.emp_id })
-  //   .then(result => {
-  //     res.status(200).json({
-  //       leaveEmpByID: result
-  //     })
-  //   })
-  //   .catch(err => {
-  //     console.log(err);
-  //     res.status(500).json({
-  //       error: err
-  //     })
-  //   })
-
   Leave.find({ emp_id: req.params.emp_id })
-    .then(data => {
+    .then(result => {
+      res.status(200).json({
+        leaveByEmpID: result
 
-      let i = 0;
-      var daysOfYear = [];
-
-      while (i < data.length) {
-
-        console.log("data.length", data.length);
-        // console.log("LeaveDate While Iterating", employeeLeaves[i]?.LeaveDate);
-        // console.log("ReturnDate While Iterating", employeeLeaves[i]?.ReturnDate);
-
-        var empReturnDate = new Date(data[i]?.ReturnDate);
-        var empLeaveDate = new Date(data[i]?.LeaveDate);
-        // console.log("ReturnDate", empReturnDate)
-        // console.log("LeaveDate", empLeaveDate)
-
-
-        for (var d = new Date(empLeaveDate); d <= empReturnDate; d.setDate(d.getDate() + 1)) {
-          daysOfYear.push(d);
-
-          i++;
-        }
-      }
-
-      if (data.length > 0) daysOfYear = daysOfYear;
-      else daysOfYear = null;
-      res.status(200).send(data)
-
-    }).catch(err => {
-      res.status(400).send('Some error occured')
+      })
     })
-
-  // let i = 0;
-  // var daysOfYear = [];
-
-  // while (i < leaveEmpByID.length) {
-  //   // console.log("employeeLeaves", employeeLeaves)
-  //   // console.log("employeeLeaves.length", employeeLeaves.length);
-  //   // console.log("LeaveDate While Iterating", employeeLeaves[i]?.LeaveDate);
-  //   // console.log("ReturnDate While Iterating", employeeLeaves[i]?.ReturnDate);
-
-  //   var empReturnDate = new Date(leaveEmpByID[i]?.ReturnDate);
-  //   var empLeaveDate = new Date(leaveEmpByID[i]?.LeaveDate);
-  //   // console.log("ReturnDate", empReturnDate)
-  //   // console.log("LeaveDate", empLeaveDate)
-
-
-  //   for (var d = new Date(empLeaveDate); d <= empReturnDate; d.setDate(d.getDate() + 1)) {
-  //     daysOfYear.push(d);
-
-  //     i++;
-  //   }
-  // }
-  // console.log("daysOfYear", data.length)
-
-
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({
+        error: err
+      })
+    })
 })
 
 
