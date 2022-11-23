@@ -19,9 +19,8 @@ attendanceSchema = new mongoose.Schema({
   CheckIn: String,
   TodayDate: String,
   CheckOut: String,
-  Breaks: Array
-
-
+  Breaks: Array,
+  eodoftheday: Array,
 });
 
 module.exports = mongoose.model("Attendance", attendanceSchema);
