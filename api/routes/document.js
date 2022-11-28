@@ -21,9 +21,9 @@ const fileFilter = (req, file, cb) => {
     }
     else if (file.mimetype === 'application/pdf') {
         cb(null, true)
-    } 
+    }
     else if (file.mimetype === 'application/msword') {
-        cb(null,true)
+        cb(null, true)
     }
     else {
         cb(null, false);
@@ -42,18 +42,18 @@ const upload = multer({
 
 router.get("/", (req, res, next) => {
     Document.find()
-      .then((result) => {
-        res.status(200).json({
-          documentData: result,
+        .then((result) => {
+            res.status(200).json({
+                documentData: result,
+            });
+        })
+        .catch((err) => {
+            console.log(err);
+            res.status(500).json({
+                error: err,
+            });
         });
-      })
-      .catch((err) => {
-        console.log(err);
-        res.status(500).json({
-          error: err,
-        });
-      });
-  });
+});
 
 
 // upload Document 
@@ -64,7 +64,7 @@ router.post('/add/:emp_id', upload.single('image'), function (req, res, next) {
     console.log("documenttype", req.body.documenttype);
     console.log("body", req.body)
     const document = new Document({
-    
+
         _id: new mongoose.Types.ObjectId,
         emp_id: req.body.emp_id,
         documentname: req.body.documentname,
@@ -76,7 +76,7 @@ router.post('/add/:emp_id', upload.single('image'), function (req, res, next) {
             console.log(result);
             res.status(200).json({
                 documentRecord: result
-                
+
             })
         })
         .catch(err => {

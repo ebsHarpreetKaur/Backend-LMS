@@ -35,7 +35,8 @@ router.post("/signup", (req, res, next) => {
         // adharNumber:req.body.adharNumber,
         // panNumber:req.body.panNumber,
         // salary:req.body.salary,
-        // appraisal:req.body.appraisal
+        // appraisal:req.body.appraisal,
+        LinkedinProfileLink: req.body.LinkedinProfileLink
       });
 
       user
@@ -77,7 +78,9 @@ router.put("/:_id", (req, res, next) => {
         adharNumber: req.body.adharNumber,
         panNumber: req.body.panNumber,
         salary: req.body.salary,
-        appraisal: req.body.appraisal
+        appraisal: req.body.appraisal,
+        LinkedinProfileLink: req.body.LinkedinProfileLink
+
       },
     }
   )
