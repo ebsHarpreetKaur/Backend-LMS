@@ -140,32 +140,17 @@ router.post("/login", (req, res, next) => {
         });
       }
       console.log("going forward");
-      bcrypt.compare(req.body.password, user[0].password, (err, result) => {
-        console.log("Checking user Password");
-        if (!result) {
-          return res.status(401).json({
-            msg: "user password matching fail",
-          });
-        }
-        console.log("result", result)
+      if (req.body.password !== user[0].password) {
+        console.log("req.body.password", req.body.password)
+        console.log("user[0].password", user[0].password)
 
-        if (result) {
-          const token = jwt.sign(
-            {
-              _id: user[0]._id,
-              name: user[0].name,
-              password: user[0].password,
-              phone: user[0].phone,
-              email: user[0].email,
-              gender: req.body.gender,
-              role: user[0].role,
-            },
-            "this is dummy text", // SECRET KEY
-            {
-              expiresIn: "24h",
-            }
-          );
-          res.status(200).json({
+        return res.status(401).json({
+          msg: "user password matching fail",
+        });
+        console.log("Failed Password Matching");
+      } else {
+        const token = jwt.sign(
+          {
             _id: user[0]._id,
             name: user[0].name,
             password: user[0].password,
@@ -173,11 +158,62 @@ router.post("/login", (req, res, next) => {
             email: user[0].email,
             gender: req.body.gender,
             role: user[0].role,
-            token: token,
-          });
-        }
-        console.log("user token generated successfully");
-      });
+          },
+          "this is dummy text", // SECRET KEY
+          {
+            expiresIn: "24h",
+          }
+        );
+        res.status(200).json({
+          _id: user[0]._id,
+          name: user[0].name,
+          password: user[0].password,
+          phone: user[0].phone,
+          email: user[0].email,
+          gender: req.body.gender,
+          role: user[0].role,
+          token: token,
+        });
+        console.log("Success Password Matching");
+      }
+      // bcrypt.compare(req.body.password, user[0].password, (err, result) => {
+      //   console.log("Checking user Password");
+      //   if (!result) {
+      //     return res.status(401).json({
+      //       msg: "user password matching fail",
+      //     });
+      //   }
+      //   console.log("result", result)
+
+      //   if (result) {
+      //     const token = jwt.sign(
+      //       {
+      //         _id: user[0]._id,
+      //         name: user[0].name,
+      //         password: user[0].password,
+      //         phone: user[0].phone,
+      //         email: user[0].email,
+      //         gender: req.body.gender,
+      //         role: user[0].role,
+      //       },
+      //       "this is dummy text", // SECRET KEY
+      //       {
+      //         expiresIn: "24h",
+      //       }
+      //     );
+      //     res.status(200).json({
+      //       _id: user[0]._id,
+      //       name: user[0].name,
+      //       password: user[0].password,
+      //       phone: user[0].phone,
+      //       email: user[0].email,
+      //       gender: req.body.gender,
+      //       role: user[0].role,
+      //       token: token,
+      //     });
+      //   }
+      //   console.log("user token generated successfully");
+      // });
     })
     .catch((err) => {
       res.status(500).json({
