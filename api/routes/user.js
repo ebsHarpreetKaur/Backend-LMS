@@ -21,7 +21,7 @@ router.post("/signup", (req, res, next) => {
       const user = new User({
         _id: new mongoose.Types.ObjectId(),
         name: req.body.name,
-        password: hash,
+        password: req.body.password,
         contact: req.body.contact,
         email: req.body.email,
         gender: req.body.gender,
@@ -147,6 +147,7 @@ router.post("/login", (req, res, next) => {
             msg: "user password matching fail",
           });
         }
+        console.log("result", result)
 
         if (result) {
           const token = jwt.sign(
