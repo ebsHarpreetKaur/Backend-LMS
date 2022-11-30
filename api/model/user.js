@@ -9,6 +9,7 @@ userSchema = new mongoose.Schema({
   email: String,
   gender: String,
   imageUrl: String,
+  
   role: {
     type: String,
     uppercase: false,
