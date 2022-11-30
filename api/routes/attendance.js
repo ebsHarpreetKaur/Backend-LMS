@@ -68,23 +68,21 @@ router.get("/", (req, res, next) => {
     });
 });
 
-
 // delete Leave
-router.delete('/:id', (req, res, next) => {
+router.delete("/:id", (req, res, next) => {
   Attendance.remove({ _id: req.params.id })
-    .then(result => {
+    .then((result) => {
       res.status(200).json({
         message: "Attendance Deleted",
-        result: result
-      })
+        result: result,
+      });
     })
-    .catch(err => {
+    .catch((err) => {
       res.status(500).json({
-        error: err
-      })
-    })
-})
-
+        error: err,
+      });
+    });
+});
 
 // Get all Attendance of employee
 router.get("/employee/:emp_id", (req, res, next) => {

@@ -6,7 +6,12 @@ userSchema = new mongoose.Schema({
   name: String,
   password: String,
   contact: Number,
-  email: String,
+  email: {
+    type: String,
+    uppercase: false,
+    lowercase: true,
+    unique: true
+  },
   gender: String,
   imageUrl: String,
   

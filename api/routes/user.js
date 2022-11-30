@@ -36,7 +36,7 @@ router.post("/signup", (req, res, next) => {
         // panNumber:req.body.panNumber,
         // salary:req.body.salary,
         // appraisal:req.body.appraisal,
-        LinkedinProfileLink: req.body.LinkedinProfileLink
+        LinkedinProfileLink: req.body.LinkedinProfileLink,
       });
 
       user
@@ -79,8 +79,7 @@ router.put("/:_id", (req, res, next) => {
         panNumber: req.body.panNumber,
         salary: req.body.salary,
         appraisal: req.body.appraisal,
-        LinkedinProfileLink: req.body.LinkedinProfileLink
-
+        LinkedinProfileLink: req.body.LinkedinProfileLink,
       },
     }
   )
@@ -141,13 +140,13 @@ router.post("/login", (req, res, next) => {
       }
       console.log("going forward");
       if (req.body.password !== user[0].password) {
-        console.log("req.body.password", req.body.password)
-        console.log("user[0].password", user[0].password)
+        console.log("req.body.password", req.body.password);
+        console.log("user[0].password", user[0].password);
 
         return res.status(401).json({
           msg: "user password matching fail",
+         
         });
-        console.log("Failed Password Matching");
       } else {
         const token = jwt.sign(
           {
