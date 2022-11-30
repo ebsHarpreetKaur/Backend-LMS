@@ -16,16 +16,19 @@ const storage = multer.diskStorage({
 })
 
 const fileFilter = (req, file, cb) => {
-    if (file.mimetype === 'image/png' || file.mimetype === 'image/jpeg' || file.mimetype === 'image/jpg' || file.minetype === 'application/msword') {
+    if (file.mimetype === 'image/png') {
         cb(null, true);
-    }
-    else if (file.mimetype === 'application/pdf') {
+    } else if (file.mimetype === 'image/jpeg') {
         cb(null, true)
-    }
-    else if (file.mimetype === 'application/msword') {
+    } else if (file.mimetype === 'image/jpg') {
         cb(null, true)
-    }
-    else {
+    } else if (file.minetype === 'application/msword') {
+        cb(null, true)
+    } else if (file.mimetype === 'application/pdf') {
+        cb(null, true)
+    } else if (file.mimetype === 'application/msword') {
+        cb(null, true)
+    } else {
         cb(null, false);
     }
 
