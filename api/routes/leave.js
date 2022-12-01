@@ -4,6 +4,38 @@ const mongoose = require("mongoose");
 const Leave = require("../model/leave");
 const checkAuth = require("../middleware/check-auth");
 
+
+// Apply Leave
+router.post("/", (req, res, next) => {
+  const leave = new Leave({
+    _id: new mongoose.Types.ObjectId(),
+    emp_id: req.body.emp_id,
+    EmployeeName: req.body.EmployeeName,
+    SupervisorName: req.body.SupervisorName,
+    Department: req.body.Department,
+    LeaveType: req.body.LeaveType,
+    LeaveDate: req.body.LeaveDate,
+    ReturnDate: req.body.ReturnDate,
+    TotalHoursRequested: req.body.TotalHoursRequested,
+    TotalDaysRequested: req.body.TotalDaysRequested,
+  });
+  leave
+    .save()
+    .then((result) => {
+      console.log(result);
+      res.status(200).json({
+        newLeave: result,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({
+        error: err,
+      });
+    });
+});
+
+
 // get api for employees leave Today
 router.get("/TodayData", (req, res, next) => {
   // date format "2022-10-02" with zero
@@ -208,10 +240,10 @@ router.get("/casual/:emp_id", (req, res, next) => {
 router.get("/sick/:emp_id", (req, res, next) => {
   Leave.find({ emp_id: req.params.emp_id, LeaveType: "Sick" })
     .then((data) => {
-      var message = "";
-      if (data === undefined || data.length == 0)
-        message = "No employee found!";
-      else message = "Employee Leave data successfully retrieved";
+      // var message = "";
+      // if (data === undefined || data.length == 0)
+      //   message = "No employee found!";
+      // else message = "Employee Leave data successfully retrieved";
       res.status(200).send(data);
       console.log(data.length);
     })
@@ -267,35 +299,7 @@ router.get("/", (req, res, next) => {
     });
 });
 
-// Apply Leave
-router.post("/", (req, res, next) => {
-  const leave = new Leave({
-    _id: new mongoose.Types.ObjectId(),
-    emp_id: req.body.emp_id,
-    EmployeeName: req.body.EmployeeName,
-    SupervisorName: req.body.SupervisorName,
-    Department: req.body.Department,
-    LeaveType: req.body.LeaveType,
-    LeaveDate: req.body.LeaveDate,
-    ReturnDate: req.body.ReturnDate,
-    TotalHoursRequested: req.body.TotalHoursRequested,
-    TotalDaysRequested: req.body.TotalDaysRequested,
-  });
-  leave
-    .save()
-    .then((result) => {
-      console.log(result);
-      res.status(200).json({
-        newLeave: result,
-      });
-    })
-    .catch((err) => {
-      console.log(err);
-      res.status(500).json({
-        error: err,
-      });
-    });
-});
+
 
 // get Leave by id
 // router.get("/:_id", (req, res, next) => {
