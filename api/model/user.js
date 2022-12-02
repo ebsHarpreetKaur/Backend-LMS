@@ -14,54 +14,54 @@ userSchema = new mongoose.Schema({
   },
   gender: String,
   imageUrl: String,
-  
+
   role: {
     type: String,
     uppercase: false,
     lowercase: true,
     enum: ["admin", "employee", "hr"],
   },
-  joiningDate:  {
-    type:String,
+  joiningDate: {
+    type: String,
     required: true,
   },
   fatherName: {
-    type:String,
+    type: String,
     required: true,
   },
-  motherName:  {
-    type:String,
+  motherName: {
+    type: String,
     required: true,
   },
-  bloodGroup:  {
-    type:String,
+  bloodGroup: {
+    type: String,
     required: true,
   },
-  contactNumber:  {
-    type:String,
+  contactNumber: {
+    type: String,
     required: true,
   },
-  permanentAddress:  {
-    type:String,
+  permanentAddress: {
+    type: String,
     required: true,
   },
-  adharNumber:  {
-    type:String,
+  adharNumber: {
+    type: String,
     required: true,
   },
-  panNumber:  {
-    type:String,
+  panNumber: {
+    type: String,
     required: true,
   },
-  salary:  {
-    type:String,
+  salary: {
+    type: String,
     required: true,
   },
-  appraisal:  {
-    type:String,
+  appraisal: {
+    type: String,
     required: true,
   },
-  LinkedinProfileLink: String,
+  linkedinprofilelink: String,
 
 
 
