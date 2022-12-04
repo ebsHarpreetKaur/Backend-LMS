@@ -42,7 +42,23 @@ const upload = multer({
     fileFilter: fileFilter
 })
 
-
+//======================================================= GET all documents========================================
+/**
+ * @swagger
+ * /document: 
+ *  get:
+ *      summary: Get all documents 
+ *      description: Get all documents 
+ *      responses: 
+ *          200:
+ *              description: Success! Get all documents
+ *              content: 
+ *                  application/json:
+ *                      schema:
+ *                          type: array
+ *                          items:
+ *                              $ref: '#components/schema/document'
+ */
 router.get("/", (req, res, next) => {
     Document.find()
         .then((result) => {
@@ -57,8 +73,38 @@ router.get("/", (req, res, next) => {
             });
         });
 });
+//======================================================= GET all documents========================================
 
-
+//======================================================= POST/upload document ========================================
+/**
+ * @swagger
+ * /document/add/{emp_id}: 
+ *  put:
+ *      summary: Edit document of particular employee 
+ *      description: Edit document of particular employee
+ *      parameters: 
+ *          - in: path
+ *            name: emp_id
+ *            required: true
+ *            description:  EmployeeID required
+ *            schema:
+ *              type: string
+ *      requestBody:
+ *          required: true
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      $ref: '#components/schema/document'
+ *      responses: 
+ *          200:
+ *              description: Success! document Updated
+ *              content: 
+ *                  application/json:
+ *                      schema:
+ *                          type: array
+ *                          items:
+ *                              $ref: '#components/schema/document'
+ */
 // upload Document 
 router.post('/add/:emp_id', upload.single('image'), function (req, res, next) {
     // console.log("Hello request",req)
@@ -89,8 +135,26 @@ router.post('/add/:emp_id', upload.single('image'), function (req, res, next) {
             })
         })
 });
+//======================================================= POST/upload document ========================================
 
-
+//======================================================= GET particular document of user ========================================
+/**
+ * @swagger
+ * /document/{emp_id}: 
+ *  get:
+ *      summary: Get particular document by EmployeeID
+ *      description: Get particular document by EmployeeID 
+ *      parameters: 
+ *          - in: path
+ *            name: emp_id
+ *            required: true
+ *            description:  EmployeeID required
+ *            schema:
+ *              type: string
+ *      responses: 
+ *          200:
+ *              description: Success! Get document 
+ */
 // Document Record of Particular Employee
 router.get("/:emp_id", (req, res, next) => {
     console.log(req.params.emp_id);
@@ -107,8 +171,25 @@ router.get("/:emp_id", (req, res, next) => {
             });
         });
 });
+//======================================================= GET particular document of user ========================================
 
-
+//======================================================= GET all documents of user ========================================
+/**
+ * @swagger
+ * /document: 
+ *  get:
+ *      summary: Get all documents
+ *      description: Get all documents 
+ *      responses: 
+ *          200:
+ *              description: Success! Get all documents 
+ *              content: 
+ *                  application/json:
+ *                      schema:
+ *                          type: array
+ *                          items:
+ *                              $ref: '#components/schema/document'
+ */
 router.get("/", (req, res, next) => {
     Document.find()
         .then((result) => {
@@ -123,8 +204,26 @@ router.get("/", (req, res, next) => {
             });
         });
 });
+//======================================================= GET all documents of user ========================================
 
-
+//======================================================= DELETE particular document of user ========================================
+/**
+ * @swagger
+ * /document/{_id}: 
+ *  delete:
+ *      summary: Delete particular document by documentID
+ *      description: Delete particular document by documentID 
+ *      parameters: 
+ *          - in: path
+ *            name: _id
+ *            required: true
+ *            description:  documentID required
+ *            schema:
+ *              type: string
+ *      responses: 
+ *          200:
+ *              description: Success! document deleted
+ */
 // delete Document
 router.delete('/:_id', (req, res, next) => {
     Document.remove({ _id: req.params._id })
@@ -140,11 +239,38 @@ router.delete('/:_id', (req, res, next) => {
             })
         })
 })
+//======================================================= DELETE particular document of user ========================================
 
-
-
-
-
+//======================================================= UPDATE particular document of user ========================================
+/**
+ * @swagger
+ * /document/{_id}: 
+ *  put:
+ *      summary: Update document
+ *      description: Update document
+ *      parameters: 
+ *          - in: path
+ *            name: _id
+ *            required: true
+ *            description:  documentID required
+ *            schema:
+ *              type: string
+ *      requestBody:
+ *          required: true
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      $ref: '#components/schema/document'
+ *      responses: 
+ *          200:
+ *              description: Success! document Updated
+ *              content: 
+ *                  application/json:
+ *                      schema:
+ *                          type: array
+ *                          items:
+ *                              $ref: '#components/schema/document'
+ */
 // update/modify Document
 router.put('/:_id', (req, res, next) => {
     console.log(req.params._id);
@@ -172,6 +298,7 @@ router.put('/:_id', (req, res, next) => {
             })
         })
 })
+//======================================================= UPDATE particular document of user ========================================
 
 
 

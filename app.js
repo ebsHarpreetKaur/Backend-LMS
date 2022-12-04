@@ -45,10 +45,11 @@ const options = {
       }
     ]
   },
-  apis: ['app.js']
+  apis: ['./api/routes/holidays.js','./api/routes/leave.js','./api/routes/attendance.js','./api/routes/document.js','./api/routes/user.js'],
+  
 }
 const swaggerSpec = swaggerJSDoc(options)
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec))
+app.use('/apidocs', swaggerUi.serve, swaggerUi.setup(swaggerSpec))
 // Swagger Setup
 
 

@@ -7,54 +7,126 @@ const nodemailer = require("nodemailer");
 const User = require("../model/user");
 const { OAuth2Client } = require("google-auth-library");
 
-// const client = new OAuth2Client(
-//   "782778790753-11hlt4rsr491dbmdaej4udve468rldgr.apps.googleusercontent.com"
-// );
+/**
+ * @swagger
+ * components:
+ *     schema:
+ *         user:
+ *                type: object
+ *                properties:
+ *                    name:
+ *                        type: string
+ *                    password:
+ *                        type: string
+ *                    contact:
+ *                        type: string
+ *                    email:
+ *                        type: string
+ *                    gender:
+ *                        type: string
+ *                    role:
+ *                        type: string
+ */
 
+
+
+//=============================================== user signup ====================================================
+/**
+ * @swagger
+ * /user/signup: 
+ *  post:
+ *      summary: Add new user
+ *      description: Add new user
+ *      requestBody:
+ *          required: true
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      $ref: '#components/schema/user'
+ *      responses: 
+ *          200:
+ *              description: Success! new user added
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      $ref: '#components/schema/user'
+ */
 router.post("/signup", (req, res, next) => {
-  bcrypt.hash(req.body.password, 10, (err, hash) => {
-    if (err) {
-      return res.status(500).json({
+  // bcrypt.hash(req.body.password, 10, (err, hash) => {
+  //   if (err) {
+  //     return res.status(500).json({
+  //       error: err,
+  //     });
+  //   } else {
+  const user = new User({
+    _id: new mongoose.Types.ObjectId(),
+    name: req.body.name,
+    password: req.body.password,
+    contact: req.body.contact,
+    email: req.body.email,
+    gender: req.body.gender,
+    role: req.body.role,
+    // joiningDate:req.body.joiningDate,
+    // fatherName:req.body.fatherName,
+    // motherName:req.body.motherName,
+    // bloodGroup:req.body.bloodGroup,
+    // contactNumber:req.body.contactNumber,
+    // permanentAddress:req.body.permanentAddress,
+    // adharNumber:req.body.adharNumber,
+    // panNumber:req.body.panNumber,
+    // salary:req.body.salary,
+    // appraisal:req.body.appraisal,
+    linkedinprofilelink: req.body.linkedinprofilelink,
+  });
+
+  user
+    .save()
+    .then((result) => {
+      res.status(200).json({
+        new_user: result,
+      });
+    })
+    .catch((err) => {
+      res.status(500).json({
         error: err,
       });
-    } else {
-      const user = new User({
-        _id: new mongoose.Types.ObjectId(),
-        name: req.body.name,
-        password: req.body.password,
-        contact: req.body.contact,
-        email: req.body.email,
-        gender: req.body.gender,
-        role: req.body.role,
-        // joiningDate:req.body.joiningDate,
-        // fatherName:req.body.fatherName,
-        // motherName:req.body.motherName,
-        // bloodGroup:req.body.bloodGroup,
-        // contactNumber:req.body.contactNumber,
-        // permanentAddress:req.body.permanentAddress,
-        // adharNumber:req.body.adharNumber,
-        // panNumber:req.body.panNumber,
-        // salary:req.body.salary,
-        // appraisal:req.body.appraisal,
-        linkedinprofilelink: req.body.linkedinprofilelink,
-      });
-
-      user
-        .save()
-        .then((result) => {
-          res.status(200).json({
-            new_user: result,
-          });
-        })
-        .catch((err) => {
-          res.status(500).json({
-            error: err,
-          });
-        });
-    }
-  });
+    });
+  //   }
+  // });
 });
+//=============================================== user signup ====================================================
 
+
+//=============================================== user update ====================================================
+/**
+ * @swagger
+ * /user/{_id}: 
+ *  put:
+ *      summary: Update user
+ *      description: Update user
+ *      parameters: 
+ *          - in: path
+ *            name: _id
+ *            required: true
+ *            description:  userID required
+ *            schema:
+ *              type: string
+ *      requestBody:
+ *          required: true
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      $ref: '#components/schema/user'
+ *      responses: 
+ *          200:
+ *              description: Success! user Updated
+ *              content: 
+ *                  application/json:
+ *                      schema:
+ *                          type: array
+ *                          items:
+ *                              $ref: '#components/schema/user'
+ */
 // update all data of an user
 router.put("/:_id", (req, res, next) => {
   console.log(req.params._id);
@@ -95,7 +167,27 @@ router.put("/:_id", (req, res, next) => {
       });
     });
 });
+//=============================================== user update ====================================================
 
+
+//=============================================== get particular user ====================================================
+/**
+ * @swagger
+ * /user/{_id}: 
+ *  get:
+ *      summary: Get particular user by userID
+ *      description: Get particular user by userID 
+ *      parameters: 
+ *          - in: path
+ *            name: _id
+ *            required: true
+ *            description:  userID required
+ *            schema:
+ *              type: string
+ *      responses: 
+ *          200:
+ *              description: Success! Get user 
+ */
 // get user by id
 router.get("/:_id", (req, res, next) => {
   console.log(req.params._id);
@@ -112,7 +204,25 @@ router.get("/:_id", (req, res, next) => {
       });
     });
 });
+//=============================================== get particular user ====================================================
 
+//=============================================== get all users ====================================================
+/**
+ * @swagger
+ * /user: 
+ *  get:
+ *      summary: Get all users
+ *      description: Get all users 
+ *      responses: 
+ *          200:
+ *              description: Success! Get all users 
+ *              content: 
+ *                  application/json:
+ *                      schema:
+ *                          type: array
+ *                          items:
+ *                              $ref: '#components/schema/user'
+ */
 // get all users
 router.get("/", (req, res, next) => {
   User.find()
@@ -128,7 +238,25 @@ router.get("/", (req, res, next) => {
       });
     });
 });
+//=============================================== get all users ====================================================
 
+//=============================================== user login ====================================================
+/**
+ * @swagger
+ * /user/login: 
+ *  post:
+ *      summary: User login
+ *      description: User login
+ *      requestBody:
+ *          required: true
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      $ref: '#components/schema/user'
+ *      responses: 
+ *          200:
+ *              description: Success! login
+ */
 router.post("/login", (req, res, next) => {
   User.find({ name: req.body.name })
     .exec()
@@ -145,7 +273,7 @@ router.post("/login", (req, res, next) => {
 
         return res.status(401).json({
           msg: "user password matching fail",
-         
+
         });
       } else {
         const token = jwt.sign(
@@ -220,7 +348,9 @@ router.post("/login", (req, res, next) => {
       });
     });
 });
+//=============================================== user login ====================================================
 
+//=============================================== user google-login ====================================================
 router.post("/googlelogin", (req, res) => {
   const { profileObj } = req.body;
   // let response = { "error": "Something is wrong", "code": "400" }
@@ -283,7 +413,26 @@ router.post("/googlelogin", (req, res) => {
     // response = { "success": "User Already Exist", "code": 200 }
   }
 });
+//=============================================== user google-login ====================================================
 
+//=============================================== delete user ====================================================
+/**
+ * @swagger
+ * /user/empdel/{_id}: 
+ *  delete:
+ *      summary: Delete particular user by userID
+ *      description: Delete particular user by userID 
+ *      parameters: 
+ *          - in: path
+ *            name: _id
+ *            required: true
+ *            description:  userID required
+ *            schema:
+ *              type: string
+ *      responses: 
+ *          200:
+ *              description: Success! user deleted
+ */
 // delete user
 router.delete("/empdel/:_id", (req, res, next) => {
   User.remove({ _id: req.params._id })
@@ -299,7 +448,10 @@ router.delete("/empdel/:_id", (req, res, next) => {
       });
     });
 });
+//=============================================== delete user ====================================================
 
+
+//=============================================== send mail ====================================================
 // Send Mail
 router.post("/mail", (req, res) => {
   let transporter = nodemailer.createTransport({
@@ -322,5 +474,6 @@ router.post("/mail", (req, res) => {
     res.send("Error in sending mail.");
   }
 });
+//=============================================== send mail ====================================================
 
 module.exports = router;

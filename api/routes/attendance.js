@@ -5,6 +5,57 @@ const Attendance = require("../model/attendance");
 const checkAuth = require("../middleware/check-auth");
 // const { query } = require("express");
 
+
+
+/**
+ * @swagger
+ * components:
+ *     schema:
+ *         attendance:
+ *                type: object
+ *                properties:
+ *                    name:
+ *                        type: string
+ *                    emp_id:
+ *                        type: string
+ *                    CheckIn:
+ *                        type: string
+ *                    TodayDate:
+ *                        type: string
+ *                    CheckOut:
+ *                        type: string
+ *                    Breaks:
+ *                        type: array
+ *                    eodoftheday:
+ *                        type: array
+ */
+
+
+
+//============================================ POST attendance ==================================================
+/**
+ * @swagger
+ * /attendance/{emp_id}: 
+ *  post:
+ *      summary: Post/Add new attendance
+ *      description: Post/Add new attendance
+ *      parameters: 
+ *          - in: path
+ *            name: emp_id
+ *            required: true
+ *            description: Employee ID required
+ *            schema:
+ *              type: string
+ *      requestBody:
+ *          required: true
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      $ref: '#components/schema/attendance'
+ *      responses: 
+ *          200:
+ *              description: Success! Check-in
+ */
 // attendance CheckIn/CheckOut
 router.post("/:emp_id", (req, res, next) => {
   var MyDate = new Date();
@@ -53,6 +104,24 @@ router.post("/:emp_id", (req, res, next) => {
   );
 });
 
+
+//=========================================== GET All Attendance =================================================
+/**
+ * @swagger
+ * /attendance: 
+ *  get:
+ *      summary: Get all attendance 
+ *      description: Get all attendance 
+ *      responses: 
+ *          200:
+ *              description: Success! Get All attendance
+ *              content: 
+ *                  application/json:
+ *                      schema:
+ *                          type: array
+ *                          items:
+ *                              $ref: '#components/schema/attendance'
+ */
 router.get("/", (req, res, next) => {
   Attendance.find()
     .then((result) => {
@@ -67,7 +136,27 @@ router.get("/", (req, res, next) => {
       });
     });
 });
+//=========================================== GET All Attendance =================================================
 
+
+// ========================================== DELETE Attendance by ID==================================================
+/**
+ * @swagger
+ * /attendance/{_id}: 
+ *  delete:
+ *      summary: Delete particular attendance by attendanceID
+ *      description: Delete particular attendance by attendanceID 
+ *      parameters: 
+ *          - in: path
+ *            name: _id
+ *            required: true
+ *            description:  attendanceID required
+ *            schema:
+ *              type: string
+ *      responses: 
+ *          200:
+ *              description: Success! Attendance Deleted
+ */
 // delete Leave
 router.delete("/:id", (req, res, next) => {
   Attendance.remove({ _id: req.params.id })
@@ -83,7 +172,32 @@ router.delete("/:id", (req, res, next) => {
       });
     });
 });
+// ========================================== DELETE Attendance by ID ==================================================
 
+// ========================================= GET All attendance of particular Employee=================================
+/**
+ * @swagger
+ * /attendance/{emp_id}: 
+ *  get:
+ *      summary: Get particular attendance by EmployeeID
+ *      description: Get particular attendance by EmployeeID 
+ *      parameters: 
+ *          - in: path
+ *            name: emp_id
+ *            required: true
+ *            description:  Employee ID required
+ *            schema:
+ *              type: string
+ *      responses: 
+ *          200:
+ *              description: Success! GET Attendance by EmployeeID
+ *              content: 
+ *                  application/json:
+ *                      schema:
+ *                          type: array
+ *                          items:
+ *                              $ref: '#components/schema/attendance'
+ */
 // Get all Attendance of employee
 router.get("/employee/:emp_id", (req, res, next) => {
   var MyDate = new Date();
@@ -110,7 +224,26 @@ router.get("/employee/:emp_id", (req, res, next) => {
       });
     });
 });
+// ========================================= GET All attendance of particular Employee=================================
 
+// ========================================= GET Today attendance by attendanceID ========================================== 
+/**
+ * @swagger
+ * /attendance/{_id}: 
+ *  get:
+ *      summary: Get particular attendance by attendanceID
+ *      description: Get particular attendance by attendanceID 
+ *      parameters: 
+ *          - in: path
+ *            name: _id
+ *            required: true
+ *            description:  attendanceID required
+ *            schema:
+ *              type: string
+ *      responses: 
+ *          200:
+ *              description: Success! Get Attendance 
+ */
 // Get Cuurent Date Attendance
 router.get("/record/:_id", (req, res, next) => {
   console.log(req.params._id);
@@ -145,7 +278,9 @@ router.get("/record/:_id", (req, res, next) => {
       });
     });
 });
+// ========================================= GET Today attendance by attendanceID ========================================== 
 
+// =========================================== Get Attendance by Daterange/name/All =============================
 // Employee Attendance Report
 router.post("/", (req, res, next) => {
   const { TodayDate } = req.body;
@@ -201,7 +336,39 @@ router.post("/", (req, res, next) => {
       });
   }
 });
+// =========================================== Get Attendance by Daterange/name/All =============================
 
+
+// =========================================== Update Attendance by attendanceID =============================
+/**
+ * @swagger
+ * /attendance/{_id}: 
+ *  put:
+ *      summary: Edit attendance
+ *      description: Edit attendance
+ *      parameters: 
+ *          - in: path
+ *            name: _id
+ *            required: true
+ *            description:  attendanceID required
+ *            schema:
+ *              type: string
+ *      requestBody:
+ *          required: true
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      $ref: '#components/schema/attendance'
+ *      responses: 
+ *          200:
+ *              description: Success! attendance Updated
+ *              content: 
+ *                  application/json:
+ *                      schema:
+ *                          type: array
+ *                          items:
+ *                              $ref: '#components/schema/leave'
+ */
 // update employee attendance
 router.put("/addon/:_id", (req, res, next) => {
   console.log(req.params._id);
@@ -228,5 +395,6 @@ router.put("/addon/:_id", (req, res, next) => {
       });
     });
 });
+// =========================================== Update Attendance by attendanceID =============================
 
 module.exports = router;

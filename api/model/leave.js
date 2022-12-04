@@ -22,8 +22,8 @@ leaveSchema = new mongoose.Schema({
 
   LeaveType: {
     type: String,
-    // required: true,
-    // enum: ["Priviliege", "Sick", "Holiday", "Casual", "ShortLeave"],
+    required: true,
+    enum: ["Priviliege", "Sick", "Holiday", "Casual", "ShortLeave"],
   },
   LeaveDate: String,
   ReturnDate: String,

@@ -23,48 +23,45 @@ userSchema = new mongoose.Schema({
   },
   joiningDate: {
     type: String,
-    required: true,
+    // required: true,
   },
   fatherName: {
     type: String,
-    required: true,
+    // required: true,
   },
   motherName: {
     type: String,
-    required: true,
+    // required: true,
   },
   bloodGroup: {
     type: String,
-    required: true,
+    // required: true,
   },
   contactNumber: {
     type: String,
-    required: true,
+    // required: true,
   },
   permanentAddress: {
     type: String,
-    required: true,
+    // required: true,
   },
   adharNumber: {
     type: String,
-    required: true,
+    // required: true,
   },
   panNumber: {
     type: String,
-    required: true,
+    // required: true,
   },
   salary: {
     type: String,
-    required: true,
+    // required: true,
   },
   appraisal: {
     type: String,
-    required: true,
+    // required: true,
   },
   linkedinprofilelink: String,
-
-
-
 
 });
 
