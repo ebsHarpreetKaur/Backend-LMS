@@ -10,7 +10,7 @@ userSchema = new mongoose.Schema({
     type: String,
     uppercase: false,
     lowercase: true,
-    unique: true
+    unique: true,
   },
   gender: String,
   imageUrl: String,
