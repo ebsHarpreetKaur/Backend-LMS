@@ -226,6 +226,49 @@ router.get("/employee/:emp_id", (req, res, next) => {
 });
 // ========================================= GET All attendance of particular Employee=================================
 
+// ========================================= GET all attendance of employee ========================================== 
+/**
+ * @swagger
+ * /attendance/{emp_id}: 
+ *  get:
+ *      summary: Get all attendance of single employee
+ *      description: Get all attendance of single employee 
+ *      parameters: 
+ *          - in: path
+ *            name: emp_id
+ *            required: true
+ *            description:  Employee ID required
+ *            schema:
+ *              type: string
+ *      responses: 
+ *          200:
+ *              description: Success! GET Attendance of single employee
+ *              content: 
+ *                  application/json:
+ *                      schema:
+ *                          type: array
+ *                          items:
+ *                              $ref: '#components/schema/attendance'
+ */
+// Get all Attendance of employee
+router.get("/singlemploy/:emp_id", (req, res, next) => {
+
+  console.log(req.params.emp_id);
+  Attendance.find({ emp_id: req.params.emp_id })
+    .then((result) => {
+      res.status(200).json({
+        SingleEmployeeAllAttendance: result,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({
+        error: err,
+      });
+    });
+});
+// ========================================= GET all attendance of employee ========================================== 
+
 // ========================================= GET Today attendance by attendanceID ========================================== 
 /**
  * @swagger
