@@ -120,6 +120,43 @@ router.post('/add/:emp_id', upload.single('image'), function (req, res, next) {
 });
 //======================================================= POST/upload document ========================================
 
+//======================================================= GET Profile picture of user ========================================
+/**
+ * @swagger
+ * /document/pic/{emp_id}: 
+ *  get:
+ *      summary: Get profile picture of particular employee
+ *      description: Get profile picture of particular employee 
+ *      parameters: 
+ *          - in: path
+ *            name: emp_id
+ *            required: true
+ *            description:  EmployeeID required
+ *            schema:
+ *              type: string
+ *      responses: 
+ *          200:
+ *              description: Success! Get profile picture
+ */
+// Document Record of Particular Employee
+router.get("/pic/:emp_id", (req, res, next) => {
+    console.log(req.params.emp_id);
+    Document.find({ emp_id: req.params.emp_id, documenttype: "Picture" })
+        .then((result) => {
+            res.status(200).json({
+                profilePicture: result,
+            });
+        })
+        .catch((err) => {
+            console.log(err);
+            res.status(500).json({
+                error: err,
+            });
+        });
+});
+//======================================================= GET Profile picture of user ========================================
+
+
 //======================================================= GET particular document of user ========================================
 /**
  * @swagger

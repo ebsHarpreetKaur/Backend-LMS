@@ -89,7 +89,7 @@ const upload = multer({
  *                  schema:
  *                      $ref: '#components/schema/user'
  */
-router.post("/signup", upload.single('image'), (req, res, next) => {
+router.post("/signup", (req, res, next) => {
   // bcrypt.hash(req.body.password, 10, (err, hash) => {
   //   if (err) {
   //     return res.status(500).json({
@@ -115,7 +115,7 @@ router.post("/signup", upload.single('image'), (req, res, next) => {
     // salary:req.body.salary,
     // appraisal:req.body.appraisal,
     linkedinprofilelink: req.body.linkedinprofilelink,
-    // profilepicture:  req.file.path,
+
 
   });
 
@@ -192,7 +192,6 @@ router.put("/:_id", (req, res, next) => {
         salary: req.body.salary,
         appraisal: req.body.appraisal,
         linkedinprofilelink: req.body.linkedinprofilelink,
-        // profilepicture: req.file.path,
 
       },
     }
