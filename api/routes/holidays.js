@@ -84,24 +84,27 @@ router.post('/', (req, res, next) => {
  */
 router.get("/", (req, res, next) => {
 
-  const date = new Date();
-  let day = date.getDate();
-  let month = date.getMonth() + 1;
-  let year = date.getFullYear();
-  let currentDate = `${year}-${month}-${day}`;
-  console.log(currentDate);
+  var MyDate = new Date();
+  var MyDateString;
+  MyDate.setDate(MyDate.getDate());
+  MyDateString =
+    MyDate.getFullYear() +
+    "-" +
+    ("0" + (MyDate.getMonth() + 1)).slice(-2) +
+    "-" +
+    ("0" + MyDate.getDate()).slice(-2);
 
   var query = {
     festivalDate: {
 
-      $gte: currentDate,
+      $gte: MyDateString,
 
     }
 
   };
   console.log(query)
 
-  Holiday.find()
+  Holiday.find(query)
     .then((result) => {
       res.status(200).json({
         HolidaysPending: result,
