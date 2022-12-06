@@ -144,7 +144,7 @@ router.get("/pic/:emp_id", (req, res, next) => {
     Document.find({ emp_id: req.params.emp_id, documenttype: "Picture" })
         .then((result) => {
             res.status(200).json({
-                profilePicture: result,
+                profilepic: result,
             });
         })
         .catch((err) => {

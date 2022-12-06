@@ -115,7 +115,7 @@ router.post("/signup", (req, res, next) => {
     // salary:req.body.salary,
     // appraisal:req.body.appraisal,
     linkedinprofilelink: req.body.linkedinprofilelink,
-
+    profilepicture: req.body.profilepicture,
 
   });
 
@@ -192,7 +192,7 @@ router.put("/:_id", (req, res, next) => {
         salary: req.body.salary,
         appraisal: req.body.appraisal,
         linkedinprofilelink: req.body.linkedinprofilelink,
-
+        profilepicture: req.body.profilepicture
       },
     }
   )
