@@ -6,7 +6,7 @@ const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
 const User = require("../model/user");
 const { OAuth2Client } = require("google-auth-library");
-
+const multer = require('multer')
 /**
  * @swagger
  * components:
@@ -27,6 +27,44 @@ const { OAuth2Client } = require("google-auth-library");
  *                    role:
  *                        type: string
  */
+
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, './api/uploads/')
+  },
+  filename: function (req, file, cb) {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
+    cb(null, uniqueSuffix + file.originalname)
+  }
+})
+
+const fileFilter = (req, file, cb) => {
+  if (file.mimetype === 'image/png') {
+    cb(null, true);
+  } else if (file.mimetype === 'image/jpeg') {
+    cb(null, true)
+  } else if (file.mimetype === 'image/jpg') {
+    cb(null, true)
+  } else if (file.minetype === 'application/msword') {
+    cb(null, true)
+  } else if (file.mimetype === 'application/pdf') {
+    cb(null, true)
+  } else if (file.mimetype === 'application/msword') {
+    cb(null, true)
+  } else {
+    cb(null, false);
+  }
+
+}
+
+const upload = multer({
+  storage: storage,
+  // limits: {
+  //     fileSize: 1024  1024  5      // 5 MB
+  // },
+  fileFilter: fileFilter
+})
 
 
 
@@ -77,6 +115,8 @@ router.post("/signup", (req, res, next) => {
     // salary:req.body.salary,
     // appraisal:req.body.appraisal,
     linkedinprofilelink: req.body.linkedinprofilelink,
+    profilepicture: req.body.profilepicture,
+
   });
 
   user
@@ -152,6 +192,7 @@ router.put("/:_id", (req, res, next) => {
         salary: req.body.salary,
         appraisal: req.body.appraisal,
         linkedinprofilelink: req.body.linkedinprofilelink,
+        profilepicture: req.body.profilepicture
       },
     }
   )

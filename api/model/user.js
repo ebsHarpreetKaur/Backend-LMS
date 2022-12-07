@@ -62,6 +62,7 @@ userSchema = new mongoose.Schema({
     // required: true,
   },
   linkedinprofilelink: String,
+  profilepicture: String
 
 });
 
