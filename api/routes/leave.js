@@ -4,8 +4,6 @@ const mongoose = require("mongoose");
 const Leave = require("../model/leave");
 const checkAuth = require("../middleware/check-auth");
 
-
-
 /**
  * @swagger
  * components:
@@ -33,10 +31,10 @@ const checkAuth = require("../middleware/check-auth");
  *                        type: string
  */
 
-//=============================================== POST Leave ======================================================= 
+//=============================================== POST Leave =======================================================
 /**
  * @swagger
- * /leave: 
+ * /leave:
  *  post:
  *      summary: Apply new Leave
  *      description: Apply new Leave
@@ -46,7 +44,7 @@ const checkAuth = require("../middleware/check-auth");
  *              application/json:
  *                  schema:
  *                      $ref: '#components/schema/leave'
- *      responses: 
+ *      responses:
  *          200:
  *              description: Success! New Leave Applied
  */
@@ -56,7 +54,7 @@ router.post("/", (req, res, next) => {
     _id: new mongoose.Types.ObjectId(),
     emp_id: req.body.emp_id,
     EmployeeName: req.body.EmployeeName,
-    SupervisorName: req.body.SupervisorName,
+    // SupervisorName: req.body.SupervisorName,
     Department: req.body.Department,
     LeaveType: req.body.LeaveType,
     LeaveDate: req.body.LeaveDate,
@@ -79,19 +77,19 @@ router.post("/", (req, res, next) => {
       });
     });
 });
-//=============================================== POST Leave ======================================================= 
+//=============================================== POST Leave =======================================================
 
-//=============================================== GET All Today LeaveData ======================================================= 
+//=============================================== GET All Today LeaveData =======================================================
 /**
  * @swagger
- * /leave/TodayData: 
+ * /leave/TodayData:
  *  get:
  *      summary: Get today leave data
  *      description: Get today leave data
- *      responses: 
+ *      responses:
  *          200:
  *              description: Success! today leave data
- *              content: 
+ *              content:
  *                  application/json:
  *                      schema:
  *                          type: array
@@ -132,19 +130,19 @@ router.get("/TodayData", (req, res, next) => {
     }
   });
 });
-//=============================================== GET All Today LeaveData ======================================================= 
+//=============================================== GET All Today LeaveData =======================================================
 
-//=============================================== GET All This Week LeaveData ======================================================= 
+//=============================================== GET All This Week LeaveData =======================================================
 /**
  * @swagger
- * /leave/WeekData: 
+ * /leave/WeekData:
  *  get:
  *      summary: Get this week leave data
  *      description: Get this week leave data
- *      responses: 
+ *      responses:
  *          200:
  *              description: Success! GET this week leave data
- *              content: 
+ *              content:
  *                  application/json:
  *                      schema:
  *                          type: array
@@ -197,19 +195,19 @@ router.get("/WeekData", (req, res, next) => {
     }
   });
 });
-//=============================================== GET All This Week LeaveData ======================================================= 
+//=============================================== GET All This Week LeaveData =======================================================
 
-//=============================================== GET All This Month LeaveData ======================================================= 
+//=============================================== GET All This Month LeaveData =======================================================
 /**
  * @swagger
- * /leave/monthdata: 
+ * /leave/monthdata:
  *  get:
  *      summary: Get this month leave data
  *      description: Get this month leave data
- *      responses: 
+ *      responses:
  *          200:
  *              description: Success! GET this month leave data
- *              content: 
+ *              content:
  *                  application/json:
  *                      schema:
  *                          type: array
@@ -264,26 +262,26 @@ router.get("/monthdata", (req, res, next) => {
       });
     });
 });
-//=============================================== GET All This Month LeaveData ======================================================= 
+//=============================================== GET All This Month LeaveData =======================================================
 
-//=============================================== GET All Sick Leave by EmployeeID ======================================================= 
+//=============================================== GET All Sick Leave by EmployeeID =======================================================
 /**
  * @swagger
- * /leave/sick/{emp_id}: 
+ * /leave/sick/{emp_id}:
  *  get:
  *      summary: Get all sick leave data by EmployeeID
  *      description: Get all sick leave data by EmployeeID
- *      parameters: 
+ *      parameters:
  *          - in: path
  *            name: emp_id
  *            required: true
  *            description: Employee ID required
  *            schema:
  *              type: string
- *      responses: 
+ *      responses:
  *          200:
  *              description: Success! GET sick leave data by EmployeeID
- *              content: 
+ *              content:
  *                  application/json:
  *                      schema:
  *                          type: array
@@ -305,26 +303,26 @@ router.get("/sick/:emp_id", (req, res, next) => {
       res.status(400).send("Some error occured");
     });
 });
-//=============================================== GET All Sick Leave by EmployeeID ======================================================= 
+//=============================================== GET All Sick Leave by EmployeeID =======================================================
 
-//=============================================== GET All Priviliege Leave by EmployeeID ======================================================= 
+//=============================================== GET All Priviliege Leave by EmployeeID =======================================================
 /**
  * @swagger
- * /leave/priviliege/{emp_id}: 
+ * /leave/priviliege/{emp_id}:
  *  get:
  *      summary: Get all priviliege leave data by EmployeeID
  *      description: Get all priviliege leave data by EmployeeID
- *      parameters: 
+ *      parameters:
  *          - in: path
  *            name: emp_id
  *            required: true
  *            description: Employee ID required
  *            schema:
  *              type: string
- *      responses: 
+ *      responses:
  *          200:
  *              description: Success! GET priviliege leave data by EmployeeID
- *              content: 
+ *              content:
  *                  application/json:
  *                      schema:
  *                          type: array
@@ -346,26 +344,26 @@ router.get("/priviliege/:emp_id", (req, res, next) => {
       res.status(400).send("Some error occured");
     });
 });
-//=============================================== GET All Priviliege Leave by EmployeeID ======================================================= 
+//=============================================== GET All Priviliege Leave by EmployeeID =======================================================
 
-//=============================================== GET All Casual Leave by EmployeeID ======================================================= 
+//=============================================== GET All Casual Leave by EmployeeID =======================================================
 /**
  * @swagger
- * /leave/casual/{emp_id}: 
+ * /leave/casual/{emp_id}:
  *  get:
  *      summary: Get all casual leave data by EmployeeID
  *      description: Get all casual leave data by EmployeeID
- *      parameters: 
+ *      parameters:
  *          - in: path
  *            name: emp_id
  *            required: true
  *            description: Employee ID required
  *            schema:
  *              type: string
- *      responses: 
+ *      responses:
  *          200:
  *              description: Success! GET casual leave data by EmployeeID
- *              content: 
+ *              content:
  *                  application/json:
  *                      schema:
  *                          type: array
@@ -386,20 +384,19 @@ router.get("/casual/:emp_id", (req, res, next) => {
       res.status(400).send("Some error occured");
     });
 });
-//=============================================== GET All Casual Leave by EmployeeID ======================================================= 
-
+//=============================================== GET All Casual Leave by EmployeeID =======================================================
 
 //=========================================================== GET All Leaves ================================================================
 /**
  * @swagger
- * /leave: 
+ * /leave:
  *  get:
  *      summary: Get all Leaves
  *      description: Get all Leaves
- *      responses: 
+ *      responses:
  *          200:
  *              description: Success! Get All Leaves
- *              content: 
+ *              content:
  *                  application/json:
  *                      schema:
  *                          type: array
@@ -426,18 +423,18 @@ router.get("/", (req, res, next) => {
 //=========================================================== DELETE Leave by LeaveID================================================================
 /**
  * @swagger
- * /leave/{_id}: 
+ * /leave/{_id}:
  *  delete:
  *      summary: Delete particular leave by leaveID
- *      description: Delete particular leave by leaveID 
- *      parameters: 
+ *      description: Delete particular leave by leaveID
+ *      parameters:
  *          - in: path
  *            name: _id
  *            required: true
  *            description:  leaveID required
  *            schema:
  *              type: string
- *      responses: 
+ *      responses:
  *          200:
  *              description: Success! Leave Deleted
  */
@@ -461,11 +458,11 @@ router.delete("/:id", (req, res, next) => {
 //=========================================================== EDIT Leave ================================================================
 /**
  * @swagger
- * /leave/{_id}: 
+ * /leave/{_id}:
  *  put:
  *      summary: Edit Applied Leave
  *      description: Edit Applied Leave
- *      parameters: 
+ *      parameters:
  *          - in: path
  *            name: _id
  *            required: true
@@ -478,10 +475,10 @@ router.delete("/:id", (req, res, next) => {
  *              application/json:
  *                  schema:
  *                      $ref: '#components/schema/leave'
- *      responses: 
+ *      responses:
  *          200:
  *              description: Success! Leave Updated
- *              content: 
+ *              content:
  *                  application/json:
  *                      schema:
  *                          type: array
@@ -525,21 +522,21 @@ router.put("/:_id", (req, res, next) => {
 //=========================================================== GET Leave by Employee ID================================================================
 /**
  * @swagger
- * /leave/{emp_id}: 
+ * /leave/{emp_id}:
  *  get:
  *      summary: Get all leaves of particular employee by EmployeeID
- *      description: Get all leaves of particular employee by EmployeeID 
- *      parameters: 
+ *      description: Get all leaves of particular employee by EmployeeID
+ *      parameters:
  *          - in: path
  *            name: emp_id
  *            required: true
  *            description:  Employee ID required
  *            schema:
  *              type: string
- *      responses: 
+ *      responses:
  *          200:
  *              description: Success! GET Leave by EmployeeID
- *              content: 
+ *              content:
  *                  application/json:
  *                      schema:
  *                          type: array
@@ -567,21 +564,21 @@ router.get("/:emp_id", (req, res, next) => {
 //=========================================================== GET Leave by LeaveID================================================================
 /**
  * @swagger
- * /leave/empLeave/{_id}: 
+ * /leave/empLeave/{_id}:
  *  get:
  *      summary: Get particular leave by leaveID
- *      description: Get particular leave by leaveID 
- *      parameters: 
+ *      description: Get particular leave by leaveID
+ *      parameters:
  *          - in: path
  *            name: _id
  *            required: true
  *            description: leave ID required
  *            schema:
  *              type: string
- *      responses: 
+ *      responses:
  *          200:
  *              description: Success! GET Leave by leaveID
- *              content: 
+ *              content:
  *                  application/json:
  *                      schema:
  *                          type: array
@@ -605,7 +602,5 @@ router.get("/empLeave/:_id", (req, res, next) => {
     });
 });
 //=========================================================== GET Leave by LeaveID================================================================
-
-
 
 module.exports = router;
