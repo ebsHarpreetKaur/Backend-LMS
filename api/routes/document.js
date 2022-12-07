@@ -297,7 +297,6 @@ router.put('/:_id', (req, res, next) => {
     console.log(req.body.documentName, "documentName")
     Document.findOneAndUpdate({ _id: req.params._id }, {
         $set: {
-
             documentName: req.body.documentName,
             documentType: req.body.documentType,
             file: req.body.file,
