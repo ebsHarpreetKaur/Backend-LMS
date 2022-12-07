@@ -252,7 +252,6 @@ router.get("/employee/:emp_id", (req, res, next) => {
  */
 // Get all Attendance of employee
 router.get("/singlemploy/:emp_id", (req, res, next) => {
-
   console.log(req.params.emp_id);
   Attendance.find({ emp_id: req.params.emp_id })
     .then((result) => {
@@ -268,6 +267,24 @@ router.get("/singlemploy/:emp_id", (req, res, next) => {
     });
 });
 // ========================================= GET all attendance of employee ========================================== 
+
+// ========================================= GET single attendance of employee ========================================== 
+router.get("/single/:_id", (req, res, next) => {
+  console.log(req.params._id);
+  Attendance.find({ _id: req.params._id })
+    .then((result) => {
+      res.status(200).json({
+        SingleAttendance: result,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({
+        error: err,
+      });
+    });
+});
+// ========================================= GET single attendance of employee ========================================== 
 
 // ========================================= GET Today attendance by attendanceID ========================================== 
 /**
