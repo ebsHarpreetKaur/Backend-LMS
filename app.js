@@ -5,7 +5,7 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const swaggerJSDoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
-
+const path = require('path')
 
 mongoose.connect(
   "mongodb+srv://harpreet:123@cluster.2ksky9v.mongodb.net/?retryWrites=true&w=majority"
@@ -30,6 +30,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors());
 
+app.use('/static', express.static(path.join(__dirname, 'api/upload')))
 
 // Swagger Setup
 const options = {
@@ -45,14 +46,14 @@ const options = {
       }
     ]
   },
-  apis: ['./api/routes/holidays.js','./api/routes/leave.js','./api/routes/attendance.js','./api/routes/document.js','./api/routes/user.js'],
-  
+  apis: ['./api/routes/holidays.js', './api/routes/leave.js', './api/routes/attendance.js', './api/routes/document.js', './api/routes/user.js'],
+
 }
 const swaggerSpec = swaggerJSDoc(options)
 app.use('/apidocs', swaggerUi.serve, swaggerUi.setup(swaggerSpec))
 // Swagger Setup
 
-
+// app.use(express.static(path.join(__dirname, 'uploads')))
 
 // API end points
 app.use("/user", userRoute);

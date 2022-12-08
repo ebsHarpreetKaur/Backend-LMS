@@ -6,7 +6,7 @@ const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
 const User = require("../model/user");
 const { OAuth2Client } = require("google-auth-library");
-const multer = require('multer')
+
 /**
  * @swagger
  * components:
@@ -27,44 +27,6 @@ const multer = require('multer')
  *                    role:
  *                        type: string
  */
-
-
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, './api/uploads/')
-  },
-  filename: function (req, file, cb) {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
-    cb(null, uniqueSuffix + file.originalname)
-  }
-})
-
-const fileFilter = (req, file, cb) => {
-  if (file.mimetype === 'image/png') {
-    cb(null, true);
-  } else if (file.mimetype === 'image/jpeg') {
-    cb(null, true)
-  } else if (file.mimetype === 'image/jpg') {
-    cb(null, true)
-  } else if (file.minetype === 'application/msword') {
-    cb(null, true)
-  } else if (file.mimetype === 'application/pdf') {
-    cb(null, true)
-  } else if (file.mimetype === 'application/msword') {
-    cb(null, true)
-  } else {
-    cb(null, false);
-  }
-
-}
-
-const upload = multer({
-  storage: storage,
-  // limits: {
-  //     fileSize: 1024  1024  5      // 5 MB
-  // },
-  fileFilter: fileFilter
-})
 
 
 
@@ -231,8 +193,8 @@ router.put("/:_id", (req, res, next) => {
  */
 // get user by id
 router.get("/:_id", (req, res, next) => {
-  console.log(req.params._id);
-  User.findById(req.params._id)
+  console.log({ _id: req.params._id });
+  User.find({ _id: req.params._id })
     .then((result) => {
       res.status(200).json({
         myData: result,
@@ -266,6 +228,7 @@ router.get("/:_id", (req, res, next) => {
  */
 // get all users
 router.get("/", (req, res, next) => {
+  console.log("fetching all data")
   User.find()
     .then((result) => {
       res.status(200).json({
