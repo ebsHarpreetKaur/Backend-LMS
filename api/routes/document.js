@@ -30,7 +30,7 @@ const storage = multer.diskStorage({
     },
     filename: function (req, file, cb) {
         const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
-        cb(null, uniqueSuffix + file.originalname)
+        cb(null, file.originalname)
     }
 })
 
@@ -101,7 +101,7 @@ router.post('/add/:emp_id', upload.single('image'), function (req, res, next) {
         emp_id: req.body.emp_id,
         documentname: req.body.documentname,
         documenttype: req.body.documenttype,
-        image: req.file.path
+        image: req.file.originalname
     })
     document.save()
         .then(result => {
