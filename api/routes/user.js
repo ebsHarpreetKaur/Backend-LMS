@@ -6,7 +6,7 @@ const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
 const User = require("../model/user");
 const { OAuth2Client } = require("google-auth-library");
-const multer = require('multer')
+const multer = require("multer");
 /**
  * @swagger
  * components:
@@ -28,50 +28,46 @@ const multer = require('multer')
  *                        type: string
  */
 
-
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, './api/uploads/')
+    cb(null, "./api/uploads/");
   },
   filename: function (req, file, cb) {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
-    cb(null, uniqueSuffix + file.originalname)
-  }
-})
+    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+    cb(null, uniqueSuffix + file.originalname);
+  },
+});
 
 const fileFilter = (req, file, cb) => {
-  if (file.mimetype === 'image/png') {
+  if (file.mimetype === "image/png") {
     cb(null, true);
-  } else if (file.mimetype === 'image/jpeg') {
-    cb(null, true)
-  } else if (file.mimetype === 'image/jpg') {
-    cb(null, true)
-  } else if (file.minetype === 'application/msword') {
-    cb(null, true)
-  } else if (file.mimetype === 'application/pdf') {
-    cb(null, true)
-  } else if (file.mimetype === 'application/msword') {
-    cb(null, true)
+  } else if (file.mimetype === "image/jpeg") {
+    cb(null, true);
+  } else if (file.mimetype === "image/jpg") {
+    cb(null, true);
+  } else if (file.minetype === "application/msword") {
+    cb(null, true);
+  } else if (file.mimetype === "application/pdf") {
+    cb(null, true);
+  } else if (file.mimetype === "application/msword") {
+    cb(null, true);
   } else {
     cb(null, false);
   }
-
-}
+};
 
 const upload = multer({
   storage: storage,
   // limits: {
   //     fileSize: 1024  1024  5      // 5 MB
   // },
-  fileFilter: fileFilter
-})
-
-
+  fileFilter: fileFilter,
+});
 
 //=============================================== user signup ====================================================
 /**
  * @swagger
- * /user/signup: 
+ * /user/signup:
  *  post:
  *      summary: Add new user
  *      description: Add new user
@@ -81,7 +77,7 @@ const upload = multer({
  *              application/json:
  *                  schema:
  *                      $ref: '#components/schema/user'
- *      responses: 
+ *      responses:
  *          200:
  *              description: Success! new user added
  *          content:
@@ -116,7 +112,6 @@ router.post("/signup", (req, res, next) => {
     // appraisal:req.body.appraisal,
     linkedinprofilelink: req.body.linkedinprofilelink,
     profilepicture: req.body.profilepicture,
-
   });
 
   user
@@ -136,15 +131,14 @@ router.post("/signup", (req, res, next) => {
 });
 //=============================================== user signup ====================================================
 
-
 //=============================================== user update ====================================================
 /**
  * @swagger
- * /user/{_id}: 
+ * /user/{_id}:
  *  put:
  *      summary: Update user
  *      description: Update user
- *      parameters: 
+ *      parameters:
  *          - in: path
  *            name: _id
  *            required: true
@@ -157,10 +151,10 @@ router.post("/signup", (req, res, next) => {
  *              application/json:
  *                  schema:
  *                      $ref: '#components/schema/user'
- *      responses: 
+ *      responses:
  *          200:
  *              description: Success! user Updated
- *              content: 
+ *              content:
  *                  application/json:
  *                      schema:
  *                          type: array
@@ -192,7 +186,7 @@ router.put("/:_id", (req, res, next) => {
         salary: req.body.salary,
         appraisal: req.body.appraisal,
         linkedinprofilelink: req.body.linkedinprofilelink,
-        profilepicture: req.body.profilepicture
+        profilepicture: req.body.profilepicture,
       },
     }
   )
@@ -210,24 +204,23 @@ router.put("/:_id", (req, res, next) => {
 });
 //=============================================== user update ====================================================
 
-
 //=============================================== get particular user ====================================================
 /**
  * @swagger
- * /user/{_id}: 
+ * /user/{_id}:
  *  get:
  *      summary: Get particular user by userID
- *      description: Get particular user by userID 
- *      parameters: 
+ *      description: Get particular user by userID
+ *      parameters:
  *          - in: path
  *            name: _id
  *            required: true
  *            description:  userID required
  *            schema:
  *              type: string
- *      responses: 
+ *      responses:
  *          200:
- *              description: Success! Get user 
+ *              description: Success! Get user
  */
 // get user by id
 router.get("/:_id", (req, res, next) => {
@@ -250,14 +243,14 @@ router.get("/:_id", (req, res, next) => {
 //=============================================== get all users ====================================================
 /**
  * @swagger
- * /user: 
+ * /user:
  *  get:
  *      summary: Get all users
- *      description: Get all users 
- *      responses: 
+ *      description: Get all users
+ *      responses:
  *          200:
- *              description: Success! Get all users 
- *              content: 
+ *              description: Success! Get all users
+ *              content:
  *                  application/json:
  *                      schema:
  *                          type: array
@@ -284,7 +277,7 @@ router.get("/", (req, res, next) => {
 //=============================================== user login ====================================================
 /**
  * @swagger
- * /user/login: 
+ * /user/login:
  *  post:
  *      summary: User login
  *      description: User login
@@ -294,7 +287,7 @@ router.get("/", (req, res, next) => {
  *              application/json:
  *                  schema:
  *                      $ref: '#components/schema/user'
- *      responses: 
+ *      responses:
  *          200:
  *              description: Success! login
  */
@@ -314,7 +307,6 @@ router.post("/login", (req, res, next) => {
 
         return res.status(401).json({
           msg: "user password matching fail",
-
         });
       } else {
         const token = jwt.sign(
@@ -459,18 +451,18 @@ router.post("/googlelogin", (req, res) => {
 //=============================================== delete user ====================================================
 /**
  * @swagger
- * /user/empdel/{_id}: 
+ * /user/empdel/{_id}:
  *  delete:
  *      summary: Delete particular user by userID
- *      description: Delete particular user by userID 
- *      parameters: 
+ *      description: Delete particular user by userID
+ *      parameters:
  *          - in: path
  *            name: _id
  *            required: true
  *            description:  userID required
  *            schema:
  *              type: string
- *      responses: 
+ *      responses:
  *          200:
  *              description: Success! user deleted
  */
@@ -490,7 +482,6 @@ router.delete("/empdel/:_id", (req, res, next) => {
     });
 });
 //=============================================== delete user ====================================================
-
 
 //=============================================== send mail ====================================================
 // Send Mail
