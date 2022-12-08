@@ -10,10 +10,10 @@ leaveSchema = new mongoose.Schema({
     },
   ],
   EmployeeName: String,
-  SupervisorName: {
-    type: String,
-    required: true,
-  },
+  // SupervisorName: {
+  //   type: String,
+  //   required: true,
+  // },
 
   Department: {
     type: String,
