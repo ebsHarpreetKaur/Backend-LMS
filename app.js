@@ -16,6 +16,7 @@ const leaveRoute = require("./api/routes/leave");
 const documentRoute = require("./api/routes/document");
 const attendanceRoute = require("./api/routes/attendance");
 const holidayRoute = require("./api/routes/holidays");
+const skillRoute = require("./api/routes/skill");
 // Function to serve all static files
 // inside public directory.
 var publicDir = require("path").join(__dirname, "api/public");
@@ -70,6 +71,7 @@ app.use("/leave", leaveRoute);
 app.use("/document", documentRoute);
 app.use("/attendance", attendanceRoute);
 app.use("/holiday", holidayRoute);
+app.use("/skill", skillRoute);
 // app.use('/static', express.static(path.join(__dirname, 'api/uploads')))
 
 app.use((req, res, next) => {
