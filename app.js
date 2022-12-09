@@ -1,5 +1,5 @@
-const express = require("express");
-const app = express();
+var express = require("express");
+var app = express();
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const cors = require("cors");
@@ -17,6 +17,11 @@ const leaveRoute = require('./api/routes/leave');
 const documentRoute = require('./api/routes/document');
 const attendanceRoute = require('./api/routes/attendance');
 const holidayRoute = require('./api/routes/holidays');
+// Function to serve all static files
+// inside public directory.
+var publicDir = require('path').join(__dirname, 'api/public');
+app.use(express.static(publicDir));
+
 mongoose.connect('mongodb+srv://harpreet:123@cluster.2ksky9v.mongodb.net/?retryWrites=true&w=majority')
 mongoose.connection.on('error', err => {
   console.log('DB connection failed');
@@ -30,7 +35,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors());
 
-app.use('/static', express.static(path.join(__dirname, 'api/upload')))
+
 
 // Swagger Setup
 const options = {
@@ -61,6 +66,9 @@ app.use("/leave", leaveRoute);
 app.use("/document", documentRoute);
 app.use("/attendance", attendanceRoute);
 app.use("/holiday", holidayRoute);
+// app.use('/static', express.static(path.join(__dirname, 'api/uploads')))
+
+
 
 app.use((req, res, next) => {
   res.status(404).json({
