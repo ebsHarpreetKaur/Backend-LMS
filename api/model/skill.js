@@ -16,9 +16,10 @@ skillSchema = new mongoose.Schema({
       ref: "User",
     },
   ],
-  skillName: String,
+  userskill: String,
   skillExperience: String,
   skillrating: String,
+  skillList: String,
 });
 
 module.exports = mongoose.model("Skill", skillSchema);

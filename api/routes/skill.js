@@ -8,7 +8,8 @@ const checkAuth = require("../middleware/check-auth");
 router.post("/", (req, res, next) => {
   const skill = new Skill({
     _id: new mongoose.Types.ObjectId(),
-    skillName: req.body.skillName,
+    emp_id: req.body.emp_id,
+    userskill: req.body.userskill,
     skillExperience: req.body.skillExperience,
     skillrating: req.body.skillrating,
   });
@@ -29,7 +30,25 @@ router.post("/", (req, res, next) => {
 });
 
 // get all skills data of  single employee
-router.get("/singleskill/:emp_id", (req, res, next) => {
+router.get("/singleskill/:_id", (req, res, next) => {
+  console.log(req.params._id);
+  Skill.find({ _id: req.params._id })
+    .then((result) => {
+      res.status(200).json({
+        SingleEmpAllData: result,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({
+        error: err,
+      });
+    });
+});
+
+// get by employee id
+
+router.get("/emp/:emp_id", (req, res, next) => {
   console.log(req.params.emp_id);
   Skill.find({ emp_id: req.params.emp_id })
     .then((result) => {
@@ -52,6 +71,45 @@ router.get("/", (req, res, next) => {
     .then((result) => {
       res.status(200).json({
         skilldata: result,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({
+        error: err,
+      });
+    });
+});
+
+//add skill fields for only admin
+router.post("/addfield", (req, res, next) => {
+  const addnewskill = new Skill({
+    _id: new mongoose.Types.ObjectId(),
+    emp_id: req.body.emp_id,
+    skillList: req.body.skillList,
+  });
+  addnewskill
+    .save()
+    .then((result) => {
+      console.log(result);
+      res.status(200).json({
+        AdditionalSkill: result,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({
+        error: err,
+      });
+    });
+});
+
+// get list of skills provided by admin
+router.get("/newListSkill", (req, res, next) => {
+  Skill.find()
+    .then((result) => {
+      res.status(200).json({
+        skillListData: result,
       });
     })
     .catch((err) => {
