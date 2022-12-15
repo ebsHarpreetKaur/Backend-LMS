@@ -29,9 +29,9 @@ router.post("/", (req, res, next) => {
 });
 
 // get all skills data of  single employee
-router.get("/singleskill/:emp_id", (req, res, next) => {
-  console.log(req.params.emp_id);
-  Skill.find({ emp_id: req.params.emp_id })
+router.get("/singleskill/:_id", (req, res, next) => {
+  console.log(req.params._id);
+  Skill.find({ _id: req.params._id })
     .then((result) => {
       res.status(200).json({
         SingleSkillAllData: result,

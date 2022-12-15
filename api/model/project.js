@@ -8,17 +8,18 @@ projectSchema = new mongoose.Schema({
         type: String,
         ref: "User",
     },
-    emp_id: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "User",
-        },
-    ],
+    // emp_id: [
+    //     {
+    //         type: mongoose.Schema.Types.ObjectId,
+    //         ref: "User",
+    //     },
+    // ],
     projectname: String,
     projectdescription: String,
     projecttechnologies: String,
     projectstart: String,
     projectend: String,
+    employees: Array,
 });
 
 module.exports = mongoose.model("Project", projectSchema);

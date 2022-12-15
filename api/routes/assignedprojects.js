@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
-const Project = require('../model/project');
+const Assigedproject = require('../model/assignedprojects');
 const checkAuth = require('../middleware/check-auth');
 
 
@@ -9,22 +9,26 @@ const checkAuth = require('../middleware/check-auth');
  * @swagger
  * components:
  *     schema:
- *         project:
+ *         assignedprojects:
  *                type: object
  *                properties:
  *                    employeename:
  *                        type: string
  *                    emp_id:
  *                        type: string
- *                    projectname:
+ *                    assignedprojectname:
  *                        type: string
- *                    projectdescription:
+ *                    assignedprojectdescription:
  *                        type: string
- *                    projecttechnologies:
+ *                    assignedprojecttechnologies:
  *                        type: string
- *                    projectstart:
+ *                    assignedprojectstart:
  *                        type: string
- *                    projectend:
+ *                    assignedprojectend:
+ *                        type: string
+ *                    assignedprojectstatus:
+ *                        type: string
+ *                    project_id:
  *                        type: string
  */
 
@@ -34,44 +38,44 @@ const checkAuth = require('../middleware/check-auth');
 //=============================================== add new project ====================================================
 /**
  * @swagger
- * /project:
+ * /assignproject:
  *  post:
- *      summary: Add new project
- *      description: Add new project
+ *      summary:  Assign new project
+ *      description: Assign new project
  *      requestBody:
  *          required: true
  *          content:
  *              application/json:
  *                  schema:
- *                      $ref: '#components/schema/project'
+ *                      $ref: '#components/schema/assignedprojects'
  *      responses:
  *          200:
- *              description: Success! new project added
+ *              description: Success! new project assigned
  *          content:
  *              application/json:
  *                  schema:
- *                      $ref: '#components/schema/project'
+ *                      $ref: '#components/schema/assignedprojects'
  */
 //POST PROJECT
 router.post('/', (req, res, next) => {
-    const project = new Project({
+    const assignedproject = new Assigedproject({
         _id: new mongoose.Types.ObjectId,
         employeename: req.body.employeename,
-        // emp_id: req.body.emp_id,
-        projectname: req.body.projectname,
-        projectdescription: req.body.projectdescription,
-        projecttechnologies: req.body.projecttechnologies,
-        projectstart: req.body.projectstart,
-        projectend: req.body.projectend,
-        employees: req.body.employees,
-
+        emp_id: req.body.emp_id,
+        project_id: req.body.project_id,
+        assignedprojectname: req.body.assignedprojectname,
+        assignedprojectdescription: req.body.assignedprojectdescription,
+        assignedprojecttechnologies: req.body.assignedprojecttechnologies,
+        assignedprojectstart: req.body.assignedprojectstart,
+        assignedprojectend: req.body.assignedprojectend,
+        assignedprojectstatus: req.body.assignedprojectstatus,
 
     })
-    project.save()
+    assignedproject.save()
         .then(result => {
             console.log(result);
             res.status(200).json({
-                newProject: result
+                newProjectAssigned: result
             })
         })
         .catch(err => {
@@ -86,15 +90,15 @@ router.post('/', (req, res, next) => {
 //============================================== get single project by ID =========================================
 /**
  * @swagger
- * /project/singlepro/{_id}:
+ * /assignproject/singleproject/{_id}:
  *  get:
- *      summary: Get particular project by projectID
- *      description: Get particular project by projectID
+ *      summary: Get particular assigned project by projectID
+ *      description: Get particular assigned project by projectID
  *      parameters:
  *          - in: path
  *            name: _id
  *            required: true
- *            description:  projectID required
+ *            description:  assigned projectID required
  *            schema:
  *              type: string
  *      responses:
@@ -102,12 +106,12 @@ router.post('/', (req, res, next) => {
  *              description: Success! Get project
  */
 // get single employee project by id
-router.get("/singlepro/:_id", (req, res, next) => {
+router.get("/singleproject/:_id", (req, res, next) => {
     console.log({ _id: req.params._id });
-    Project.find({ _id: req.params._id })
+    Assigedproject.find({ _id: req.params._id })
         .then((result) => {
             res.status(200).json({
-                singleProject: result,
+                singleAssignedProject: result,
             });
         })
         .catch((err) => {
@@ -120,30 +124,47 @@ router.get("/singlepro/:_id", (req, res, next) => {
 //============================================== get single project by ID =========================================
 
 
+router.get("/assigned/:project_id", (req, res, next) => {
+    console.log({ project_id: req.params.project_id });
+    Assigedproject.find({ project_id: req.params.project_id})
+        .then((result) => {
+            res.status(200).json({
+                getAssignedProject: result,
+            });
+        })
+        .catch((err) => {
+            console.log(err);
+            res.status(500).json({
+                error: err,
+            });
+        });
+});
+
+
 
 //=============================================== get all projects ====================================================
 /**
  * @swagger
- * /project:
+ * /assignproject:
  *  get:
- *      summary: Get all projects
- *      description: Get all projects
+ *      summary: Get all assigned projects
+ *      description: Get all assigned projects
  *      responses:
  *          200:
- *              description: Success! Get all projects
+ *              description: Success! Get all assigned projects
  *              content:
  *                  application/json:
  *                      schema:
  *                          type: array
  *                          items:
- *                              $ref: '#components/schema/project'
+ *                              $ref: '#components/schema/assignedprojects'
  */
 // get all projects
 router.get("/", (req, res, next) => {
-    Project.find()
+    Assigedproject.find()
         .then((result) => {
             res.status(200).json({
-                projectData: result,
+                assignedprojectData: result,
             });
         })
         .catch((err) => {
@@ -160,7 +181,7 @@ router.get("/", (req, res, next) => {
 //=============================================== get all projects of particular employee ====================================================
 /**
  * @swagger
- * /project/employeeallprojects/{emp_id}:
+ * /assignproject/allassignedprojects/{emp_id}:
  *  get:
  *      summary: Get particular project by employeeID
  *      description: Get particular project by employeeID
@@ -176,9 +197,9 @@ router.get("/", (req, res, next) => {
  *              description: Success! Get project
  */
 // get employee's all projects by employeeID 
-router.get("/employeeallprojects/:emp_id", (req, res, next) => {
+router.get("/allassignedprojects/:emp_id", (req, res, next) => {
     console.log({ emp_id: req.params.emp_id });
-    Project.find({ emp_id: req.params.emp_id })
+    Assigedproject.find({ emp_id: req.params.emp_id })
         .then((result) => {
             res.status(200).json({
                 singleEmployeeAllProjects: result,
@@ -199,7 +220,7 @@ router.get("/employeeallprojects/:emp_id", (req, res, next) => {
 //=============================================== delete project ====================================================
 /**
  * @swagger
- * /project/projectdelete/{_id}:
+ * /assignproject/assignedprojectdelete/{_id}:
  *  delete:
  *      summary: Delete particular user by projectID
  *      description: Delete particular user by projectID
@@ -207,16 +228,16 @@ router.get("/employeeallprojects/:emp_id", (req, res, next) => {
  *          - in: path
  *            name: _id
  *            required: true
- *            description:  projectID required
+ *            description: assigned projectID required
  *            schema:
  *              type: string
  *      responses:
  *          200:
- *              description: Success! project deleted
+ *              description: Success! assigned project deleted
  */
 // delete project
-router.delete("/projectdelete/:_id", (req, res, next) => {
-    Project.remove({ _id: req.params._id })
+router.delete("/assignedprojectdelete/:_id", (req, res, next) => {
+    Assigedproject.remove({ _id: req.params._id })
         .then((result) => {
             res.status(200).json({
                 message: "Project Deleted",
@@ -230,46 +251,20 @@ router.delete("/projectdelete/:_id", (req, res, next) => {
         });
 });
 //=============================================== delete project ====================================================
-//remove employee from project
-router.get("/employeedelete/:emp_id", (req, res, next) => {
-    var query = {
-        employees: {
-            $elemMatch: {
-                emp_id: req.params.emp_id
-            }
-        }
-    }
-    Project.findOneAndRemove({ "employees.emp_id": req.params.emp_id }, (query)).then((result) => {
-        res.status(200).json({
-            message: "Employee Removed",
-            result: result,
-        });
-    })
-        // Project.findOne({ "employees.emp_id": req.params.emp_id })
-        //     .then((result) => {
-        //         res.status(200).json({
-        //             message: "Employee Removed",
-        //             result: result,
-        //         });
-        //     })
-        .catch((err) => {
-            res.status(500).json({
-                error: err,
-            });
-        });
-});
+
+
 //================================================= update project details===============================
 /**
  * @swagger
- * /project/{_id}:
+ * /assignproject/{_id}:
  *  put:
- *      summary: Update project
- *      description: Update project
+ *      summary: Update assigned project
+ *      description: Update assigned project
  *      parameters:
  *          - in: path
  *            name: _id
  *            required: true
- *            description:  projectID required
+ *            description:  assigned projectID required
  *            schema:
  *              type: string
  *      requestBody:
@@ -277,31 +272,34 @@ router.get("/employeedelete/:emp_id", (req, res, next) => {
  *          content:
  *              application/json:
  *                  schema:
- *                      $ref: '#components/schema/project'
+ *                      $ref: '#components/schema/assignedprojects'
  *      responses:
  *          200:
- *              description: Success! project Updated
+ *              description: Success! assigned project Updated
  *              content:
  *                  application/json:
  *                      schema:
  *                          type: array
  *                          items:
- *                              $ref: '#components/schema/project'
+ *                              $ref: '#components/schema/assignedprojects'
  */
 // update project details
 router.put("/:_id", (req, res, next) => {
     console.log(req.params._id);
     // console.log(req.body.name, "name");
-    Project.findOneAndUpdate(
+    Assigedproject.findOneAndUpdate(
         { _id: req.params._id },
         {
             $set: {
-                projectname: req.body.projectname,
-                projectdescription: req.body.projectdescription,
-                projecttechnologies: req.body.projecttechnologies,
-                projectstart: req.body.projectstart,
-                projectend: req.body.projectend,
-                employees: req.body.employees,
+                employeename: req.body.employeename,
+                emp_id: req.body.emp_id,
+                project_id: req.body.project_id,
+                assignedprojectname: req.body.assignedprojectname,
+                assignedprojectdescription: req.body.assignedprojectdescription,
+                assignedprojecttechnologies: req.body.assignedprojecttechnologies,
+                assignedprojectstart: req.body.assignedprojectstart,
+                assignedprojectend: req.body.assignedprojectend,
+                assignedprojectstatus: req.body.assignedprojectstatus,
 
             },
         }
