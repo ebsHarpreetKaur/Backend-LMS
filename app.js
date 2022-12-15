@@ -60,8 +60,8 @@ const options = {
     "./api/routes/attendance.js",
     "./api/routes/document.js",
     "./api/routes/user.js",
-    // "./api/routes/skill.js",
-    // "./api/routes/handleskill.js",
+    "./api/routes/skill.js",
+    "./api/routes/handleskill.js",
   ],
 };
 const swaggerSpec = swaggerJSDoc(options);
