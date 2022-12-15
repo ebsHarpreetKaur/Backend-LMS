@@ -62,8 +62,8 @@ userSchema = new mongoose.Schema({
     // required: true,
   },
   linkedinprofilelink: String,
-  profilepicture: String
-
+  profilepicture: String,
+  employeeskills: Array,
 });
 
 module.exports = mongoose.model("user", userSchema);

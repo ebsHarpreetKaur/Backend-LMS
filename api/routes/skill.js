@@ -9,7 +9,7 @@ router.post("/", (req, res, next) => {
   const skill = new Skill({
     _id: new mongoose.Types.ObjectId(),
     emp_id: req.body.emp_id,
-    userskill: req.body.userskill,
+    skillname: req.body.skillname,
     skillExperience: req.body.skillExperience,
     skillrating: req.body.skillrating,
   });
@@ -71,45 +71,6 @@ router.get("/", (req, res, next) => {
     .then((result) => {
       res.status(200).json({
         skilldata: result,
-      });
-    })
-    .catch((err) => {
-      console.log(err);
-      res.status(500).json({
-        error: err,
-      });
-    });
-});
-
-//add skill fields for only admin
-router.post("/addfield", (req, res, next) => {
-  const addnewskill = new Skill({
-    _id: new mongoose.Types.ObjectId(),
-    emp_id: req.body.emp_id,
-    skillList: req.body.skillList,
-  });
-  addnewskill
-    .save()
-    .then((result) => {
-      console.log(result);
-      res.status(200).json({
-        AdditionalSkill: result,
-      });
-    })
-    .catch((err) => {
-      console.log(err);
-      res.status(500).json({
-        error: err,
-      });
-    });
-});
-
-// get list of skills provided by admin
-router.get("/newListSkill", (req, res, next) => {
-  Skill.find()
-    .then((result) => {
-      res.status(200).json({
-        skillListData: result,
       });
     })
     .catch((err) => {

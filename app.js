@@ -11,14 +11,15 @@ mongoose.connect(
   "mongodb+srv://harpreet:123@cluster.2ksky9v.mongodb.net/?retryWrites=true&w=majority"
 );
 
-
-const userRoute = require('./api/routes/user');
-const leaveRoute = require('./api/routes/leave');
-const documentRoute = require('./api/routes/document');
-const attendanceRoute = require('./api/routes/attendance');
-const holidayRoute = require('./api/routes/holidays');
-const projectRoute = require('./api/routes/project')
+const userRoute = require("./api/routes/user");
+const leaveRoute = require("./api/routes/leave");
+const documentRoute = require("./api/routes/document");
+const attendanceRoute = require("./api/routes/attendance");
+const holidayRoute = require("./api/routes/holidays");
+const projectRoute = require("./api/routes/project");
 const skillRoute = require("./api/routes/skill");
+const handleskillRoute = require("./api/routes/handleskill");
+
 // Function to serve all static files
 // inside public directory.
 var publicDir = require("path").join(__dirname, "api/public");
@@ -59,12 +60,13 @@ const options = {
     "./api/routes/attendance.js",
     "./api/routes/document.js",
     "./api/routes/user.js",
+    // "./api/routes/skill.js",
+    // "./api/routes/handleskill.js",
   ],
 };
 const swaggerSpec = swaggerJSDoc(options);
 app.use("/apidocs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 // Swagger Setup
-
 
 // API end points
 app.use("/user", userRoute);
@@ -74,6 +76,7 @@ app.use("/attendance", attendanceRoute);
 app.use("/holiday", holidayRoute);
 app.use("/project", projectRoute);
 app.use("/skill", skillRoute);
+app.use("/handleskill", handleskillRoute);
 // app.use('/static', express.static(path.join(__dirname, 'api/uploads')))
 
 app.use((req, res, next) => {
