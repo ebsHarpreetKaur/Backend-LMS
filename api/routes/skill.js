@@ -8,7 +8,8 @@ const checkAuth = require("../middleware/check-auth");
 router.post("/", (req, res, next) => {
   const skill = new Skill({
     _id: new mongoose.Types.ObjectId(),
-    skillName: req.body.skillName,
+    emp_id: req.body.emp_id,
+    skillname: req.body.skillname,
     skillExperience: req.body.skillExperience,
     skillrating: req.body.skillrating,
   });
@@ -32,6 +33,24 @@ router.post("/", (req, res, next) => {
 router.get("/singleskill/:_id", (req, res, next) => {
   console.log(req.params._id);
   Skill.find({ _id: req.params._id })
+    .then((result) => {
+      res.status(200).json({
+        SingleEmpAllData: result,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({
+        error: err,
+      });
+    });
+});
+
+// get by employee id
+
+router.get("/emp/:emp_id", (req, res, next) => {
+  console.log(req.params.emp_id);
+  Skill.find({ emp_id: req.params.emp_id })
     .then((result) => {
       res.status(200).json({
         SingleSkillAllData: result,

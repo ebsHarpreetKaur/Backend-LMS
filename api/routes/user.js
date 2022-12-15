@@ -27,7 +27,6 @@ const { OAuth2Client } = require("google-auth-library");
  *                        type: string
  */
 
-
 //=============================================== user signup ====================================================
 /**
  * @swagger
@@ -151,6 +150,7 @@ router.put("/:_id", (req, res, next) => {
         appraisal: req.body.appraisal,
         linkedinprofilelink: req.body.linkedinprofilelink,
         profilepicture: req.body.profilepicture,
+        employeeskills: req.body.employeeskills,
       },
     }
   )
@@ -223,7 +223,7 @@ router.get("/:_id", (req, res, next) => {
  */
 // get all users
 router.get("/", (req, res, next) => {
-  console.log("fetching all data")
+  console.log("fetching all data");
   User.find()
     .then((result) => {
       res.status(200).json({
