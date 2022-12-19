@@ -238,7 +238,21 @@ router.get("/", (req, res, next) => {
     });
 });
 //=============================================== get all users ====================================================
-
+router.get("/foremployeerole", (req, res, next) => {
+  console.log("fetching employee data exclude admin");
+  User.find({ role: "employee"})
+    .then((result) => {
+      res.status(200).json({
+        employeeData: result,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({
+        error: err,
+      });
+    });
+});
 //=============================================== user login ====================================================
 /**
  * @swagger

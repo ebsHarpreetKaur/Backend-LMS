@@ -231,7 +231,7 @@ router.delete("/projectdelete/:_id", (req, res, next) => {
 });
 //=============================================== delete project ====================================================
 //remove employee from project
-router.get("/employeedelete/:emp_id", (req, res, next) => {
+router.get("/assignedtoyou/:emp_id", (req, res, next) => {
     var query = {
         employees: {
             $elemMatch: {
@@ -239,19 +239,12 @@ router.get("/employeedelete/:emp_id", (req, res, next) => {
             }
         }
     }
-    Project.findOneAndRemove({ "employees.emp_id": req.params.emp_id }, (query)).then((result) => {
-        res.status(200).json({
-            message: "Employee Removed",
-            result: result,
-        });
-    })
-        // Project.findOne({ "employees.emp_id": req.params.emp_id })
-        //     .then((result) => {
-        //         res.status(200).json({
-        //             message: "Employee Removed",
-        //             result: result,
-        //         });
-        //     })
+    Project.findOne({ "employees.emp_id": req.params.emp_id }, (query))
+        .then((result) => {
+            res.status(200).json({
+                yourprojects: result,
+            });
+        })
         .catch((err) => {
             res.status(500).json({
                 error: err,
